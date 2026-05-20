@@ -1,5 +1,4 @@
 {
-  "id": "/phoneme-coach/index.html",
   "name": "Phoneme Coach",
   "short_name": "Phoneme Coach",
   "description": "英語音標學習輔助工具 — 離線 lesson 瀏覽與展示模式",
@@ -14,25 +13,13 @@
       "src": "icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     },
     {
       "src": "icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     }
   ],
   "categories": ["education"],
