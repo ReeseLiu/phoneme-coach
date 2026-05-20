@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Phoneme Coach</title>
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#4a9eff" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Phoneme Coach" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="side-panel">
+        <div class="brand">
+          <h1 id="appTitle">Phoneme Coach</h1>
+          <p id="lessonMeta">載入課程中...</p>
+        </div>
+
+        <div class="panel-group">
+          <label for="languageSelect" id="languageLabel">介面語言</label>
+          <select id="languageSelect">
+            <option value="zh-TW">繁體中文</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+
+        <div class="panel-group">
+          <label for="lessonSelect" id="lessonSelectLabel">課程</label>
+          <select id="lessonSelect"></select>
+        </div>
+
+        <div id="localLessonGroup" class="panel-group">
+          <label for="localLessonDirInput" id="localLessonLabel">本機課程（離線）</label>
+          <input id="localLessonDirInput" type="file" webkitdirectory directory multiple />
+          <p id="localLessonHint">選取包含 lesson.json 與 sentences/ 的資料夾。</p>
+          <p id="localLessonStatus">可在此載入本機 lesson 資料夾，不需帳號或上傳。</p>
+        </div>
+
+        <div class="panel-group">
+          <label for="sentenceSelect" id="sentenceLabel">句子</label>
+          <select id="sentenceSelect"></select>
+          <div class="jump-controls">
+            <button id="prevSentenceBtn" type="button">上一句</button>
+            <button id="nextSentenceBtn" type="button">下一句</button>
+          </div>
+        </div>
+
+        <div class="panel-group">
+          <label for="displaySystemSelect" id="displaySystemLabel">顯示系統</label>
+          <select id="displaySystemSelect">
+            <option value="ipa">IPA</option>
+            <option value="kk">KK</option>
+            <option value="zhuyin_plus">改良注音</option>
+          </select>
+        </div>
+
+        <div class="panel-group">
+          <label id="keyboardLabel">音標小鍵盤</label>
+          <div id="phonemeKeyboard" class="phoneme-keyboard"></div>
+          <p id="keyboardHelp">點選符號插入目前 Gold IPA 欄位。</p>
+        </div>
+
+        <div id="phoneticProfileGroup" class="panel-group">
+          <label for="phoneticProfileSelect" id="phoneticProfileLabel">發音細節風格</label>
+          <select id="phoneticProfileSelect"></select>
+          <button id="applyProfileSentenceBtn" type="button" class="secondary">
+            套用風格到本句
+          </button>
+          <p id="profileHelp">使用風格設定來排序發音細節候選。</p>
+        </div>
+
+        <div id="showDetailsGroup" class="panel-group">
+          <label for="showDetailsCheckbox" id="showDetailsLabel">
+            <input id="showDetailsCheckbox" type="checkbox" />
+            <span id="showDetailsText">顯示詳細說明</span>
+          </label>
+        </div>
+
+        <div id="saveGoldGroup" class="panel-group">
+          <button id="saveBtn" type="button" class="primary">儲存 Gold 編輯</button>
+          <p id="saveStatus">目前沒有未儲存變更。</p>
+        </div>
+
+        <div id="transcriptGroup" class="panel-group">
+          <label for="transcriptEditor" id="transcriptLabel">文字稿（每行一句）</label>
+          <textarea id="transcriptEditor" rows="10"></textarea>
+          <button id="saveTranscriptBtn" type="button" class="secondary">儲存文字稿</button>
+          <p id="transcriptStatus">文字稿載入中...</p>
+          <p id="transcriptPath"></p>
+          <button id="buildCommandBtn" type="button" class="secondary">產生重建指令</button>
+          <textarea id="rebuildCommand" rows="4" readonly></textarea>
+          <p id="rebuildCommandStatus">重建指令尚未產生。</p>
+        </div>
+      </aside>
+
+      <main class="content">
+        <section id="viewModeSection" class="view-mode-section">
+          <div class="view-mode-row">
+            <span id="viewModeLabel">句子顯示模式</span>
+            <div class="view-mode-toggle" role="group" aria-label="Sentence view mode">
+              <button id="compactViewBtn" type="button" class="view-mode-btn">精簡</button>
+              <button id="detailedViewBtn" type="button" class="view-mode-btn">詳細</button>
+              <button id="presentationViewBtn" type="button" class="view-mode-btn">展示</button>
+            </div>
+            <button id="downloadLessonBtn" type="button" class="secondary-inline">下載 lesson JSON</button>
+            <button id="downloadOfflineZipBtn" type="button" class="secondary-inline" hidden>下載離線包（ZIP）</button>
+          </div>
+          <p id="viewModeNotice"></p>
+        </section>
+
+        <section id="sentenceHeaderSection" class="sentence-header">
+          <h2 id="sentenceTitle">句子</h2>
+          <p id="sentenceText"></p>
+          <div id="sentenceMeta" class="sentence-meta">
+            <span id="sentenceRange"></span>
+            <span id="sentenceAlignment"></span>
+          </div>
+        </section>
+
+        <section id="presentationSection" class="presentation-section" hidden>
+          <div class="presentation-floating presentation-utility-cluster">
+            <button id="presentationReturnBtn" type="button" class="presentation-utility-btn presentation-return-btn" aria-label="返回精簡模式">↩</button>
+            <div class="presentation-display-wrap">
+              <select id="presentationDisplaySystemSelect" aria-label="顯示模式">
+                <option value="ipa">IPA</option>
+                <option value="kk">KK</option>
+                <option value="zhuyin_plus">改良注音</option>
+              </select>
+            </div>
+            <div class="presentation-speed-wrap">
+              <select id="presentationSpeedSelect" aria-label="播放速度">
+                <option value="0.5">0.5x</option>
+                <option value="0.75">0.75x</option>
+                <option value="1">1x</option>
+                <option value="1.25">1.25x</option>
+                <option value="1.5">1.5x</option>
+              </select>
+            </div>
+            <button id="presentationPhonemeToggleBtn" type="button" class="presentation-utility-btn presentation-phoneme-toggle-btn" aria-label="顯示音標">音標</button>
+            <button id="presentationLoopToggleBtn" type="button" class="presentation-utility-btn presentation-loop-btn" aria-label="循環播放">⟲</button>
+            <div class="presentation-timing-wrap">
+              <input id="presentationLoopGapInput" type="number" inputmode="decimal" min="0" max="30" step="0.5" placeholder="s" />
+              <input id="presentationLoopCountInput" type="text" inputmode="numeric" pattern="[1-9][0-9]*" placeholder="#" />
+            </div>
+          </div>
+
+          <div class="presentation-stage">
+            <p id="presentationSentenceText" class="presentation-sentence-text"></p>
+            <div id="presentationPhonemeLine" class="presentation-phoneme-line"></div>
+            <div class="presentation-main-controls" role="group" aria-label="Presentation playback">
+              <button id="presentationPrevSentenceBtn" type="button" class="presentation-main-btn" aria-label="上一句">◀</button>
+              <button id="presentationPlayPauseBtn" type="button" class="presentation-main-btn presentation-play-btn" aria-label="播放">▶</button>
+              <button id="presentationPlayAllBtn" type="button" class="presentation-main-btn presentation-play-all-btn" aria-label="播放全部">播放全部</button>
+              <button id="presentationNextSentenceBtn" type="button" class="presentation-main-btn" aria-label="下一句">▶︎</button>
+            </div>
+            <div id="presentationTranscript" class="presentation-transcript" hidden></div>
+          </div>
+        </section>
+
+        <section id="audioSection" class="audio-section">
+          <audio id="sentenceAudio" controls preload="metadata"></audio>
+          <div class="audio-controls-row">
+            <label for="loopSentenceCheckbox" id="loopSentenceLabel">
+              <input id="loopSentenceCheckbox" type="checkbox" />
+              <span id="loopSentenceText">句子自動循環播放</span>
+            </label>
+            <div class="loop-gap-row">
+              <label for="loopGapInput" id="loopGapLabel">循環間隔（秒）</label>
+              <input id="loopGapInput" type="number" inputmode="decimal" min="0" max="30" step="0.5" value="0" />
+            </div>
+            <div class="loop-count-row">
+              <label for="loopCountInput" id="loopCountLabel">循環次數（總播放，留白=無限）</label>
+              <input id="loopCountInput" type="text" inputmode="numeric" pattern="[1-9][0-9]*" value="" />
+            </div>
+          </div>
+          <div class="audio-offset-section">
+            <p id="audioOffsetLabel" class="audio-offset-title">句子播放區間微調</p>
+            <p id="audioOffsetHelp" class="audio-offset-help">每句可調整起訖偏移（秒），範圍 ±5 秒。</p>
+            <div class="audio-offset-grid">
+              <label for="audioStartOffsetInput" id="audioStartOffsetLabel">起點偏移</label>
+              <div class="audio-offset-controls">
+                <button id="audioStartOffsetMinusBtn" type="button" class="audio-offset-btn">-0.5 秒</button>
+                <input id="audioStartOffsetInput" type="number" inputmode="decimal" min="-5" max="5" step="0.05" value="0" />
+                <button id="audioStartOffsetPlusBtn" type="button" class="audio-offset-btn">+0.5 秒</button>
+              </div>
+              <label for="audioEndOffsetInput" id="audioEndOffsetLabel">終點偏移</label>
+              <div class="audio-offset-controls">
+                <button id="audioEndOffsetMinusBtn" type="button" class="audio-offset-btn">-0.5 秒</button>
+                <input id="audioEndOffsetInput" type="number" inputmode="decimal" min="-5" max="5" step="0.05" value="0" />
+                <button id="audioEndOffsetPlusBtn" type="button" class="audio-offset-btn">+0.5 秒</button>
+              </div>
+            </div>
+            <div class="audio-offset-footer">
+              <button id="resetAudioOffsetsBtn" type="button" class="secondary-inline">重設偏移</button>
+              <span id="audioEffectiveRange" class="audio-effective-range"></span>
+            </div>
+          </div>
+        </section>
+
+        <section id="wordTableSection" class="word-table-section">
+          <table id="wordTable">
+            <thead>
+              <tr>
+                <th id="wordHeader">單字</th>
+                <th id="canonicalHeader">Canonical (IPA)</th>
+                <th id="candidatesHeader">Surface Candidates (IPA)</th>
+                <th id="phoneticHeader" class="phonetic-col">Phonetic Detail (IPA)</th>
+                <th id="observedHeader">Observed (IPA)</th>
+                <th id="goldHeader">Gold IPA（可編輯）</th>
+                <th id="notesHeader">註記</th>
+              </tr>
+            </thead>
+            <tbody id="wordTableBody"></tbody>
+          </table>
+        </section>
+
+        <section id="wordCompactSection" class="word-compact-section">
+          <div class="compact-nav-controls" aria-label="Compact sentence navigation">
+            <button id="compactPrevSentenceBtn" type="button" class="compact-nav-btn">上一句</button>
+            <button id="compactNextSentenceBtn" type="button" class="compact-nav-btn">下一句</button>
+          </div>
+          <div id="compactWordGrid" class="compact-word-grid"></div>
+        </section>
+      </main>
+    </div>
+
+    <template id="wordRowTemplate">
+      <tr>
+        <td class="word-cell">
+          <div class="word-text"></div>
+          <div class="word-time"></div>
+        </td>
+        <td class="ipa canonical"></td>
+        <td class="candidates"></td>
+        <td class="phonetic-detail phonetic-col"></td>
+        <td class="ipa observed"></td>
+        <td>
+          <textarea class="gold-input" rows="2"></textarea>
+          <div class="gold-quick-fill-row">
+            <label class="gold-quick-fill-label">快速帶入</label>
+            <select class="gold-quick-fill-select"></select>
+          </div>
+          <div class="gold-display"></div>
+        </td>
+        <td>
+          <textarea class="notes-input" rows="2"></textarea>
+        </td>
+      </tr>
+    </template>
+
+    <template id="compactWordTemplate">
+      <article class="compact-word-card">
+        <div class="compact-word-head">
+          <div class="word-text"></div>
+        </div>
+        <div class="compact-row">
+          <div class="compact-label gold-label"></div>
+          <textarea class="compact-gold-input" rows="2"></textarea>
+        </div>
+      </article>
+    </template>
+
+    <script src="/app.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      }
+    </script>
+  </body>
+</html>
