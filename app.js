@@ -216,7 +216,7 @@ const DISPLAY_LABEL = {
   "zh-TW": {
     ipa: "IPA",
     kk: "KK",
-    zhuyin_plus: "改良注音",
+    zhuyin_plus: "專利音標",
   },
   en: {
     ipa: "IPA",
@@ -354,7 +354,7 @@ const TAG_LABELS = {
 
 const I18N = {
   "zh-TW": {
-    appTitle: "Phoneme Coach",
+    appTitle: "跟讀小助手",
     loadingLesson: "載入課程中...",
     languageLabel: "介面語言",
     lessonSelectLabel: "課程",
@@ -508,7 +508,7 @@ const I18N = {
     remoteLessonCatalogUnavailable: "無法取得線上課程目錄（離線或尚未上架）。",
   },
   en: {
-    appTitle: "Phoneme Coach",
+    appTitle: "跟讀小助手",
     loadingLesson: "Loading lesson...",
     languageLabel: "UI Language",
     lessonSelectLabel: "Lesson",

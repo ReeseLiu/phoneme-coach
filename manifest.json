@@ -1,7 +1,7 @@
 {
   "id": "/phoneme-coach/index.html",
-  "name": "Phoneme Coach",
-  "short_name": "Phoneme Coach",
+  "name": "跟讀小助手",
+  "short_name": "跟讀小助手",
   "description": "英語音標學習輔助工具 — 離線 lesson 瀏覽與展示模式",
   "start_url": "./index.html",
   "display": "standalone",
