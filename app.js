@@ -3784,6 +3784,17 @@ function contextualZhuyinOverride(ipaList, details, idx, reducedSchwaL) {
     return { text: "ㄛ", mergeNext: false };
   }
 
+  // Word-final unstressed /i/ (happy vowel: "ready", "sorry", "only") → ㄧ
+  // Monosyllables (len ≤ 2: "he", "we", "be", "see") and stressed /i/ stay ㄧ(微).
+  if (
+    token === "i"
+    && idx === ipaList.length - 1
+    && ipaList.length > 2
+    && normalizeStressLevel(detailAt(details, idx).stress_level) === 0
+  ) {
+    return { text: "ㄧ", mergeNext: false };
+  }
+
   return null;
 }
 
