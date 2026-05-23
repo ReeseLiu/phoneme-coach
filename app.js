@@ -3154,18 +3154,27 @@ function getLocalAudioSrcForSentence(sentence) {
   return blobUrl;
 }
 
+function buildRemoteAudioSrc(audioPath) {
+  // Absolute paths (e.g. /mnt/reesenas/.../file.mp3) are NAS artifacts —
+  // extract just the filename and assume it lives under audio/ in the lesson dir.
+  const normalized = audioPath.startsWith("/")
+    ? `audio/${audioPath.split("/").pop()}`
+    : audioPath;
+  return `${state.remoteLessonBaseUrl}/${normalized}`;
+}
+
 function resolveAudioSrcForSentence(sentence) {
   const audioPath = sentence.audio_path || state.lesson.audio_path;
   if (isLocalMode()) {
     const localSrc = getLocalAudioSrcForSentence(sentence);
     if (localSrc) return localSrc;
     if (state.remoteLessonBaseUrl && audioPath) {
-      return `${state.remoteLessonBaseUrl}/${audioPath}`;
+      return buildRemoteAudioSrc(audioPath);
     }
     return "";
   }
   if (isRemoteMode()) {
-    return audioPath ? `${state.remoteLessonBaseUrl}/${audioPath}` : "";
+    return audioPath ? buildRemoteAudioSrc(audioPath) : "";
   }
   return audioPath ? `/api/audio?path=${encodeURIComponent(audioPath)}` : "";
 }
