@@ -3154,6 +3154,22 @@ function getLocalAudioSrcForSentence(sentence) {
   return blobUrl;
 }
 
+function resolveAudioSrcForSentence(sentence) {
+  const audioPath = sentence.audio_path || state.lesson.audio_path;
+  if (isLocalMode()) {
+    const localSrc = getLocalAudioSrcForSentence(sentence);
+    if (localSrc) return localSrc;
+    if (state.remoteLessonBaseUrl && audioPath) {
+      return `${state.remoteLessonBaseUrl}/${audioPath}`;
+    }
+    return "";
+  }
+  if (isRemoteMode()) {
+    return audioPath ? `${state.remoteLessonBaseUrl}/${audioPath}` : "";
+  }
+  return audioPath ? `/api/audio?path=${encodeURIComponent(audioPath)}` : "";
+}
+
 function localLessonCatalogEntry(lessonPayload, key, rootName, lessonPath) {
   const sentenceCount = Array.isArray(lessonPayload?.sentences) ? lessonPayload.sentences.length : 0;
   const displayName = String(lessonPayload?.lesson_id || rootName || "local_lesson");
@@ -5877,12 +5893,7 @@ function renderSentence() {
     el.sentenceAudio.pause();
   }
 
-  const audioPath = sentence.audio_path || state.lesson.audio_path;
-  const nextAudioSrc = isLocalMode()
-    ? getLocalAudioSrcForSentence(sentence)
-    : isRemoteMode()
-      ? `${state.remoteLessonBaseUrl}/${audioPath}`
-      : `/api/audio?path=${encodeURIComponent(audioPath)}`;
+  const nextAudioSrc = resolveAudioSrcForSentence(sentence);
   const currentAudioSrc = el.sentenceAudio.getAttribute("src") || "";
 
   if (!nextAudioSrc) {
