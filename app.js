@@ -92,6 +92,10 @@ const state = {
   presentationPlaybackRate: 1,
   presentationShowPhonemes: true,
   offlineZipDownloading: false,
+  remoteCatalog: null,
+  remoteLessonBaseUrl: "",
+  remoteLessonStatusKind: "idle",
+  remoteLessonStatusText: "",
 };
 
 const el = {
@@ -101,6 +105,11 @@ const el = {
   languageSelect: document.getElementById("languageSelect"),
   lessonSelectLabel: document.getElementById("lessonSelectLabel"),
   lessonSelect: document.getElementById("lessonSelect"),
+  remoteLessonGroup: document.getElementById("remoteLessonGroup"),
+  remoteLessonLabel: document.getElementById("remoteLessonLabel"),
+  remoteCatalogSelect: document.getElementById("remoteCatalogSelect"),
+  loadRemoteLessonBtn: document.getElementById("loadRemoteLessonBtn"),
+  remoteLessonStatus: document.getElementById("remoteLessonStatus"),
   localLessonGroup: document.getElementById("localLessonGroup"),
   localLessonLabel: document.getElementById("localLessonLabel"),
   localLessonDirInput: document.getElementById("localLessonDirInput"),
@@ -490,7 +499,13 @@ const I18N = {
     runKindTest: "測試",
     runKindProduction: "正式",
     runKindLocal: "本機",
+    runKindRemote: "線上",
     runKindCustom: "自訂",
+    remoteLessonLabel: "線上課程",
+    remoteLessonSelectPlaceholder: "請選擇課程…",
+    remoteLessonLoaded: (name, count) => `已載入線上課程：${name}（${count} 句）`,
+    remoteLessonLoadFailed: (msg) => `線上課程載入失敗：${msg}`,
+    remoteLessonCatalogUnavailable: "無法取得線上課程目錄（離線或尚未上架）。",
   },
   en: {
     appTitle: "Phoneme Coach",
@@ -638,7 +653,13 @@ const I18N = {
     runKindTest: "test",
     runKindProduction: "production",
     runKindLocal: "local",
+    runKindRemote: "online",
     runKindCustom: "custom",
+    remoteLessonLabel: "Online Lessons",
+    remoteLessonSelectPlaceholder: "Select a lesson…",
+    remoteLessonLoaded: (name, count) => `Online lesson loaded: ${name} (${count} sentences)`,
+    remoteLessonLoadFailed: (msg) => `Failed to load online lesson: ${msg}`,
+    remoteLessonCatalogUnavailable: "Online lesson catalog unavailable (offline or not yet published).",
   },
 };
 
@@ -2861,6 +2882,10 @@ function isLocalMode() {
   return state.dataSourceMode === "local";
 }
 
+function isRemoteMode() {
+  return state.dataSourceMode === "remote";
+}
+
 function setLocalLessonStatus(kind, text = "") {
   state.localLessonStatusKind = kind;
   state.localLessonStatusText = String(text || "");
@@ -3243,6 +3268,118 @@ async function importLocalLessonDirectory(fileList) {
     if (el.localLessonDirInput) {
       el.localLessonDirInput.value = "";
     }
+  }
+}
+
+function setRemoteLessonStatus(kind, text = "") {
+  state.remoteLessonStatusKind = kind;
+  state.remoteLessonStatusText = String(text || "");
+  if (el.remoteLessonStatus) {
+    el.remoteLessonStatus.textContent = state.remoteLessonStatusText;
+    el.remoteLessonStatus.className =
+      kind === "error" ? "status-error" : kind === "saved" ? "status-saved" : kind === "loading" ? "status-unsaved" : "";
+  }
+}
+
+function renderRemoteCatalogSelect() {
+  if (!el.remoteCatalogSelect || !state.remoteCatalog) return;
+  el.remoteCatalogSelect.innerHTML = "";
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = t("remoteLessonSelectPlaceholder");
+  el.remoteCatalogSelect.appendChild(placeholder);
+  const lessons = Array.isArray(state.remoteCatalog.lessons) ? state.remoteCatalog.lessons : [];
+  lessons.forEach((entry) => {
+    const option = document.createElement("option");
+    option.value = entry.slug;
+    const countLabel = state.uiLanguage === "zh-TW" ? `${entry.sentence_count} 句` : `${entry.sentence_count} sentences`;
+    option.textContent = `${entry.display_name} (${countLabel})`;
+    el.remoteCatalogSelect.appendChild(option);
+  });
+  if (el.loadRemoteLessonBtn) {
+    el.loadRemoteLessonBtn.disabled = lessons.length === 0;
+  }
+}
+
+async function loadRemoteCatalog() {
+  try {
+    const resp = await fetch("./lessons/catalog.json");
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const catalog = await resp.json();
+    state.remoteCatalog = catalog;
+    renderRemoteCatalogSelect();
+  } catch {
+    if (el.remoteLessonGroup) {
+      el.remoteLessonGroup.hidden = true;
+    }
+  }
+}
+
+async function loadRemoteLesson(slug) {
+  if (!slug) return;
+  if (!canSwitchLessonWithConfirm()) return;
+
+  const baseUrl = `./lessons/${slug}`;
+  setRemoteLessonStatus("loading", t("loadingLesson"));
+  if (el.loadRemoteLessonBtn) el.loadRemoteLessonBtn.disabled = true;
+
+  try {
+    const resp = await fetch(`${baseUrl}/lesson.json`);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const parsedLesson = await resp.json();
+    if (!parsedLesson || typeof parsedLesson !== "object" || Array.isArray(parsedLesson)) {
+      throw new Error("lesson.json must be a JSON object.");
+    }
+    if (!Array.isArray(parsedLesson.sentences)) {
+      throw new Error("lesson.json must include sentences array.");
+    }
+
+    state.remoteLessonBaseUrl = baseUrl;
+    state.dataSourceMode = "remote";
+    state.lesson = parsedLesson;
+    if (!state.lesson._meta || typeof state.lesson._meta !== "object") {
+      state.lesson._meta = {};
+    }
+    state.lesson._meta.lesson_path = `${baseUrl}/lesson.json`;
+
+    const lessonId = parsedLesson.lesson_id || slug;
+    const sentenceCount = parsedLesson.sentences.length;
+    const catalogEntry = state.remoteCatalog
+      ? (state.remoteCatalog.lessons || []).find((e) => e.slug === slug)
+      : null;
+    const displayName = parsedLesson.display_name || (catalogEntry && catalogEntry.display_name) || slug;
+
+    state.lessons = [{
+      key: `remote:${slug}`,
+      lesson_id: lessonId,
+      display_name: displayName,
+      run_name: slug,
+      run_kind: "remote",
+      sentence_count: sentenceCount,
+    }];
+    state.currentLessonKey = `remote:${slug}`;
+
+    state.profileConfig = null;
+    applyDisplayMappingFromLesson(state.lesson);
+    state.displayTable = mergeDisplayTables(state.displayTable, buildLocalDisplayTableFromLesson(state.lesson));
+
+    applyTranscriptPayload({ available: false, message: t("transcriptLocalUnavailable") });
+
+    state.rebuildCommand = "";
+    state.rebuildCommandStatusKind = "error";
+    state.rebuildCommandStatusText = t("rebuildCommandLocalUnavailable");
+    renderRebuildCommandUI();
+
+    resetLessonStateForImport();
+    renderLessonOptions();
+    rebuildSentenceSelect();
+    applyLanguage();
+
+    setRemoteLessonStatus("saved", t("remoteLessonLoaded", displayName, sentenceCount));
+  } catch (err) {
+    setRemoteLessonStatus("error", t("remoteLessonLoadFailed", String(err.message || err)));
+  } finally {
+    if (el.loadRemoteLessonBtn) el.loadRemoteLessonBtn.disabled = false;
   }
 }
 
@@ -3921,6 +4058,9 @@ function runKindLabel(runKind) {
   }
   if (runKind === "local") {
     return t("runKindLocal");
+  }
+  if (runKind === "remote") {
+    return t("runKindRemote");
   }
   return t("runKindCustom");
 }
@@ -5740,7 +5880,9 @@ function renderSentence() {
   const audioPath = sentence.audio_path || state.lesson.audio_path;
   const nextAudioSrc = isLocalMode()
     ? getLocalAudioSrcForSentence(sentence)
-    : `/api/audio?path=${encodeURIComponent(audioPath)}`;
+    : isRemoteMode()
+      ? `${state.remoteLessonBaseUrl}/${audioPath}`
+      : `/api/audio?path=${encodeURIComponent(audioPath)}`;
   const currentAudioSrc = el.sentenceAudio.getAttribute("src") || "";
 
   if (!nextAudioSrc) {
@@ -5987,6 +6129,15 @@ async function fetchServerAudioBytesForOfflineZip(item) {
   return new Uint8Array(buffer);
 }
 
+async function fetchRemoteAudioBytesForOfflineZip(item) {
+  const url = `${state.remoteLessonBaseUrl}/${item.sourcePath}`;
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`audio status=${response.status} url=${url}`);
+  }
+  return new Uint8Array(await response.arrayBuffer());
+}
+
 async function downloadOfflineLessonZip() {
   if (state.offlineZipDownloading) {
     return;
@@ -6005,8 +6156,9 @@ async function downloadOfflineLessonZip() {
     const fileName = `${lessonId}_offline_package_${stamp}.zip`;
 
     const localMode = isLocalMode();
+    const remoteMode = isRemoteMode();
     const localAudioEntries = localMode ? collectAudioEntriesForOfflineZip() : [];
-    const serverAudioEntries = localMode ? [] : collectServerAudioEntriesForOfflineZip();
+    const remoteOrServerAudioEntries = (!localMode) ? collectServerAudioEntriesForOfflineZip() : [];
     const zipEntries = [];
     zipEntries.push({
       path: "lesson.json",
@@ -6028,9 +6180,10 @@ async function downloadOfflineLessonZip() {
         addedAudioCount += 1;
       }
     } else {
-      for (const item of serverAudioEntries) {
+      const fetchFn = remoteMode ? fetchRemoteAudioBytesForOfflineZip : fetchServerAudioBytesForOfflineZip;
+      for (const item of remoteOrServerAudioEntries) {
         try {
-          const bytes = await fetchServerAudioBytesForOfflineZip(item);
+          const bytes = await fetchFn(item);
           zipEntries.push({
             path: item.zipPath,
             bytes,
@@ -6297,6 +6450,13 @@ function bindEvents() {
         return;
       }
       importLocalLessonDirectory(files);
+    });
+  }
+
+  if (el.loadRemoteLessonBtn) {
+    el.loadRemoteLessonBtn.addEventListener("click", () => {
+      const slug = el.remoteCatalogSelect ? el.remoteCatalogSelect.value : "";
+      if (slug) loadRemoteLesson(slug);
     });
   }
 
@@ -6731,6 +6891,7 @@ async function init() {
   loadPreferences();
   initializeControlsFromState();
   bindEvents();
+  loadRemoteCatalog().catch(() => {});
 
   try {
     await loadData();

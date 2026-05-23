@@ -33,10 +33,19 @@
           <select id="lessonSelect"></select>
         </div>
 
+        <div id="remoteLessonGroup" class="panel-group">
+          <label id="remoteLessonLabel">線上課程</label>
+          <select id="remoteCatalogSelect">
+            <option value="">（載入中…）</option>
+          </select>
+          <button id="loadRemoteLessonBtn" type="button" class="secondary">載入</button>
+          <p id="remoteLessonStatus"></p>
+        </div>
+
         <div id="localLessonGroup" class="panel-group">
-          <label for="localLessonDirInput" id="localLessonLabel">本機課程（離線）</label>
+          <label for="localLessonDirInput" id="localLessonLabel">本機課程（覆蓋）</label>
           <input id="localLessonDirInput" type="file" webkitdirectory directory multiple />
-          <p id="localLessonHint">選取包含 lesson.json 與 sentences/ 的資料夾。</p>
+          <p id="localLessonHint">選取包含 lesson.json 與 audio/ 的資料夾，可覆蓋線上課程。</p>
           <p id="localLessonStatus">可在此載入本機 lesson 資料夾，不需帳號或上傳。</p>
         </div>
 
