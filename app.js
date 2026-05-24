@@ -9,6 +9,7 @@ const STORAGE_KEYS = {
   sentenceAudioOffsets: "psl.ui.sentenceAudioOffsets",
   presentationPlaybackRate: "psl.ui.presentationPlaybackRate",
   presentationShowPhonemes: "psl.ui.presentationShowPhonemes",
+  remoteEditsPrefix: "psl.remote.edits.",
 };
 
 const AUDIO_OFFSET_LIMIT_SEC = 5;
@@ -96,6 +97,7 @@ const state = {
   remoteLessonBaseUrl: "",
   remoteLessonStatusKind: "idle",
   remoteLessonStatusText: "",
+  remoteSavedToLocalStorage: false,
 };
 
 const el = {
@@ -110,6 +112,7 @@ const el = {
   remoteCatalogSelect: document.getElementById("remoteCatalogSelect"),
   loadRemoteLessonBtn: document.getElementById("loadRemoteLessonBtn"),
   remoteLessonStatus: document.getElementById("remoteLessonStatus"),
+  clearRemoteEditsBtn: document.getElementById("clearRemoteEditsBtn"),
   localLessonGroup: document.getElementById("localLessonGroup"),
   localLessonLabel: document.getElementById("localLessonLabel"),
   localLessonDirInput: document.getElementById("localLessonDirInput"),
@@ -506,6 +509,10 @@ const I18N = {
     remoteLessonLoaded: (name, count) => `已載入線上課程：${name}（${count} 句）`,
     remoteLessonLoadFailed: (msg) => `線上課程載入失敗：${msg}`,
     remoteLessonCatalogUnavailable: "無法取得線上課程目錄（離線或尚未上架）。",
+    remoteSavedInBrowser: "已存到瀏覽器",
+    savingToBrowser: "儲存中…",
+    remoteSavedRestored: "（含本機編輯）",
+    clearRemoteEdits: "清除本機編輯",
   },
   en: {
     appTitle: "跟讀小助手",
@@ -660,6 +667,10 @@ const I18N = {
     remoteLessonLoaded: (name, count) => `Online lesson loaded: ${name} (${count} sentences)`,
     remoteLessonLoadFailed: (msg) => `Failed to load online lesson: ${msg}`,
     remoteLessonCatalogUnavailable: "Online lesson catalog unavailable (offline or not yet published).",
+    remoteSavedInBrowser: "Saved in browser",
+    savingToBrowser: "Saving…",
+    remoteSavedRestored: "(with local edits)",
+    clearRemoteEdits: "Clear local edits",
   },
 };
 
@@ -3306,6 +3317,83 @@ function setRemoteLessonStatus(kind, text = "") {
   }
 }
 
+function saveRemoteLessonEdits(slug, lesson) {
+  const edits = {};
+  (lesson.sentences || []).forEach((sentence, sIdx) => {
+    (sentence.words || []).forEach((word, wIdx) => {
+      if (!word) return;
+      const entry = {};
+      if (Array.isArray(word.gold_ipa) && word.gold_ipa.length) entry.gold_ipa = word.gold_ipa;
+      if (word.gold_token_details) entry.gold_token_details = word.gold_token_details;
+      if (word.gold_display_edits && Object.keys(word.gold_display_edits).length) entry.gold_display_edits = word.gold_display_edits;
+      if (word.notes) entry.notes = word.notes;
+      if (Object.keys(entry).length) edits[`${sIdx}:${wIdx}`] = entry;
+    });
+  });
+  try {
+    localStorage.setItem(
+      STORAGE_KEYS.remoteEditsPrefix + slug,
+      JSON.stringify({ savedAt: new Date().toISOString(), edits })
+    );
+    state.remoteSavedToLocalStorage = true;
+  } catch (e) {
+    console.warn("Failed to save remote edits to localStorage:", e);
+  }
+}
+
+function restoreRemoteLessonEdits(slug, lesson) {
+  let stored;
+  try {
+    const raw = localStorage.getItem(STORAGE_KEYS.remoteEditsPrefix + slug);
+    if (!raw) return false;
+    stored = JSON.parse(raw);
+  } catch (e) { return false; }
+  const edits = stored?.edits;
+  if (!edits || typeof edits !== "object") return false;
+  let restored = false;
+  (lesson.sentences || []).forEach((sentence, sIdx) => {
+    (sentence.words || []).forEach((word, wIdx) => {
+      const saved = edits[`${sIdx}:${wIdx}`];
+      if (!saved || !word) return;
+      if (saved.gold_ipa) word.gold_ipa = saved.gold_ipa;
+      if (saved.gold_token_details) word.gold_token_details = saved.gold_token_details;
+      if (saved.gold_display_edits) word.gold_display_edits = saved.gold_display_edits;
+      if (saved.notes) word.notes = saved.notes;
+      restored = true;
+    });
+  });
+  return restored;
+}
+
+function clearRemoteLessonEdits(slug) {
+  localStorage.removeItem(STORAGE_KEYS.remoteEditsPrefix + slug);
+  state.remoteSavedToLocalStorage = false;
+  renderSaveStatus();
+  updateClearRemoteEditsBtn();
+}
+
+function updateClearRemoteEditsBtn() {
+  if (!el.clearRemoteEditsBtn) return;
+  el.clearRemoteEditsBtn.hidden = !(isRemoteMode() && state.remoteSavedToLocalStorage);
+  if (!el.clearRemoteEditsBtn.hidden) {
+    el.clearRemoteEditsBtn.textContent = t("clearRemoteEdits");
+  }
+}
+
+let _remoteEditsSaveTimer = null;
+function scheduleRemoteEditsSave() {
+  if (_remoteEditsSaveTimer) clearTimeout(_remoteEditsSaveTimer);
+  _remoteEditsSaveTimer = setTimeout(() => {
+    _remoteEditsSaveTimer = null;
+    if (!isRemoteMode() || !state.lesson) return;
+    const slug = (state.currentLessonKey || "").replace("remote:", "");
+    if (!slug) return;
+    saveRemoteLessonEdits(slug, state.lesson);
+    renderSaveStatus();
+    updateClearRemoteEditsBtn();
+  }, 1500);
+}
+
 function renderRemoteCatalogSelect() {
   if (!el.remoteCatalogSelect || !state.remoteCatalog) return;
   el.remoteCatalogSelect.innerHTML = "";
@@ -3361,11 +3449,16 @@ async function loadRemoteLesson(slug) {
 
     state.remoteLessonBaseUrl = baseUrl;
     state.dataSourceMode = "remote";
+    state.remoteSavedToLocalStorage = false;
     state.lesson = parsedLesson;
     if (!state.lesson._meta || typeof state.lesson._meta !== "object") {
       state.lesson._meta = {};
     }
     state.lesson._meta.lesson_path = `${baseUrl}/lesson.json`;
+
+    const hadSavedEdits = restoreRemoteLessonEdits(slug, state.lesson);
+    state.remoteSavedToLocalStorage = hadSavedEdits;
+    if (hadSavedEdits) state.dirty = true;
 
     const lessonId = parsedLesson.lesson_id || slug;
     const sentenceCount = parsedLesson.sentences.length;
@@ -3396,11 +3489,14 @@ async function loadRemoteLesson(slug) {
     renderRebuildCommandUI();
 
     resetLessonStateForImport();
+    if (hadSavedEdits) state.dirty = true;
     renderLessonOptions();
     rebuildSentenceSelect();
     applyLanguage();
+    updateClearRemoteEditsBtn();
 
-    setRemoteLessonStatus("saved", t("remoteLessonLoaded", displayName, sentenceCount));
+    const loadedMsg = t("remoteLessonLoaded", displayName, sentenceCount);
+    setRemoteLessonStatus("saved", hadSavedEdits ? loadedMsg + " " + t("remoteSavedRestored") : loadedMsg);
   } catch (err) {
     setRemoteLessonStatus("error", t("remoteLessonLoadFailed", String(err.message || err)));
   } finally {
@@ -4717,6 +4813,16 @@ function renderSaveStatus() {
       el.saveStatus.className = "status-unsaved";
       return;
     }
+    if (isRemoteMode()) {
+      if (state.remoteSavedToLocalStorage && !_remoteEditsSaveTimer) {
+        el.saveStatus.textContent = t("remoteSavedInBrowser");
+        el.saveStatus.className = "status-saved";
+      } else {
+        el.saveStatus.textContent = t("savingToBrowser");
+        el.saveStatus.className = "status-unsaved";
+      }
+      return;
+    }
     if (!state.serverDirty && hasNonIpaGoldDisplayEdits(state.lesson)) {
       el.saveStatus.textContent = t("nonIpaGoldEdited");
     } else {
@@ -5254,6 +5360,7 @@ function applyPresentationDisplayOptions() {
 
 function markDirty(isDirty = true) {
   state.dirty = isDirty;
+  if (isDirty && isRemoteMode()) scheduleRemoteEditsSave();
   renderSaveStatus();
 }
 
@@ -6304,6 +6411,7 @@ function applyLanguage() {
   }
 
   renderSaveStatus();
+  updateClearRemoteEditsBtn();
   renderCompactNotice();
   updatePresentationPlayPauseButton();
   updatePresentationLoopToggleButton();
@@ -6477,6 +6585,16 @@ function bindEvents() {
     el.loadRemoteLessonBtn.addEventListener("click", () => {
       const slug = el.remoteCatalogSelect ? el.remoteCatalogSelect.value : "";
       if (slug) loadRemoteLesson(slug);
+    });
+  }
+
+  if (el.clearRemoteEditsBtn) {
+    el.clearRemoteEditsBtn.addEventListener("click", () => {
+      const slug = (state.currentLessonKey || "").replace("remote:", "");
+      if (!slug) return;
+      clearRemoteLessonEdits(slug);
+      const selectSlug = el.remoteCatalogSelect ? el.remoteCatalogSelect.value : slug;
+      loadRemoteLesson(selectSlug || slug);
     });
   }
 
