@@ -1302,3 +1302,84 @@ audio::-webkit-media-controls-mute-button {
   color: #273a45;
   font-weight: 600;
 }
+
+/* Entry screen */
+body.entry-screen .side-panel {
+  display: none;
+}
+
+body.entry-screen .app-shell {
+  grid-template-columns: 1fr;
+}
+
+body.entry-screen .content {
+  max-width: 520px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.entry-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+  padding: 3rem 2rem;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+}
+
+.entry-section h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: #273a45;
+}
+
+.entry-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  width: 100%;
+}
+
+.entry-group label {
+  font-weight: 700;
+  color: #4a5e6a;
+  font-size: 0.95rem;
+}
+
+.entry-group select {
+  width: 100%;
+}
+
+.entry-group button {
+  width: 100%;
+}
+
+.entry-divider {
+  color: var(--text-muted, #8a9eab);
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+}
+
+.entry-status {
+  font-size: 0.88rem;
+  color: var(--text-muted, #8a9eab);
+  margin: 0;
+}
+
+/* Presentation lesson meta */
+.presentation-lesson-meta {
+  position: absolute;
+  top: 0.9rem;
+  left: 1.2rem;
+  font-size: 0.82rem;
+  color: rgba(39, 58, 69, 0.5);
+  pointer-events: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60%;
+  z-index: 1;
+}

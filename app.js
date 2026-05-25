@@ -93,6 +93,7 @@ const state = {
   presentationPlaybackRate: 1,
   presentationShowPhonemes: true,
   offlineZipDownloading: false,
+  appScreen: "entry",
   remoteCatalog: null,
   remoteLessonBaseUrl: "",
   remoteLessonStatusKind: "idle",
@@ -203,6 +204,18 @@ const el = {
   wordTableSection: document.getElementById("wordTableSection"),
   wordCompactSection: document.getElementById("wordCompactSection"),
   compactWordGrid: document.getElementById("compactWordGrid"),
+  entrySection: document.getElementById("entrySection"),
+  entryHeading: document.getElementById("entryHeading"),
+  entryRemoteGroup: document.getElementById("entryRemoteGroup"),
+  entryRemoteLabel: document.getElementById("entryRemoteLabel"),
+  entryCatalogSelect: document.getElementById("entryCatalogSelect"),
+  entryLoadRemoteBtn: document.getElementById("entryLoadRemoteBtn"),
+  entryRemoteStatus: document.getElementById("entryRemoteStatus"),
+  entryLocalLabel: document.getElementById("entryLocalLabel"),
+  entryLocalDirInput: document.getElementById("entryLocalDirInput"),
+  entryLocalStatus: document.getElementById("entryLocalStatus"),
+  entryOrDivider: document.getElementById("entryOrDivider"),
+  presentationLessonMeta: document.getElementById("presentationLessonMeta"),
   wordHeader: document.getElementById("wordHeader"),
   canonicalHeader: document.getElementById("canonicalHeader"),
   candidatesHeader: document.getElementById("candidatesHeader"),
@@ -513,6 +526,9 @@ const I18N = {
     savingToBrowser: "儲存中…",
     remoteSavedRestored: "（含本機編輯）",
     clearRemoteEdits: "清除本機編輯",
+    entryHeading: "選擇課程",
+    entryLoadBtn: "載入",
+    entryOrLabel: "或",
   },
   en: {
     appTitle: "跟讀小助手",
@@ -671,6 +687,9 @@ const I18N = {
     savingToBrowser: "Saving…",
     remoteSavedRestored: "(with local edits)",
     clearRemoteEdits: "Clear local edits",
+    entryHeading: "Select a Lesson",
+    entryLoadBtn: "Load",
+    entryOrLabel: "or",
   },
 };
 
@@ -3298,11 +3317,21 @@ async function importLocalLessonDirectory(fileList) {
 
     const sentenceCount = Array.isArray(state.lesson.sentences) ? state.lesson.sentences.length : 0;
     setLocalLessonStatus("saved", t("localLessonLoaded", state.localLessonRootName, sentenceCount));
+    if (state.appScreen === "entry") {
+      state.appScreen = "editor";
+      applyAppScreen();
+      setViewMode("presentation");
+    }
   } catch (err) {
-    setLocalLessonStatus("error", t("localLessonLoadFailed", String(err.message || err)));
+    const errMsg = t("localLessonLoadFailed", String(err.message || err));
+    setLocalLessonStatus("error", errMsg);
+    if (el.entryLocalStatus) el.entryLocalStatus.textContent = errMsg;
   } finally {
     if (el.localLessonDirInput) {
       el.localLessonDirInput.value = "";
+    }
+    if (el.entryLocalDirInput) {
+      el.entryLocalDirInput.value = "";
     }
   }
 }
@@ -3414,6 +3443,26 @@ function renderRemoteCatalogSelect() {
   }
 }
 
+function renderEntryCatalogSelect() {
+  if (!el.entryCatalogSelect || !state.remoteCatalog) return;
+  el.entryCatalogSelect.innerHTML = "";
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = t("remoteLessonSelectPlaceholder");
+  el.entryCatalogSelect.appendChild(placeholder);
+  const lessons = Array.isArray(state.remoteCatalog.lessons) ? state.remoteCatalog.lessons : [];
+  lessons.forEach((entry) => {
+    const option = document.createElement("option");
+    option.value = entry.slug;
+    const countLabel = state.uiLanguage === "zh-TW" ? `${entry.sentence_count} 句` : `${entry.sentence_count} sentences`;
+    option.textContent = `${entry.display_name} (${countLabel})`;
+    el.entryCatalogSelect.appendChild(option);
+  });
+  if (el.entryLoadRemoteBtn) {
+    el.entryLoadRemoteBtn.disabled = lessons.length === 0;
+  }
+}
+
 async function loadRemoteCatalog() {
   try {
     const resp = await fetch("./lessons/catalog.json");
@@ -3421,9 +3470,13 @@ async function loadRemoteCatalog() {
     const catalog = await resp.json();
     state.remoteCatalog = catalog;
     renderRemoteCatalogSelect();
+    renderEntryCatalogSelect();
   } catch {
     if (el.remoteLessonGroup) {
       el.remoteLessonGroup.hidden = true;
+    }
+    if (el.entryRemoteGroup) {
+      el.entryRemoteGroup.hidden = true;
     }
   }
 }
@@ -3497,8 +3550,15 @@ async function loadRemoteLesson(slug) {
 
     const loadedMsg = t("remoteLessonLoaded", displayName, sentenceCount);
     setRemoteLessonStatus("saved", hadSavedEdits ? loadedMsg + " " + t("remoteSavedRestored") : loadedMsg);
+    if (state.appScreen === "entry") {
+      state.appScreen = "editor";
+      applyAppScreen();
+      setViewMode("presentation");
+    }
   } catch (err) {
-    setRemoteLessonStatus("error", t("remoteLessonLoadFailed", String(err.message || err)));
+    const errMsg = t("remoteLessonLoadFailed", String(err.message || err));
+    setRemoteLessonStatus("error", errMsg);
+    if (el.entryRemoteStatus) el.entryRemoteStatus.textContent = errMsg;
   } finally {
     if (el.loadRemoteLessonBtn) el.loadRemoteLessonBtn.disabled = false;
   }
@@ -4251,6 +4311,11 @@ function applyLanguageToStaticText() {
   if (el.localLessonHint) {
     el.localLessonHint.textContent = t("localLessonHint");
   }
+  if (el.entryHeading) el.entryHeading.textContent = t("entryHeading");
+  if (el.entryRemoteLabel) el.entryRemoteLabel.textContent = t("remoteLessonLabel");
+  if (el.entryLoadRemoteBtn) el.entryLoadRemoteBtn.textContent = t("entryLoadBtn");
+  if (el.entryLocalLabel) el.entryLocalLabel.textContent = t("localLessonLabel");
+  if (el.entryOrDivider) el.entryOrDivider.textContent = t("entryOrLabel");
   el.transcriptLabel.textContent = t("transcriptLabel");
   el.saveTranscriptBtn.textContent = t("saveTranscript");
   el.buildCommandBtn.textContent = t("buildCommand");
@@ -4946,6 +5011,7 @@ function applyViewMode() {
   updatePresentationPlayAllButton();
   syncPresentationLoopGapInput();
   applyPresentationDisplayOptions();
+  if (presentationMode) renderPresentationLessonMeta();
 }
 
 function setViewMode(mode) {
@@ -4966,6 +5032,27 @@ function setViewMode(mode) {
   applyViewMode();
   renderKeyboard();
   renderSentence();
+}
+
+function applyAppScreen() {
+  const isEntry = state.appScreen === "entry";
+  document.body.classList.toggle("entry-screen", isEntry);
+  if (el.entrySection) el.entrySection.hidden = !isEntry;
+  el.viewModeSection.hidden = isEntry;
+  if (el.sentenceHeaderSection) el.sentenceHeaderSection.hidden = isEntry;
+  if (el.audioSection) el.audioSection.hidden = isEntry;
+  el.wordTableSection.hidden = isEntry;
+  el.wordCompactSection.hidden = isEntry;
+  if (el.presentationSection) el.presentationSection.hidden = isEntry;
+}
+
+function renderPresentationLessonMeta() {
+  if (!el.presentationLessonMeta || !state.lesson) return;
+  const name = state.lesson.display_name || state.currentLessonKey || "";
+  const count = Array.isArray(state.lesson.sentences) ? state.lesson.sentences.length : 0;
+  el.presentationLessonMeta.textContent = state.uiLanguage === "zh-TW"
+    ? `${name}　${count} 句`
+    : `${name} · ${count} sentences`;
 }
 
 function getCurrentSentence() {
@@ -6588,6 +6675,24 @@ function bindEvents() {
     });
   }
 
+  if (el.entryLoadRemoteBtn) {
+    el.entryLoadRemoteBtn.addEventListener("click", () => {
+      const slug = el.entryCatalogSelect ? el.entryCatalogSelect.value : "";
+      if (slug) loadRemoteLesson(slug);
+    });
+  }
+
+  if (el.entryLocalDirInput) {
+    el.entryLocalDirInput.addEventListener("change", () => {
+      const files = el.entryLocalDirInput.files;
+      if (!files || files.length === 0) {
+        if (el.entryLocalStatus) el.entryLocalStatus.textContent = t("localLessonNoFiles");
+        return;
+      }
+      importLocalLessonDirectory(files);
+    });
+  }
+
   if (el.clearRemoteEditsBtn) {
     el.clearRemoteEditsBtn.addEventListener("click", () => {
       const slug = (state.currentLessonKey || "").replace("remote:", "");
@@ -7023,6 +7128,7 @@ function initializeControlsFromState() {
   updatePresentationPlayPauseButton();
   updatePresentationLoopToggleButton();
   updatePresentationPlayAllButton();
+  applyAppScreen();
 }
 
 async function init() {
@@ -7033,6 +7139,8 @@ async function init() {
 
   try {
     await loadData();
+    state.appScreen = "editor";
+    applyAppScreen();
   } catch (err) {
     if (state.dataSourceMode === "local") {
       el.lessonMeta.textContent = t("localLessonAwaitImport");

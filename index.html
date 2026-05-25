@@ -111,6 +111,24 @@
       </aside>
 
       <main class="content">
+        <section id="entrySection" class="entry-section">
+          <h2 id="entryHeading">選擇課程</h2>
+          <div id="entryRemoteGroup" class="entry-group">
+            <label for="entryCatalogSelect" id="entryRemoteLabel">線上課程</label>
+            <select id="entryCatalogSelect">
+              <option value="">（載入中…）</option>
+            </select>
+            <button id="entryLoadRemoteBtn" type="button">載入</button>
+            <p id="entryRemoteStatus" class="entry-status"></p>
+          </div>
+          <div id="entryOrDivider" class="entry-divider">或</div>
+          <div class="entry-group">
+            <label for="entryLocalDirInput" id="entryLocalLabel">本機課程資料夾</label>
+            <input id="entryLocalDirInput" type="file" webkitdirectory directory multiple />
+            <p id="entryLocalStatus" class="entry-status"></p>
+          </div>
+        </section>
+
         <section id="viewModeSection" class="view-mode-section">
           <div class="view-mode-row">
             <span id="viewModeLabel">句子顯示模式</span>
@@ -160,6 +178,8 @@
               <input id="presentationLoopCountInput" type="text" inputmode="numeric" pattern="[1-9][0-9]*" placeholder="#" />
             </div>
           </div>
+
+          <div id="presentationLessonMeta" class="presentation-lesson-meta"></div>
 
           <div class="presentation-stage">
             <p id="presentationSentenceText" class="presentation-sentence-text"></p>
