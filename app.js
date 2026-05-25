@@ -1523,13 +1523,6 @@ function loadPreferences() {
     state.uiLanguage = savedLang;
   }
 
-  const savedDetails = localStorage.getItem(STORAGE_KEYS.showDetails);
-  if (savedDetails === "1") {
-    state.showDetails = true;
-  } else if (savedDetails === "0") {
-    state.showDetails = false;
-  }
-
   const savedDisplay = localStorage.getItem(STORAGE_KEYS.displaySystem);
   if (savedDisplay === "ipa" || savedDisplay === "kk" || savedDisplay === "zhuyin_plus") {
     state.displaySystem = savedDisplay;
@@ -4250,6 +4243,12 @@ function runKindLabel(runKind) {
   return t("runKindCustom");
 }
 
+function formatSentenceLabel(sentenceId) {
+  if (!sentenceId) return "";
+  const m = String(sentenceId).match(/^s(\d+)$/i);
+  return m ? `第${m[1]}句` : String(sentenceId);
+}
+
 function sentenceCountLabel(count) {
   if (typeof count !== "number" || Number.isNaN(count)) {
     return state.uiLanguage === "zh-TW" ? "- 句" : "- sentences";
@@ -5731,7 +5730,8 @@ function rebuildSentenceSelect() {
     option.value = String(idx);
     const sentenceId = sentence?.sentence_id ? String(sentence.sentence_id) : "";
     const sentenceText = stripReviewMarkerForUi(sentence?.text);
-    option.textContent = sentenceText ? `${sentenceId} - ${sentenceText}` : sentenceId;
+    const labelId = formatSentenceLabel(sentenceId);
+    option.textContent = sentenceText ? `${labelId} - ${sentenceText}` : labelId;
     el.sentenceSelect.appendChild(option);
   });
 
@@ -6095,7 +6095,7 @@ function renderSentence() {
     return;
   }
 
-  el.sentenceTitle.textContent = `${sentence.sentence_id}`;
+  el.sentenceTitle.textContent = formatSentenceLabel(sentence.sentence_id);
   el.sentenceText.textContent = sentence.text || "";
   if (state.viewMode === "compact") {
     el.sentenceRange.textContent = "";
@@ -7030,7 +7030,6 @@ function bindEvents() {
 
   el.showDetailsCheckbox.addEventListener("change", () => {
     state.showDetails = el.showDetailsCheckbox.checked;
-    persistPreference(STORAGE_KEYS.showDetails, state.showDetails ? "1" : "0");
     applyShowDetailsMode();
   });
 
