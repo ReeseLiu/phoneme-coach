@@ -2788,7 +2788,10 @@ function renderPresentationTranscript() {
   });
   const activeRow = el.presentationTranscript.querySelector(".presentation-transcript-row.active");
   if (activeRow) {
-    activeRow.scrollIntoView({ block: "nearest" });
+    const container = el.presentationTranscript;
+    container.scrollTop = activeRow.offsetTop
+      - container.clientHeight / 2
+      + activeRow.offsetHeight / 2;
   }
 }
 
@@ -4246,7 +4249,8 @@ function runKindLabel(runKind) {
 function formatSentenceLabel(sentenceId) {
   if (!sentenceId) return "";
   const m = String(sentenceId).match(/^s(\d+)$/i);
-  return m ? `第${m[1]}句` : String(sentenceId);
+  if (!m) return String(sentenceId);
+  return state.uiLanguage === "en" ? `S${m[1]}` : `第${m[1]}句`;
 }
 
 function sentenceCountLabel(count) {

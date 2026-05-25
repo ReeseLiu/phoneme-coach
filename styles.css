@@ -292,6 +292,9 @@ button.secondary {
   order: 4;
 }
 
+.compact-mode .gold-label { display: none; }
+.compact-mode #keyboardHelp { display: none; }
+
 .presentation-mode #viewModeSection {
   display: none;
 }
