@@ -204,6 +204,8 @@ const el = {
   wordTableSection: document.getElementById("wordTableSection"),
   wordCompactSection: document.getElementById("wordCompactSection"),
   compactWordGrid: document.getElementById("compactWordGrid"),
+  changeLessonGroup: document.getElementById("changeLessonGroup"),
+  changeLessonBtn: document.getElementById("changeLessonBtn"),
   entrySection: document.getElementById("entrySection"),
   entryHeading: document.getElementById("entryHeading"),
   entryRemoteGroup: document.getElementById("entryRemoteGroup"),
@@ -529,6 +531,7 @@ const I18N = {
     entryHeading: "選擇課程",
     entryLoadBtn: "載入",
     entryOrLabel: "或",
+    changeLessonBtn: "換課程",
   },
   en: {
     appTitle: "跟讀小助手",
@@ -690,6 +693,7 @@ const I18N = {
     entryHeading: "Select a Lesson",
     entryLoadBtn: "Load",
     entryOrLabel: "or",
+    changeLessonBtn: "Change Lesson",
   },
 };
 
@@ -4311,6 +4315,7 @@ function applyLanguageToStaticText() {
   if (el.localLessonHint) {
     el.localLessonHint.textContent = t("localLessonHint");
   }
+  if (el.changeLessonBtn) el.changeLessonBtn.textContent = t("changeLessonBtn");
   if (el.entryHeading) el.entryHeading.textContent = t("entryHeading");
   if (el.entryRemoteLabel) el.entryRemoteLabel.textContent = t("remoteLessonLabel");
   if (el.entryLoadRemoteBtn) el.entryLoadRemoteBtn.textContent = t("entryLoadBtn");
@@ -5037,16 +5042,29 @@ function setViewMode(mode) {
 function applyAppScreen() {
   const isEntry = state.appScreen === "entry";
   document.body.classList.toggle("entry-screen", isEntry);
-  if (el.entrySection) el.entrySection.hidden = !isEntry;
+  // Use style.display directly — avoids CSS specificity issues with the hidden attribute
+  if (el.entrySection) el.entrySection.style.display = isEntry ? "" : "none";
   el.viewModeSection.hidden = isEntry;
   if (el.sentenceHeaderSection) el.sentenceHeaderSection.hidden = isEntry;
   if (el.audioSection) el.audioSection.hidden = isEntry;
   el.wordTableSection.hidden = isEntry;
   el.wordCompactSection.hidden = isEntry;
   if (el.presentationSection) el.presentationSection.hidden = isEntry;
-  // Hide side-panel course controls once a lesson is loaded — entry page handles selection
-  if (el.remoteLessonGroup) el.remoteLessonGroup.hidden = !isEntry;
-  if (el.localLessonGroup) el.localLessonGroup.hidden = !isEntry;
+  // Side-panel: course groups hidden always (entry page handles selection);
+  // show 換課程 button in editor mode so the user can return to entry screen
+  if (el.remoteLessonGroup) el.remoteLessonGroup.hidden = true;
+  if (el.localLessonGroup) el.localLessonGroup.hidden = true;
+  if (el.changeLessonGroup) el.changeLessonGroup.hidden = isEntry;
+}
+
+function goToEntryScreen() {
+  stopPresentationPlayAll();
+  if (state.viewMode !== "compact") {
+    state.viewMode = "compact";
+    applyViewMode();
+  }
+  state.appScreen = "entry";
+  applyAppScreen();
 }
 
 function renderPresentationLessonMeta() {
@@ -6675,6 +6693,12 @@ function bindEvents() {
     el.loadRemoteLessonBtn.addEventListener("click", () => {
       const slug = el.remoteCatalogSelect ? el.remoteCatalogSelect.value : "";
       if (slug) loadRemoteLesson(slug);
+    });
+  }
+
+  if (el.changeLessonBtn) {
+    el.changeLessonBtn.addEventListener("click", () => {
+      goToEntryScreen();
     });
   }
 
