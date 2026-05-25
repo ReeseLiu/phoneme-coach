@@ -1,3 +1,15 @@
+@font-face {
+  font-family: "注音芫荽";
+  src: url("./fonts/YanCui.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+  unicode-range:
+    U+02CA, U+02C7, U+02CB, U+02D9,
+    U+3100-U+312F,
+    U+31A0-U+31BA;
+}
+
 :root {
   --bg-main: #eff4f8;
   --bg-panel: #fdfefe;
@@ -526,7 +538,7 @@ button.secondary {
   min-height: 1.4em;
   line-height: 1.15;
   text-align: center;
-  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-family: "注音芫荽", "Noto Sans TC", "JetBrains Mono", "Fira Code", monospace;
   font-size: clamp(1.28rem, calc(1.65rem * var(--presentation-scale)), 2.3rem);
   color: #324957;
   white-space: nowrap;
@@ -946,7 +958,7 @@ th {
 }
 
 .ipa {
-  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-family: "注音芫荽", "Noto Sans TC", "JetBrains Mono", "Fira Code", monospace;
   font-size: 0.95rem;
 }
 
@@ -1004,7 +1016,7 @@ th {
 }
 
 .phonetic-ipa {
-  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-family: "注音芫荽", "Noto Sans TC", "JetBrains Mono", "Fira Code", monospace;
   font-size: 0.92rem;
 }
 
@@ -1020,7 +1032,7 @@ th {
 }
 
 .candidate-ipa {
-  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-family: "注音芫荽", "Noto Sans TC", "JetBrains Mono", "Fira Code", monospace;
   font-size: 0.92rem;
 }
 
@@ -1054,7 +1066,7 @@ th {
 }
 
 .gold-input {
-  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-family: "注音芫荽", "Noto Sans TC", "JetBrains Mono", "Fira Code", monospace;
 }
 
 .gold-input.changed,

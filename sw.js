@@ -1,4 +1,4 @@
-const CACHE_NAME = 'phoneme-coach-v2';
+const CACHE_NAME = 'phoneme-coach-v3';
 
 const SHELL_ASSETS = [
   './index.html',
@@ -6,6 +6,7 @@ const SHELL_ASSETS = [
   './styles.css',
   './icon-192.png',
   './icon-512.png',
+  './fonts/YanCui.woff2',
 ];
 
 self.addEventListener('install', (event) => {
