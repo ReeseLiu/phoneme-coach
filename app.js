@@ -35,6 +35,8 @@ const CRC32_TABLE = (() => {
   return table;
 })();
 
+let playToken = 0;
+
 const state = {
   lesson: null,
   dataSourceMode: "server",
@@ -1252,15 +1254,49 @@ function playPendingPresentationPlayAll() {
     return;
   }
   state.presentationPlayAllPendingAutoplay = false;
-  syncAudioToSentenceStart(true);
-  const playPromise = el.sentenceAudio.play();
-  if (playPromise && typeof playPromise.catch === "function") {
-    playPromise.catch(() => {
-      if (state.presentationPlayAllActive) {
-        stopPresentationPlayAll();
-      }
-    });
+  const audio = el.sentenceAudio;
+  const token = ++playToken;
+
+  function doPlay() {
+    if (token !== playToken || !state.presentationPlayAllActive) return;
+    const playPromise = audio.play();
+    if (playPromise && typeof playPromise.catch === "function") {
+      playPromise.catch(() => {
+        if (state.presentationPlayAllActive) stopPresentationPlayAll();
+      });
+    }
   }
+
+  function onPlaySeeked() {
+    if (token !== playToken || !state.presentationPlayAllActive) {
+      audio.removeEventListener("seeked", onPlaySeeked);
+      return;
+    }
+    const expectedStart = state.audioRangeStartSec;
+    if (Number.isFinite(expectedStart) && Math.abs(audio.currentTime - expectedStart) > 0.15) {
+      return; // 舊 seek 先完成，位置不對 — 留守等下一個 seeked
+    }
+    audio.removeEventListener("seeked", onPlaySeeked);
+    doPlay();
+  }
+
+  if (state.internalSeekActive) {
+    // seek 已在進行中（來自 syncAudioToSentenceStart），等它完成即可
+    audio.addEventListener("seeked", onPlaySeeked);
+    return;
+  }
+
+  const start = state.audioRangeStartSec;
+  if (!Number.isFinite(start)) return;
+  if (!audio.paused) audio.pause();
+  state.internalSeekActive = true;
+  try {
+    audio.currentTime = start;
+  } catch {
+    state.internalSeekActive = false;
+    return;
+  }
+  audio.addEventListener("seeked", onPlaySeeked);
 }
 
 function requestPresentationPlayAllAutoplay() {
@@ -5371,19 +5407,32 @@ function scheduleLoopRestart() {
       return;
     }
 
+    const token = ++playToken;
+    state.internalSeekActive = true;
     try {
       audio.currentTime = restartStart;
     } catch {
-      // Ignore seek errors before metadata is ready.
+      state.internalSeekActive = false;
+      return;
     }
 
-    const playPromise = audio.play();
-    if (playPromise && typeof playPromise.catch === "function") {
-      playPromise.catch(() => {
-        state.loopRestartFromTimer = false;
-        // Ignore autoplay/play interruption errors.
-      });
-    }
+    audio.addEventListener("seeked", function onLoopSeeked() {
+      if (token !== playToken || !state.loopSentence) {
+        audio.removeEventListener("seeked", onLoopSeeked);
+        return;
+      }
+      const expectedStart = state.audioRangeStartSec;
+      if (Number.isFinite(expectedStart) && Math.abs(audio.currentTime - expectedStart) > 0.15) {
+        return; // 舊 seek 先完成，留守等下一個 seeked
+      }
+      audio.removeEventListener("seeked", onLoopSeeked);
+      const playPromise = audio.play();
+      if (playPromise && typeof playPromise.catch === "function") {
+        playPromise.catch(() => {
+          state.loopRestartFromTimer = false;
+        });
+      }
+    });
   }, Math.max(0, delayMs));
 }
 
