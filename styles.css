@@ -618,11 +618,6 @@ button.secondary {
   justify-content: flex-end;
   gap: 8px;
   flex-wrap: wrap;
-  padding: 8px 10px;
-  border-radius: 999px;
-  border: 1px solid #d4e0e8;
-  background: #ffffffda;
-  box-shadow: 0 10px 22px rgba(74, 96, 111, 0.16);
   max-width: calc(100% - 32px);
 }
 
@@ -1227,7 +1222,6 @@ audio::-webkit-media-controls-mute-button {
     right: 10px;
     bottom: 10px;
     gap: 6px;
-    padding: 6px 8px;
     max-width: calc(100% - 20px);
   }
 
