@@ -14,7 +14,7 @@ const STORAGE_KEYS = {
 
 const AUDIO_OFFSET_LIMIT_SEC = 5;
 const AUDIO_OFFSET_STEP_SEC = 0.05;
-const AUDIO_OFFSET_QUICK_STEP_SEC = 0.5;
+const AUDIO_OFFSET_QUICK_STEP_SEC = 0.1;
 const AUDIO_RANGE_EPSILON_SEC = 0.05;
 const AUDIO_CLIP_RANGE_TOLERANCE_SEC = 0.5;
 const LOOP_GAP_MAX_SEC = 30;
@@ -200,6 +200,10 @@ const el = {
   presentationSpeedSelect: document.getElementById("presentationSpeedSelect"),
   presentationPhonemeToggleBtn: document.getElementById("presentationPhonemeToggleBtn"),
   presentationReturnBtn: document.getElementById("presentationReturnBtn"),
+  presentationStartMinusBtn: document.getElementById("presentationStartMinusBtn"),
+  presentationStartPlusBtn: document.getElementById("presentationStartPlusBtn"),
+  presentationEndMinusBtn: document.getElementById("presentationEndMinusBtn"),
+  presentationEndPlusBtn: document.getElementById("presentationEndPlusBtn"),
   presentationTranscript: document.getElementById("presentationTranscript"),
   wordTableSection: document.getElementById("wordTableSection"),
   wordCompactSection: document.getElementById("wordCompactSection"),
@@ -6826,6 +6830,23 @@ function bindEvents() {
   el.resetAudioOffsetsBtn.addEventListener("click", () => {
     applyAudioOffsetsForCurrentSentence(0, 0, false);
   });
+
+  if (el.presentationStartMinusBtn) {
+    el.presentationStartMinusBtn.addEventListener("click", () =>
+      nudgeCurrentSentenceOffset("start", -AUDIO_OFFSET_QUICK_STEP_SEC));
+  }
+  if (el.presentationStartPlusBtn) {
+    el.presentationStartPlusBtn.addEventListener("click", () =>
+      nudgeCurrentSentenceOffset("start", AUDIO_OFFSET_QUICK_STEP_SEC));
+  }
+  if (el.presentationEndMinusBtn) {
+    el.presentationEndMinusBtn.addEventListener("click", () =>
+      nudgeCurrentSentenceOffset("end", -AUDIO_OFFSET_QUICK_STEP_SEC));
+  }
+  if (el.presentationEndPlusBtn) {
+    el.presentationEndPlusBtn.addEventListener("click", () =>
+      nudgeCurrentSentenceOffset("end", AUDIO_OFFSET_QUICK_STEP_SEC));
+  }
 
   el.sentenceAudio.addEventListener("loadedmetadata", () => {
     applyPresentationPlaybackRate(state.presentationPlaybackRate, false);

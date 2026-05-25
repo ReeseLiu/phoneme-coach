@@ -1306,6 +1306,28 @@ audio::-webkit-media-controls-mute-button {
   font-weight: 600;
 }
 
+.presentation-offset-controls {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.presentation-offset-btn {
+  padding: 4px 10px;
+  font-size: 0.78rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.presentation-offset-btn:hover {
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--text);
+}
+
 /* Entry screen */
 body.entry-screen .side-panel {
   display: none;

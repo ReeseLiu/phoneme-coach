@@ -194,6 +194,12 @@
               <button id="presentationPlayAllBtn" type="button" class="presentation-main-btn presentation-play-all-btn" aria-label="播放全部">播放全部</button>
               <button id="presentationNextSentenceBtn" type="button" class="presentation-main-btn" aria-label="下一句">▶︎</button>
             </div>
+            <div id="presentationOffsetControls" class="presentation-offset-controls">
+              <button id="presentationStartMinusBtn" type="button" class="presentation-offset-btn" aria-label="起點 -0.1s">起 −</button>
+              <button id="presentationStartPlusBtn"  type="button" class="presentation-offset-btn" aria-label="起點 +0.1s">起 ＋</button>
+              <button id="presentationEndMinusBtn"   type="button" class="presentation-offset-btn" aria-label="終點 -0.1s">訖 −</button>
+              <button id="presentationEndPlusBtn"    type="button" class="presentation-offset-btn" aria-label="終點 +0.1s">訖 ＋</button>
+            </div>
             <div id="presentationTranscript" class="presentation-transcript" hidden></div>
           </div>
         </section>
@@ -220,15 +226,15 @@
             <div class="audio-offset-grid">
               <label for="audioStartOffsetInput" id="audioStartOffsetLabel">起點偏移</label>
               <div class="audio-offset-controls">
-                <button id="audioStartOffsetMinusBtn" type="button" class="audio-offset-btn">-0.5 秒</button>
+                <button id="audioStartOffsetMinusBtn" type="button" class="audio-offset-btn">-0.1 秒</button>
                 <input id="audioStartOffsetInput" type="number" inputmode="decimal" min="-5" max="5" step="0.05" value="0" />
-                <button id="audioStartOffsetPlusBtn" type="button" class="audio-offset-btn">+0.5 秒</button>
+                <button id="audioStartOffsetPlusBtn" type="button" class="audio-offset-btn">+0.1 秒</button>
               </div>
               <label for="audioEndOffsetInput" id="audioEndOffsetLabel">終點偏移</label>
               <div class="audio-offset-controls">
-                <button id="audioEndOffsetMinusBtn" type="button" class="audio-offset-btn">-0.5 秒</button>
+                <button id="audioEndOffsetMinusBtn" type="button" class="audio-offset-btn">-0.1 秒</button>
                 <input id="audioEndOffsetInput" type="number" inputmode="decimal" min="-5" max="5" step="0.05" value="0" />
-                <button id="audioEndOffsetPlusBtn" type="button" class="audio-offset-btn">+0.5 秒</button>
+                <button id="audioEndOffsetPlusBtn" type="button" class="audio-offset-btn">+0.1 秒</button>
               </div>
             </div>
             <div class="audio-offset-footer">
