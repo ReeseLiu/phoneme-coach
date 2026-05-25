@@ -66,6 +66,7 @@ const state = {
   audioStartOffsetSec: 0,
   audioEndOffsetSec: 0,
   audioUseClipRangeHint: false,
+  internalSeekActive: false,
   loopRestartTimerId: null,
   loopGapSec: 0,
   loopCountTotal: null,
@@ -5307,9 +5308,10 @@ function syncAudioToSentenceStart(forceSeek = false) {
   }
 
   try {
+    state.internalSeekActive = true;
     audio.currentTime = start;
   } catch {
-    // Ignore seek errors before metadata is ready.
+    state.internalSeekActive = false;
   }
 }
 
@@ -5325,9 +5327,10 @@ function pauseAudioAtRangeStart() {
     return;
   }
   try {
+    state.internalSeekActive = true;
     audio.currentTime = start;
   } catch {
-    // Ignore seek errors before metadata is ready.
+    state.internalSeekActive = false;
   }
 }
 
@@ -6888,6 +6891,13 @@ function bindEvents() {
   });
 
   el.sentenceAudio.addEventListener("seeking", () => {
+    if (!state.internalSeekActive) {
+      enforceAudioPlaybackRange();
+    }
+  });
+
+  el.sentenceAudio.addEventListener("seeked", () => {
+    state.internalSeekActive = false;
     enforceAudioPlaybackRange();
   });
 
