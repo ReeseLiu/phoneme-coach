@@ -2786,13 +2786,15 @@ function renderPresentationTranscript() {
     });
     el.presentationTranscript.appendChild(row);
   });
-  const activeRow = el.presentationTranscript.querySelector(".presentation-transcript-row.active");
-  if (activeRow) {
-    const container = el.presentationTranscript;
-    container.scrollTop = activeRow.offsetTop
-      - container.clientHeight / 2
-      + activeRow.offsetHeight / 2;
-  }
+  requestAnimationFrame(() => {
+    const activeRow = el.presentationTranscript.querySelector(".presentation-transcript-row.active");
+    if (activeRow) {
+      const container = el.presentationTranscript;
+      container.scrollTop = activeRow.offsetTop
+        - container.clientHeight / 2
+        + activeRow.offsetHeight / 2;
+    }
+  });
 }
 
 function getDisplayTable() {
