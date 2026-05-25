@@ -219,7 +219,7 @@ const DISPLAY_LABEL = {
   "zh-TW": {
     ipa: "IPA",
     kk: "KK",
-    zhuyin_plus: "專利音標",
+    zhuyin_plus: "專利注音",
   },
   en: {
     ipa: "IPA",
