@@ -2790,7 +2790,9 @@ function renderPresentationTranscript() {
     const activeRow = el.presentationTranscript.querySelector(".presentation-transcript-row.active");
     if (activeRow) {
       const container = el.presentationTranscript;
-      container.scrollTop = activeRow.offsetTop
+      const rowRect = activeRow.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      container.scrollTop += rowRect.top - containerRect.top
         - container.clientHeight / 2
         + activeRow.offsetHeight / 2;
     }
