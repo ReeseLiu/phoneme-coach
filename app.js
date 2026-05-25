@@ -5044,6 +5044,9 @@ function applyAppScreen() {
   el.wordTableSection.hidden = isEntry;
   el.wordCompactSection.hidden = isEntry;
   if (el.presentationSection) el.presentationSection.hidden = isEntry;
+  // Hide side-panel course controls once a lesson is loaded — entry page handles selection
+  if (el.remoteLessonGroup) el.remoteLessonGroup.hidden = !isEntry;
+  if (el.localLessonGroup) el.localLessonGroup.hidden = !isEntry;
 }
 
 function renderPresentationLessonMeta() {
