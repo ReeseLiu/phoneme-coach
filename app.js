@@ -82,6 +82,7 @@ const state = {
   presentationPlayAllIgnoreNextPause: false,
   presentationPlayAllAdvancing: false,
   presentationPlayAllPauseGuardTimerId: null,
+  presentationPlayAllGapTimerId: null,
   presentationPlayAllLastEndedAtMs: 0,
   presentationPlaybackRate: 1,
   presentationShowPhonemes: true,

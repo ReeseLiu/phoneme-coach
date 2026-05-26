@@ -309,6 +309,10 @@ function ignoreNextPauseForPlayAllOnce() {
 }
 
 function stopPresentationPlayAll() {
+  if (state.presentationPlayAllGapTimerId !== null) {
+    window.clearTimeout(state.presentationPlayAllGapTimerId);
+    state.presentationPlayAllGapTimerId = null;
+  }
   if (state.presentationPlayAllPauseGuardTimerId !== null) {
     window.clearTimeout(state.presentationPlayAllPauseGuardTimerId);
     state.presentationPlayAllPauseGuardTimerId = null;
@@ -469,6 +473,21 @@ function advancePresentationPlayAll() {
   if (!state.presentationPlayAllActive || state.presentationPlayAllAdvancing) {
     return;
   }
+  const gapMs = Math.round(clampLoopGapSec(state.loopGapSec) * 1000);
+  if (gapMs > 0) {
+    state.presentationPlayAllAdvancing = true;
+    state.presentationPlayAllGapTimerId = window.setTimeout(() => {
+      state.presentationPlayAllGapTimerId = null;
+      state.presentationPlayAllAdvancing = false;
+      if (!state.presentationPlayAllActive) return;
+      _executeAdvancePresentationPlayAll();
+    }, gapMs);
+  } else {
+    _executeAdvancePresentationPlayAll();
+  }
+}
+
+function _executeAdvancePresentationPlayAll() {
   state.presentationPlayAllAdvancing = true;
   markPresentationPlayAllExpectEndingPause();
   const moved = jumpToSentence(1, { preservePlayAll: true, autoplayAfterJump: true });
