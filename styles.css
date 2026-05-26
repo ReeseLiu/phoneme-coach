@@ -968,6 +968,7 @@ th {
 
 .display-token {
   display: inline;
+  font-family: "注音芫荽", "Noto Sans TC", "JetBrains Mono", "Fira Code", monospace;
 }
 
 .display-prefix {
