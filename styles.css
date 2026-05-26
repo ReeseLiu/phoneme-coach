@@ -1409,3 +1409,41 @@ body.entry-screen .content {
   max-width: 60%;
   z-index: 1;
 }
+
+/* SW update toast */
+.sw-update-toast {
+  position: fixed;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a2b38;
+  color: #fff;
+  padding: 0.65rem 0.9rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  z-index: 9999;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+.sw-update-toast[hidden] { display: none; }
+.sw-update-toast button {
+  background: #4a9eff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.3rem 0.75rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: inherit;
+}
+.sw-update-toast button:hover { background: #3a8eef; }
+.sw-update-toast .sw-dismiss-btn {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 0.2rem 0.35rem;
+  font-size: 0.8rem;
+}
+.sw-update-toast .sw-dismiss-btn:hover { color: #fff; }

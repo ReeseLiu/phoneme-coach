@@ -16,6 +16,11 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
+    <div id="swUpdateToast" class="sw-update-toast" hidden>
+      <span id="swUpdateMsg">有新版本可用</span>
+      <button id="swUpdateBtn" type="button">立即更新</button>
+      <button id="swUpdateDismiss" type="button" class="sw-dismiss-btn" aria-label="關閉">✕</button>
+    </div>
     <div class="app-shell">
       <aside class="side-panel">
         <div class="brand">
@@ -323,7 +328,35 @@
     <script src="./app.js"></script>
     <script>
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js').catch(() => {});
+        function showSwUpdateToast() {
+          const toast = document.getElementById('swUpdateToast');
+          if (!toast || !toast.hidden) return;
+          const lang = localStorage.getItem('psl.ui.language') || 'zh-TW';
+          const isEn = lang === 'en';
+          document.getElementById('swUpdateMsg').textContent =
+            isEn ? 'New version available' : '有新版本可用';
+          document.getElementById('swUpdateBtn').textContent =
+            isEn ? 'Update now' : '立即更新';
+          const dismiss = document.getElementById('swUpdateDismiss');
+          dismiss.setAttribute('aria-label', isEn ? 'Dismiss' : '關閉');
+          toast.hidden = false;
+          document.getElementById('swUpdateBtn').addEventListener('click', () => {
+            window.location.reload();
+          });
+          dismiss.addEventListener('click', () => { toast.hidden = true; });
+        }
+
+        navigator.serviceWorker.register('./sw.js').then(reg => {
+          if (reg.waiting) showSwUpdateToast();
+          reg.addEventListener('updatefound', () => {
+            const newSW = reg.installing;
+            newSW.addEventListener('statechange', () => {
+              if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
+                showSwUpdateToast();
+              }
+            });
+          });
+        }).catch(() => {});
       }
     </script>
   </body>
