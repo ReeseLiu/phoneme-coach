@@ -600,7 +600,7 @@ button.secondary {
 .presentation-play-btn {
   min-width: 84px;
   min-height: 56px;
-  font-size: 1.4rem;
+  font-size: 1.25rem;
   background: linear-gradient(135deg, #5d8690, #7393ac);
   color: #fff;
   border-color: #4d7480;
@@ -647,12 +647,18 @@ button.secondary {
 
 .presentation-display-wrap select {
   width: 100%;
+  height: 42px;
+  box-sizing: border-box;
+  padding: 0 10px;
   border-radius: 999px;
   background: #fff;
 }
 
 .presentation-speed-wrap select {
   width: 100%;
+  height: 42px;
+  box-sizing: border-box;
+  padding: 0 10px;
   border-radius: 999px;
   background: #fff;
   text-align: center;
@@ -711,11 +717,13 @@ button.secondary {
 
 .presentation-timing-wrap input {
   width: 74px;
+  height: 42px;
+  box-sizing: border-box;
   border-radius: 999px;
   border: 1px solid var(--border);
   background: #fff;
   text-align: center;
-  padding: 8px;
+  padding: 0 8px;
 }
 
 .audio-section {
