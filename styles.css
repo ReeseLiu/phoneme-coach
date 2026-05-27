@@ -36,11 +36,7 @@ body {
   margin: 0;
   font-family: "IBM Plex Sans", "Source Sans 3", "Noto Sans", sans-serif;
   color: var(--text-main);
-  background:
-    radial-gradient(circle at 15% 8%, rgba(219, 233, 242, 0.85) 0, rgba(219, 233, 242, 0) 44%),
-    radial-gradient(circle at 92% 12%, rgba(233, 214, 220, 0.7) 0, rgba(233, 214, 220, 0) 42%),
-    radial-gradient(circle at 88% 88%, rgba(157, 192, 162, 0.22) 0, rgba(157, 192, 162, 0) 40%),
-    linear-gradient(155deg, #f7fafc, #e9f0f5);
+  background: #ffffff;
   min-height: 100vh;
 }
 
@@ -414,10 +410,7 @@ button.secondary {
   --presentation-scale: 1;
   min-height: 72vh;
   padding: 26px 26px 96px;
-  background:
-    radial-gradient(circle at 14% 14%, rgba(219, 233, 242, 0.52), rgba(219, 233, 242, 0) 42%),
-    radial-gradient(circle at 86% 12%, rgba(233, 214, 220, 0.42), rgba(233, 214, 220, 0) 38%),
-    linear-gradient(160deg, #fefefe, #f3f8fc);
+  background: transparent;
   display: flex;
   align-items: center;
 }
@@ -606,7 +599,7 @@ button.secondary {
 
 .presentation-play-btn {
   min-width: 84px;
-  min-height: 64px;
+  min-height: 56px;
   font-size: 1.4rem;
   background: linear-gradient(135deg, #5d8690, #7393ac);
   color: #fff;
@@ -633,7 +626,7 @@ button.secondary {
   width: 42px;
   height: 42px;
   padding: 0;
-  border-radius: 999px;
+  border-radius: 10px;
   background: #fff;
   display: inline-flex;
   align-items: center;
