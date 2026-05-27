@@ -8,6 +8,12 @@
       "audio_file": "鼠遇言.mp3"
     },
     {
+      "slug": "02.牛遇言",
+      "display_name": "牛遇言",
+      "sentence_count": 14,
+      "audio_file": "牛遇言.mp3"
+    },
+    {
       "slug": "henry_and_mudge_1st_book_v01",
       "display_name": "Henry And Mudge 1St Book",
       "sentence_count": 201,
