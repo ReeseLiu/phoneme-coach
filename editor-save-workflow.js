@@ -510,7 +510,84 @@ function buildLessonPayloadForDownload() {
   if (payload && typeof payload === "object") {
     delete payload._meta;
   }
+  if (
+    Array.isArray(payload.sentences) &&
+    state.sentenceAudioOffsets &&
+    typeof state.sentenceAudioOffsets === "object"
+  ) {
+    payload.sentences.forEach((sentence) => {
+      if (!sentence || !sentence.sentence_id) {
+        return;
+      }
+      const key = buildSentenceAudioOffsetKey(sentence);
+      if (!key) {
+        return;
+      }
+      const offsets = state.sentenceAudioOffsets[key];
+      if (!offsets || typeof offsets !== "object") {
+        return;
+      }
+      const ds = Number(offsets.start) || 0;
+      const de = Number(offsets.end) || 0;
+      if (Math.abs(ds) < 1e-9 && Math.abs(de) < 1e-9) {
+        return;
+      }
+      if (typeof sentence.start_sec === "number") {
+        sentence.start_sec = Math.round((sentence.start_sec + ds) * 10000) / 10000;
+      }
+      if (typeof sentence.end_sec === "number") {
+        sentence.end_sec = Math.round((sentence.end_sec + de) * 10000) / 10000;
+      }
+    });
+  }
   return payload;
+}
+
+function commitBakedAudioOffsetsToState() {
+  if (!state.lesson || !Array.isArray(state.lesson.sentences)) {
+    return;
+  }
+  if (!state.sentenceAudioOffsets || typeof state.sentenceAudioOffsets !== "object") {
+    return;
+  }
+  const keysToDelete = [];
+  state.lesson.sentences.forEach((sentence) => {
+    if (!sentence || !sentence.sentence_id) {
+      return;
+    }
+    const key = buildSentenceAudioOffsetKey(sentence);
+    if (!key) {
+      return;
+    }
+    const offsets = state.sentenceAudioOffsets[key];
+    if (!offsets || typeof offsets !== "object") {
+      return;
+    }
+    const ds = Number(offsets.start) || 0;
+    const de = Number(offsets.end) || 0;
+    if (Math.abs(ds) < 1e-9 && Math.abs(de) < 1e-9) {
+      return;
+    }
+    if (typeof sentence.start_sec === "number") {
+      sentence.start_sec = Math.round((sentence.start_sec + ds) * 10000) / 10000;
+    }
+    if (typeof sentence.end_sec === "number") {
+      sentence.end_sec = Math.round((sentence.end_sec + de) * 10000) / 10000;
+    }
+    keysToDelete.push(key);
+  });
+  if (keysToDelete.length === 0) {
+    return;
+  }
+  keysToDelete.forEach((key) => {
+    delete state.sentenceAudioOffsets[key];
+  });
+  persistSentenceAudioOffsets();
+  const currentSentence = getCurrentSentence();
+  if (currentSentence) {
+    setAudioRangeForSentence(currentSentence);
+    renderAudioOffsetControls();
+  }
 }
 
 function buildLessonPayloadForServerSave() {
@@ -543,6 +620,7 @@ function downloadEditedLessonJson() {
 
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json;charset=utf-8" });
     triggerBlobDownload(blob, fileName);
+    commitBakedAudioOffsetsToState();
 
     state.compactDirty = false;
     setCompactNotice("downloaded");
@@ -726,6 +804,7 @@ async function downloadOfflineLessonZip() {
 
     const zipBlob = buildZipBlob(zipEntries);
     triggerBlobDownload(zipBlob, fileName);
+    commitBakedAudioOffsetsToState();
 
     state.compactDirty = false;
     setCompactNotice("downloaded");
@@ -776,6 +855,7 @@ async function saveLesson() {
       throw new Error(data.error || `status=${resp.status}`);
     }
     markServerDirty(false);
+    commitBakedAudioOffsetsToState();
     if (hasNonIpaDisplayEdits) {
       state.dirty = true;
       el.saveStatus.textContent = t("nonIpaGoldSaveSkipped");
