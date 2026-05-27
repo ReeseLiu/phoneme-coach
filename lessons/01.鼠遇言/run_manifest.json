@@ -1,0 +1,103 @@
+{
+  "schema_version": "0.1.0",
+  "created_at_utc": "2026-05-27T00:50:17.702348+00:00",
+  "command": {
+    "argv": [
+      "scripts/run_experiment.py",
+      "/mnt/reesenas/phoneme-surface-lattice/inbox/SoR_Fables/鼠遇言.mp3",
+      "/mnt/reesenas/phoneme-surface-lattice/tests/runs/01.鼠遇言_rebuild_20260527_084322",
+      "--transcript",
+      "/mnt/reesenas/phoneme-surface-lattice/tests/runs/01.鼠遇言/transcript_edits.txt",
+      "--transcript-source",
+      "provided",
+      "--timeline-dir",
+      "/mnt/reesenas/phoneme-surface-lattice/tests/runs/01.鼠遇言/timeline_artifacts",
+      "--require-existing-timeline",
+      "--rules",
+      "/home/reeseliu/phoneme-surface-lattice/configs/rules_conservative.json",
+      "--ipa-mapping",
+      "/home/reeseliu/phoneme-surface-lattice/configs/ipa_mapping.json",
+      "--lesson-id",
+      "鼠遇言",
+      "--demucs-model",
+      "htdemucs",
+      "--whisper-model",
+      "medium",
+      "--wav2vec-model",
+      "facebook/wav2vec2-lv-60-espeak-cv-ft",
+      "--chunk-seconds",
+      "30.0",
+      "--overlap-seconds",
+      "2.0",
+      "--sample-rate",
+      "16000",
+      "--skip-demucs",
+      "--skip-audio-slicing"
+    ],
+    "cwd": "/home/reeseliu/phoneme-surface-lattice"
+  },
+  "git": {
+    "repo_root": "/home/reeseliu/phoneme-surface-lattice",
+    "commit": "9b96e272131a9fe30681d2d51f58f3453c9feaa2",
+    "branch": "main"
+  },
+  "environment": {
+    "python_executable": "/home/reeseliu/phoneme-surface-lattice/.venv/bin/python",
+    "python_version": "3.14.5",
+    "platform": "Linux-7.0.5-2-cachyos-x86_64-with-glibc2.43"
+  },
+  "inputs": {
+    "audio_path": "/mnt/reesenas/phoneme-surface-lattice/inbox/SoR_Fables/鼠遇言.mp3",
+    "transcript_path": "/mnt/reesenas/phoneme-surface-lattice/tests/runs/01.鼠遇言/transcript_edits.txt",
+    "transcript_source_mode": "provided",
+    "timeline_dir": "/mnt/reesenas/phoneme-surface-lattice/tests/runs/01.鼠遇言/timeline_artifacts"
+  },
+  "configs": {
+    "rules_path": "/home/reeseliu/phoneme-surface-lattice/configs/rules_conservative.json",
+    "phonetic_rules_path": null,
+    "ipa_mapping_path": "/home/reeseliu/phoneme-surface-lattice/configs/ipa_mapping.json",
+    "lesson_id": "鼠遇言"
+  },
+  "timeline_options": {
+    "demucs_model": "htdemucs",
+    "whisper_model": "medium",
+    "wav2vec_model": "facebook/wav2vec2-lv-60-espeak-cv-ft",
+    "chunk_seconds": 30.0,
+    "overlap_seconds": 2.0,
+    "sample_rate": 16000,
+    "skip_demucs": true,
+    "force_timeline": false
+  },
+  "audio_options": {
+    "skip_audio_slicing": true,
+    "audio_mode": "full_audio"
+  },
+  "review_thresholds": {
+    "sentence_alignment_threshold": 0.5,
+    "word_distance_threshold": 0.6
+  },
+  "outputs": {
+    "output_dir": "/mnt/reesenas/phoneme-surface-lattice/tests/runs/01.鼠遇言_rebuild_20260527_084322",
+    "lesson_json": "/mnt/reesenas/phoneme-surface-lattice/tests/runs/01.鼠遇言_rebuild_20260527_084322/lesson.json",
+    "low_confidence_review_json": "/mnt/reesenas/phoneme-surface-lattice/tests/runs/01.鼠遇言_rebuild_20260527_084322/low_confidence_review.json",
+    "run_manifest_json": "/mnt/reesenas/phoneme-surface-lattice/tests/runs/01.鼠遇言_rebuild_20260527_084322/run_manifest.json",
+    "timeline_artifacts": {
+      "whisper_segments_json": "/mnt/reesenas/phoneme-surface-lattice/tests/runs/01.鼠遇言/timeline_artifacts/whisper_segments.json",
+      "phoneme_timeline_json": "/mnt/reesenas/phoneme-surface-lattice/tests/runs/01.鼠遇言/timeline_artifacts/phoneme_timeline.json"
+    }
+  },
+  "summary": {
+    "sentence_count": 14,
+    "low_alignment_sentences": 0,
+    "high_distance_words": 40,
+    "estimated_timing_words": 3,
+    "timeline_source": "existing_artifacts",
+    "transcript_source": "provided_transcript",
+    "alignment": {
+      "word_count": 53,
+      "matched_word_count": 50,
+      "estimated_word_count": 3,
+      "sentences_with_estimated_words": 3
+    }
+  }
+}
