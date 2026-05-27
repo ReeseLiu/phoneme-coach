@@ -79,6 +79,7 @@ const DEFAULT_DISPLAY_TABLE = {
   "b̥̚": { ipa: "b̥̚", symbol_id: "065", kk: "b̥̚", zhuyin_plus: "ㄅ\"", zhuyin_plus_C1: "", zhuyin_plus_V: "", zhuyin_plus_C2: "ㄅ\"" },
   "d̥̚": { ipa: "d̥̚", symbol_id: "066", kk: "d̥̚", zhuyin_plus: "ㄉ\"", zhuyin_plus_C1: "", zhuyin_plus_V: "", zhuyin_plus_C2: "ㄉ\"" },
   "ɡ̊̚": { ipa: "ɡ̊̚", symbol_id: "067", kk: "ɡ̊̚", zhuyin_plus: "ㄍ\"", zhuyin_plus_C1: "", zhuyin_plus_V: "", zhuyin_plus_C2: "ㄍ\"" },
+  "ㄣ": { ipa: "ㄣ", symbol_id: "071", kk: "ㄣ", zhuyin_plus: "ㄣ", zhuyin_plus_C1: "", zhuyin_plus_V: "ㄣ", zhuyin_plus_C2: "" },
 };
 
 const DEFAULT_DISPLAY_EXCEPTIONS_PAYLOAD = {
