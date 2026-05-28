@@ -1,0 +1,574 @@
+{
+  "sentence_alignment_threshold": 0.5,
+  "word_distance_ratio_threshold": 0.6,
+  "low_alignment_sentences": [],
+  "high_distance_words": [
+    {
+      "sentence_id": "s0001",
+      "word_index": 0,
+      "word": "The",
+      "distance_ratio": 1.5,
+      "canonical_ipa": [
+        "ð",
+        "ə"
+      ],
+      "best_surface_ipa": [
+        "ð",
+        "ə"
+      ],
+      "observed_ipa": [
+        "ð",
+        "ɐ",
+        "p",
+        "oʊ"
+      ]
+    },
+    {
+      "sentence_id": "s0001",
+      "word_index": 1,
+      "word": "pony",
+      "distance_ratio": 1.5,
+      "canonical_ipa": [
+        "p",
+        "oʊ",
+        "n",
+        "i"
+      ],
+      "best_surface_ipa": [
+        "p",
+        "oʊ",
+        "n",
+        "i"
+      ],
+      "observed_ipa": [
+        "n",
+        "i",
+        "ð",
+        "ə",
+        "k",
+        "ɔːɹ"
+      ]
+    },
+    {
+      "sentence_id": "s0001",
+      "word_index": 2,
+      "word": "the",
+      "distance_ratio": 2.0,
+      "canonical_ipa": [
+        "ð",
+        "ə"
+      ],
+      "best_surface_ipa": [
+        "ð",
+        "ə"
+      ],
+      "observed_ipa": [
+        "n",
+        "ɐ",
+        "p",
+        "oʊ"
+      ]
+    },
+    {
+      "sentence_id": "s0001",
+      "word_index": 4,
+      "word": "and",
+      "distance_ratio": 0.6667,
+      "canonical_ipa": [
+        "ə",
+        "n",
+        "d"
+      ],
+      "best_surface_ipa": [
+        "ə",
+        "n",
+        "d"
+      ],
+      "observed_ipa": [
+        "æ",
+        "n",
+        "d",
+        "ɐ"
+      ]
+    },
+    {
+      "sentence_id": "s0001",
+      "word_index": 5,
+      "word": "the",
+      "distance_ratio": 1.0,
+      "canonical_ipa": [
+        "ð",
+        "ə"
+      ],
+      "best_surface_ipa": [
+        "ð",
+        "ə"
+      ],
+      "observed_ipa": [
+        "k"
+      ]
+    },
+    {
+      "sentence_id": "s0001",
+      "word_index": 6,
+      "word": "corn",
+      "distance_ratio": 0.75,
+      "canonical_ipa": [
+        "k",
+        "ɔ",
+        "ɹ",
+        "n"
+      ],
+      "best_surface_ipa": [
+        "k",
+        "ɔ",
+        "ɹ",
+        "n"
+      ],
+      "observed_ipa": [
+        "n"
+      ]
+    },
+    {
+      "sentence_id": "s0001",
+      "word_index": 7,
+      "word": "the",
+      "distance_ratio": 1.5,
+      "canonical_ipa": [
+        "ð",
+        "ə"
+      ],
+      "best_surface_ipa": [
+        "ð",
+        "ə"
+      ],
+      "observed_ipa": [
+        "ɐ",
+        "k",
+        "ɔːɹ"
+      ]
+    },
+    {
+      "sentence_id": "s0001",
+      "word_index": 8,
+      "word": "corn",
+      "distance_ratio": 0.75,
+      "canonical_ipa": [
+        "k",
+        "ɔ",
+        "ɹ",
+        "n"
+      ],
+      "best_surface_ipa": [
+        "k",
+        "ɔ",
+        "ɹ",
+        "n"
+      ],
+      "observed_ipa": [
+        "n"
+      ]
+    },
+    {
+      "sentence_id": "s0001",
+      "word_index": 9,
+      "word": "and",
+      "distance_ratio": 1.0,
+      "canonical_ipa": [
+        "ə",
+        "n",
+        "d"
+      ],
+      "best_surface_ipa": [
+        "ə",
+        "n",
+        "d"
+      ],
+      "observed_ipa": [
+        "æ",
+        "n",
+        "d",
+        "ɐ",
+        "p"
+      ]
+    },
+    {
+      "sentence_id": "s0001",
+      "word_index": 10,
+      "word": "the",
+      "distance_ratio": 1.0,
+      "canonical_ipa": [
+        "ð",
+        "ə"
+      ],
+      "best_surface_ipa": [
+        "ð",
+        "ə"
+      ],
+      "observed_ipa": [
+        "oʊ"
+      ]
+    },
+    {
+      "sentence_id": "s0001",
+      "word_index": 12,
+      "word": "the",
+      "distance_ratio": 1.0,
+      "canonical_ipa": [
+        "ð",
+        "ə"
+      ],
+      "best_surface_ipa": [
+        "ð",
+        "ə"
+      ],
+      "observed_ipa": [
+        "ð",
+        "ə",
+        "p",
+        "oʊ"
+      ]
+    },
+    {
+      "sentence_id": "s0002",
+      "word_index": 0,
+      "word": "the",
+      "distance_ratio": 1.0,
+      "canonical_ipa": [
+        "ð",
+        "ə"
+      ],
+      "best_surface_ipa": [
+        "ð",
+        "ə"
+      ],
+      "observed_ipa": [
+        "k"
+      ]
+    },
+    {
+      "sentence_id": "s0002",
+      "word_index": 1,
+      "word": "corn",
+      "distance_ratio": 0.75,
+      "canonical_ipa": [
+        "k",
+        "ɔ",
+        "ɹ",
+        "n"
+      ],
+      "best_surface_ipa": [
+        "k",
+        "ɔ",
+        "ɹ",
+        "n"
+      ],
+      "observed_ipa": [
+        "ɔːɹ",
+        "n"
+      ]
+    },
+    {
+      "sentence_id": "s0002",
+      "word_index": 2,
+      "word": "was",
+      "distance_ratio": 0.6667,
+      "canonical_ipa": [
+        "w",
+        "ɑ",
+        "z"
+      ],
+      "best_surface_ipa": [
+        "w",
+        "ɑ",
+        "z"
+      ],
+      "observed_ipa": [
+        "w",
+        "ʌ",
+        "z",
+        "ð"
+      ]
+    },
+    {
+      "sentence_id": "s0002",
+      "word_index": 3,
+      "word": "there",
+      "distance_ratio": 1.0,
+      "canonical_ipa": [
+        "ð",
+        "ɛ",
+        "ɹ"
+      ],
+      "best_surface_ipa": [
+        "ð",
+        "ɛ",
+        "ɹ"
+      ],
+      "observed_ipa": [
+        "eɪ"
+      ]
+    },
+    {
+      "sentence_id": "s0003",
+      "word_index": 0,
+      "word": "The",
+      "distance_ratio": 1.0,
+      "canonical_ipa": [
+        "ð",
+        "ə"
+      ],
+      "best_surface_ipa": [
+        "ð",
+        "ə"
+      ],
+      "observed_ipa": [
+        "p",
+        "oʊ"
+      ]
+    },
+    {
+      "sentence_id": "s0003",
+      "word_index": 2,
+      "word": "saw",
+      "distance_ratio": 1.0,
+      "canonical_ipa": [
+        "s",
+        "ɔ"
+      ],
+      "best_surface_ipa": [
+        "s",
+        "ɔ"
+      ],
+      "observed_ipa": [
+        "s",
+        "ɔː",
+        "ð"
+      ]
+    },
+    {
+      "sentence_id": "s0003",
+      "word_index": 3,
+      "word": "the",
+      "distance_ratio": 1.5,
+      "canonical_ipa": [
+        "ð",
+        "ə"
+      ],
+      "best_surface_ipa": [
+        "ð",
+        "ə"
+      ],
+      "observed_ipa": [
+        "ə",
+        "k",
+        "ɔːɹ"
+      ]
+    },
+    {
+      "sentence_id": "s0003",
+      "word_index": 4,
+      "word": "corn",
+      "distance_ratio": 0.75,
+      "canonical_ipa": [
+        "k",
+        "ɔ",
+        "ɹ",
+        "n"
+      ],
+      "best_surface_ipa": [
+        "k",
+        "ɔ",
+        "ɹ",
+        "n"
+      ],
+      "observed_ipa": [
+        "n"
+      ]
+    },
+    {
+      "sentence_id": "s0003",
+      "word_index": 6,
+      "word": "corn",
+      "distance_ratio": 0.75,
+      "canonical_ipa": [
+        "k",
+        "ɔ",
+        "ɹ",
+        "n"
+      ],
+      "best_surface_ipa": [
+        "k",
+        "ɔ",
+        "ɹ",
+        "n"
+      ],
+      "observed_ipa": [
+        "ɔːɹ",
+        "n"
+      ]
+    },
+    {
+      "sentence_id": "s0003",
+      "word_index": 7,
+      "word": "saw",
+      "distance_ratio": 1.0,
+      "canonical_ipa": [
+        "s",
+        "ɔ"
+      ],
+      "best_surface_ipa": [
+        "s",
+        "ɔ"
+      ],
+      "observed_ipa": [
+        "s",
+        "ɔː",
+        "ð"
+      ]
+    },
+    {
+      "sentence_id": "s0003",
+      "word_index": 8,
+      "word": "the",
+      "distance_ratio": 1.5,
+      "canonical_ipa": [
+        "ð",
+        "ə"
+      ],
+      "best_surface_ipa": [
+        "ð",
+        "ə"
+      ],
+      "observed_ipa": [
+        "ə",
+        "p",
+        "oʊ"
+      ]
+    },
+    {
+      "sentence_id": "s0003",
+      "word_index": 11,
+      "word": "saw",
+      "distance_ratio": 1.0,
+      "canonical_ipa": [
+        "s",
+        "ɔ"
+      ],
+      "best_surface_ipa": [
+        "s",
+        "ɔ"
+      ],
+      "observed_ipa": [
+        "ɔː"
+      ]
+    },
+    {
+      "sentence_id": "s0003",
+      "word_index": 12,
+      "word": "each",
+      "distance_ratio": 1.0,
+      "canonical_ipa": [
+        "i",
+        "tʃ"
+      ],
+      "best_surface_ipa": [
+        "i",
+        "tʃ"
+      ],
+      "observed_ipa": [
+        "iː",
+        "tʃ",
+        "ʌ"
+      ]
+    },
+    {
+      "sentence_id": "s0003",
+      "word_index": 14,
+      "word": "one",
+      "distance_ratio": 0.6667,
+      "canonical_ipa": [
+        "w",
+        "ʌ",
+        "n"
+      ],
+      "best_surface_ipa": [
+        "w",
+        "ʌ",
+        "n"
+      ],
+      "observed_ipa": [
+        "w",
+        "n",
+        "s"
+      ]
+    },
+    {
+      "sentence_id": "s0003",
+      "word_index": 16,
+      "word": "the",
+      "distance_ratio": 1.0,
+      "canonical_ipa": [
+        "ð",
+        "ə"
+      ],
+      "best_surface_ipa": [
+        "ð",
+        "ə"
+      ],
+      "observed_ipa": [
+        "ð",
+        "ɪ",
+        "ʌ"
+      ]
+    },
+    {
+      "sentence_id": "s0004",
+      "word_index": 1,
+      "word": "ever",
+      "distance_ratio": 0.6667,
+      "canonical_ipa": [
+        "ɛ",
+        "v",
+        "ɚ"
+      ],
+      "best_surface_ipa": [
+        "ɛ",
+        "v",
+        "ɚ"
+      ],
+      "observed_ipa": [
+        "ɛ",
+        "v",
+        "ɚ",
+        "ɹ",
+        "æ"
+      ]
+    },
+    {
+      "sentence_id": "s0004",
+      "word_index": 5,
+      "word": "each",
+      "distance_ratio": 1.0,
+      "canonical_ipa": [
+        "i",
+        "tʃ"
+      ],
+      "best_surface_ipa": [
+        "i",
+        "tʃ"
+      ],
+      "observed_ipa": [
+        "iː",
+        "tʃ",
+        "ʌ"
+      ]
+    }
+  ],
+  "estimated_timing_words": [],
+  "counts": {
+    "low_alignment_sentences": 0,
+    "high_distance_words": 28,
+    "estimated_timing_words": 0
+  }
+}

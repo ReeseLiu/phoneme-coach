@@ -1,0 +1,80 @@
+{
+  "schema_version": "0.1.0",
+  "created_at_utc": "2026-05-26T16:22:10.475060+00:00",
+  "command": {
+    "argv": [
+      "/home/reeseliu/phoneme-surface-lattice/scripts/run_experiment.py",
+      "/mnt/reesenas/phoneme-surface-lattice/inbox/SoR_Fables/蛇遇言.mp3",
+      "/tmp/phoneme-staging/蛇遇言",
+      "--skip-audio-slicing",
+      "--whisper-model",
+      "medium",
+      "--skip-demucs"
+    ],
+    "cwd": "/home/reeseliu/phoneme-surface-lattice"
+  },
+  "git": {
+    "repo_root": "/home/reeseliu/phoneme-surface-lattice",
+    "commit": "9b96e272131a9fe30681d2d51f58f3453c9feaa2",
+    "branch": "main"
+  },
+  "environment": {
+    "python_executable": "/home/reeseliu/phoneme-surface-lattice/.venv/bin/python",
+    "python_version": "3.14.5",
+    "platform": "Linux-7.0.5-2-cachyos-x86_64-with-glibc2.43"
+  },
+  "inputs": {
+    "audio_path": "/mnt/reesenas/phoneme-surface-lattice/inbox/SoR_Fables/蛇遇言.mp3",
+    "transcript_path": null,
+    "transcript_source_mode": "auto",
+    "timeline_dir": "timeline_artifacts"
+  },
+  "configs": {
+    "rules_path": "/home/reeseliu/phoneme-surface-lattice/configs/rules_conservative.json",
+    "phonetic_rules_path": null,
+    "ipa_mapping_path": "/home/reeseliu/phoneme-surface-lattice/configs/ipa_mapping.json",
+    "lesson_id": "蛇遇言"
+  },
+  "timeline_options": {
+    "demucs_model": "htdemucs",
+    "whisper_model": "medium",
+    "wav2vec_model": "facebook/wav2vec2-lv-60-espeak-cv-ft",
+    "chunk_seconds": 30.0,
+    "overlap_seconds": 2.0,
+    "sample_rate": 16000,
+    "skip_demucs": true,
+    "force_timeline": false
+  },
+  "audio_options": {
+    "skip_audio_slicing": true,
+    "audio_mode": "full_audio"
+  },
+  "review_thresholds": {
+    "sentence_alignment_threshold": 0.5,
+    "word_distance_threshold": 0.6
+  },
+  "outputs": {
+    "output_dir": "/tmp/phoneme-staging/蛇遇言",
+    "lesson_json": "/tmp/phoneme-staging/蛇遇言/lesson.json",
+    "low_confidence_review_json": "/tmp/phoneme-staging/蛇遇言/low_confidence_review.json",
+    "run_manifest_json": "/tmp/phoneme-staging/蛇遇言/run_manifest.json",
+    "timeline_artifacts": {
+      "whisper_segments_json": "timeline_artifacts/whisper_segments.json",
+      "phoneme_timeline_json": "timeline_artifacts/phoneme_timeline.json"
+    }
+  },
+  "summary": {
+    "sentence_count": 14,
+    "low_alignment_sentences": 0,
+    "high_distance_words": 37,
+    "estimated_timing_words": 0,
+    "timeline_source": "generated_artifacts",
+    "transcript_source": "whisper_fallback",
+    "alignment": {
+      "word_count": 57,
+      "matched_word_count": 57,
+      "estimated_word_count": 0,
+      "sentences_with_estimated_words": 0
+    }
+  }
+}
