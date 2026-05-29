@@ -569,7 +569,7 @@ button.secondary {
 .presentation-main-btn {
   min-width: 68px;
   min-height: 56px;
-  border-radius: 999px;
+  border-radius: 12px;
   border: 1px solid #cfdee8;
   background: #ffffff;
   font-size: 1.24rem;
@@ -578,9 +578,14 @@ button.secondary {
 }
 
 .presentation-play-all-btn {
-  min-width: 106px;
-  padding: 0 16px;
-  font-size: 0.96rem;
+  padding: 5px 14px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  border-radius: 8px;
+  border: 1px solid #4d7480;
+  background: linear-gradient(135deg, #5d8690, #7393ac);
+  color: #fff;
+  cursor: pointer;
 }
 
 .presentation-play-all-btn.active {
@@ -651,7 +656,7 @@ button.secondary {
   height: 42px;
   box-sizing: border-box;
   padding: 0 10px;
-  border-radius: 999px;
+  border-radius: 10px;
   background: #fff;
 }
 
@@ -660,7 +665,7 @@ button.secondary {
   height: 42px;
   box-sizing: border-box;
   padding: 0 10px;
-  border-radius: 999px;
+  border-radius: 10px;
   background: #fff;
   text-align: center;
 }
@@ -720,7 +725,7 @@ button.secondary {
   width: 74px;
   height: 42px;
   box-sizing: border-box;
-  border-radius: 999px;
+  border-radius: 10px;
   border: 1px solid var(--border);
   background: #fff;
   text-align: center;
