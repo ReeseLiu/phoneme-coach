@@ -1183,7 +1183,7 @@
     {
       "sentence_id": "s0002",
       "text": "A cub.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.26,
       "alignment_score": 1,
       "audio_path": "sentences/s0002.wav",
@@ -2321,7 +2321,7 @@
     {
       "sentence_id": "s0003",
       "text": "A cub and a cub.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 3.5,
       "alignment_score": 1,
       "audio_path": "sentences/s0003.wav",
@@ -5620,13 +5620,13 @@
       "matched_word_count": 5,
       "estimated_word_count": 0,
       "timing_source": "whisper_match",
-      "original_start_sec": 3.0,
+      "original_start_sec": 3,
       "original_end_sec": 5.5
     },
     {
       "sentence_id": "s0004",
       "text": "A cub and a cub.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 3.46,
       "alignment_score": 1,
       "audio_path": "sentences/s0004.wav",
@@ -8099,7 +8099,7 @@
           "timing_source": "whisper_match",
           "gold_display_edits": {
             "zhuyin_plus": [
-              "ㄉ(摩)",
+              "|ㄉ(摩)",
               "ㄜ"
             ]
           }
@@ -8931,7 +8931,7 @@
     {
       "sentence_id": "s0005",
       "text": "The cub was not hungry.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 4.09,
       "alignment_score": 1,
       "audio_path": "sentences/s0005.wav",
@@ -12965,7 +12965,7 @@
     {
       "sentence_id": "s0006",
       "text": "No wish to eat.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.08,
       "alignment_score": 1,
       "audio_path": "sentences/s0006.wav",
@@ -15371,7 +15371,7 @@
     {
       "sentence_id": "s0007",
       "text": "The cub was not hungry.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 3.47,
       "alignment_score": 1,
       "audio_path": "sentences/s0007.wav",
@@ -19354,7 +19354,7 @@
     {
       "sentence_id": "s0008",
       "text": "No wish to eat.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.06,
       "alignment_score": 1,
       "audio_path": "sentences/s0008.wav",
@@ -21726,7 +21726,7 @@
     {
       "sentence_id": "s0009",
       "text": "The cub saw the cub.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.2,
       "alignment_score": 1,
       "audio_path": "sentences/s0009.wav",
@@ -25056,7 +25056,7 @@
     {
       "sentence_id": "s0010",
       "text": "The cub saw the cub.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.14,
       "alignment_score": 1,
       "audio_path": "sentences/s0010.wav",
@@ -28403,7 +28403,7 @@
     {
       "sentence_id": "s0011",
       "text": "They saw each other.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.16,
       "alignment_score": 1,
       "audio_path": "sentences/s0011.wav",
@@ -30684,7 +30684,7 @@
     {
       "sentence_id": "s0012",
       "text": "One hugged the other.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.74,
       "alignment_score": 1,
       "audio_path": "sentences/s0012.wav",
@@ -34079,7 +34079,7 @@
     {
       "sentence_id": "s0013",
       "text": "Happily ever after.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.82,
       "alignment_score": 1,
       "audio_path": "sentences/s0013.wav",
@@ -36377,7 +36377,7 @@
     {
       "sentence_id": "s0014",
       "text": "Happily on each other.",
-      "start_sec": 1.0,
+      "start_sec": 1.2,
       "end_sec": 3.36,
       "alignment_score": 1,
       "audio_path": "sentences/s0014.wav",
