@@ -7023,7 +7023,7 @@
           "timing_source": "whisper_match",
           "gold_display_edits": {
             "zhuyin_plus": [
-              "ㄉ(摩)",
+              "|ㄉ(摩)",
               "ㄜ"
             ]
           }
