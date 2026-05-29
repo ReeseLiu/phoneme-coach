@@ -864,7 +864,7 @@
     {
       "sentence_id": "s0002",
       "text": "A lamp.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.382,
       "alignment_score": 0,
       "audio_path": "sentences/s0002.wav",
@@ -2148,7 +2148,7 @@
     {
       "sentence_id": "s0003",
       "text": "A lamb and a lamp.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 3.692,
       "alignment_score": 1,
       "audio_path": "sentences/s0003.wav",
@@ -5547,7 +5547,7 @@
     {
       "sentence_id": "s0004",
       "text": "A lamp and a lamb.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 3.09,
       "alignment_score": 0.4,
       "audio_path": "sentences/s0004.wav",
@@ -8804,7 +8804,7 @@
     {
       "sentence_id": "s0005",
       "text": "The lamb was lost.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 3.738,
       "alignment_score": 0.75,
       "audio_path": "sentences/s0005.wav",
@@ -11828,7 +11828,7 @@
     {
       "sentence_id": "s0006",
       "text": "No one to guide.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.22,
       "alignment_score": 1,
       "audio_path": "sentences/s0006.wav",
@@ -14440,7 +14440,7 @@
     {
       "sentence_id": "s0007",
       "text": "The lamp was out.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 3.37,
       "alignment_score": 1,
       "audio_path": "sentences/s0007.wav",
@@ -17462,7 +17462,7 @@
     {
       "sentence_id": "s0008",
       "text": "No one to guide.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.36,
       "alignment_score": 1,
       "audio_path": "sentences/s0008.wav",
@@ -20114,7 +20114,7 @@
     {
       "sentence_id": "s0009",
       "text": "The lamb saw the lamp.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 3.52,
       "alignment_score": 1,
       "audio_path": "sentences/s0009.wav",
@@ -23397,7 +23397,7 @@
     {
       "sentence_id": "s0010",
       "text": "The lamp saw the lamb.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 3.34,
       "alignment_score": 1,
       "audio_path": "sentences/s0010.wav",
@@ -26714,7 +26714,7 @@
     {
       "sentence_id": "s0011",
       "text": "They saw each other.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.52,
       "alignment_score": 1,
       "audio_path": "sentences/s0011.wav",
@@ -28995,7 +28995,7 @@
     {
       "sentence_id": "s0012",
       "text": "One guided the other.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.78,
       "alignment_score": 1,
       "audio_path": "sentences/s0012.wav",
@@ -33023,12 +33023,12 @@
       "estimated_word_count": 0,
       "timing_source": "whisper_match",
       "original_start_sec": 24.22,
-      "original_end_sec": 26.0
+      "original_end_sec": 26
     },
     {
       "sentence_id": "s0013",
       "text": "Happily ever after.",
-      "start_sec": 1.0,
+      "start_sec": 1.4,
       "end_sec": 3.44,
       "alignment_score": 1,
       "audio_path": "sentences/s0013.wav",
@@ -35343,7 +35343,7 @@
     {
       "sentence_id": "s0014",
       "text": "Happily guiding each other.",
-      "start_sec": 1.0,
+      "start_sec": 1.1,
       "end_sec": 3.68,
       "alignment_score": 1,
       "audio_path": "sentences/s0014.wav",
@@ -37462,7 +37462,15 @@
           "start_sec": 28.82,
           "end_sec": 29.36,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "gold_display_edits": {
+            "zhuyin_plus": [
+              "ㄍ",
+              "ㄞ",
+              "ㄉ(摩)",
+              "ㄧㄥ"
+            ]
+          }
         },
         {
           "word": "each",
