@@ -347,6 +347,22 @@ function bindEvents() {
     });
   }
 
+  if (el.presentationScaleDownBtn) {
+    el.presentationScaleDownBtn.addEventListener("click", () => {
+      state.presentationUiScale = Math.round(Math.max(0.5, state.presentationUiScale - 0.1) * 10) / 10;
+      applyPresentationUiScale();
+      persistPreference(STORAGE_KEYS.presentationUiScale, state.presentationUiScale);
+    });
+  }
+
+  if (el.presentationScaleUpBtn) {
+    el.presentationScaleUpBtn.addEventListener("click", () => {
+      state.presentationUiScale = Math.round(Math.min(1.0, state.presentationUiScale + 0.1) * 10) / 10;
+      applyPresentationUiScale();
+      persistPreference(STORAGE_KEYS.presentationUiScale, state.presentationUiScale);
+    });
+  }
+
   el.downloadLessonBtn.addEventListener("click", () => {
     downloadEditedLessonJson();
   });

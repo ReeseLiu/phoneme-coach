@@ -1186,3 +1186,23 @@ function requestPresentationLayoutRefresh() {
     rerenderPresentationIfActive();
   });
 }
+
+function applyPresentationUiScale() {
+  const scale = Number.isFinite(state.presentationUiScale)
+    ? Math.round(Math.max(0.5, Math.min(1.0, state.presentationUiScale)) * 10) / 10
+    : 1;
+  state.presentationUiScale = scale;
+
+  if (el.presentationSection) {
+    el.presentationSection.style.setProperty("--presentation-ui-scale", scale.toFixed(1));
+  }
+  if (el.presentationScaleDisplay) {
+    el.presentationScaleDisplay.textContent = `${Math.round(scale * 100)}%`;
+  }
+  if (el.presentationScaleDownBtn) {
+    el.presentationScaleDownBtn.disabled = scale <= 0.5;
+  }
+  if (el.presentationScaleUpBtn) {
+    el.presentationScaleUpBtn.disabled = scale >= 1.0;
+  }
+}

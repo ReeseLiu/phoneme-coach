@@ -56,7 +56,7 @@ function applyViewMode() {
   updatePresentationPlayAllButton();
   syncPresentationLoopGapInput();
   applyPresentationDisplayOptions();
-  if (presentationMode) renderPresentationLessonMeta();
+  if (presentationMode) applyPresentationUiScale();
 }
 
 function setViewMode(mode) {

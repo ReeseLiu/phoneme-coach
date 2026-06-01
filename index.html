@@ -182,13 +182,16 @@
             </div>
             <button id="presentationPhonemeToggleBtn" type="button" class="presentation-utility-btn presentation-phoneme-toggle-btn" aria-label="顯示音標">音標</button>
             <button id="presentationLoopToggleBtn" type="button" class="presentation-utility-btn presentation-loop-btn" aria-label="循環播放">⟲</button>
+            <div class="presentation-scale-wrap" aria-label="顯示比例">
+              <button id="presentationScaleDownBtn" type="button" class="presentation-scale-btn" aria-label="縮小顯示比例">−</button>
+              <span id="presentationScaleDisplay" class="presentation-scale-display">100%</span>
+              <button id="presentationScaleUpBtn" type="button" class="presentation-scale-btn" aria-label="放大顯示比例">＋</button>
+            </div>
             <div class="presentation-timing-wrap">
               <input id="presentationLoopGapInput" type="number" inputmode="decimal" min="0" max="30" step="0.5" placeholder="s" />
               <input id="presentationLoopCountInput" type="text" inputmode="numeric" pattern="[1-9][0-9]*" placeholder="#" />
             </div>
           </div>
-
-          <div id="presentationLessonMeta" class="presentation-lesson-meta"></div>
 
           <div class="presentation-stage">
             <p id="presentationSentenceText" class="presentation-sentence-text"></p>

@@ -304,6 +304,20 @@ button.secondary {
   padding: 18px;
 }
 
+body.presentation-mode {
+  overflow: hidden;
+}
+
+body.presentation-mode .presentation-section {
+  height: 100vh;
+  height: 100svh;
+  min-height: unset;
+  overflow: hidden;
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+}
+
 .view-mode-section,
 .sentence-header,
 .audio-section,
@@ -409,6 +423,7 @@ button.secondary {
 .presentation-section {
   position: relative;
   --presentation-scale: 1;
+  --presentation-ui-scale: 1;
   min-height: 72vh;
   padding: 26px 26px 96px;
   background: transparent;
@@ -423,13 +438,13 @@ button.secondary {
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: calc(30px * var(--presentation-ui-scale));
 }
 
 .presentation-sentence-text {
   margin: 0;
   font-family: "Lora", "Noto Serif TC", serif;
-  font-size: clamp(2.05rem, 4.5vw, 3.4rem);
+  font-size: clamp(1.0rem, calc(3.4rem * var(--presentation-ui-scale)), 3.4rem);
   line-height: 1.22;
   color: #273a45;
   font-weight: 700;
@@ -468,7 +483,7 @@ button.secondary {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 26px;
+  gap: calc(26px * var(--presentation-ui-scale));
 }
 
 .presentation-line-matrix {
@@ -529,7 +544,7 @@ button.secondary {
 .presentation-word-span {
   text-align: center;
   font-family: "Lora", "Noto Serif TC", serif;
-  font-size: clamp(1.65rem, calc(2.1rem * var(--presentation-scale)), 2.95rem);
+  font-size: clamp(0.9rem, calc(2.1rem * var(--presentation-scale) * var(--presentation-ui-scale)), 2.95rem);
   line-height: 1.12;
   font-weight: 700;
   color: #324957;
@@ -541,7 +556,7 @@ button.secondary {
   line-height: 1.15;
   text-align: center;
   font-family: "注音芫荽", "Noto Serif TC", serif;
-  font-size: clamp(1.28rem, calc(1.65rem * var(--presentation-scale)), 2.3rem);
+  font-size: clamp(0.75rem, calc(1.65rem * var(--presentation-scale) * var(--presentation-ui-scale)), 2.3rem);
   color: #324957;
   white-space: nowrap;
   border-radius: 10px;
@@ -649,6 +664,52 @@ button.secondary {
 
 .presentation-speed-wrap {
   min-width: 86px;
+}
+
+.presentation-scale-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  height: 42px;
+  padding: 0 2px;
+}
+
+.presentation-scale-btn {
+  width: 28px;
+  height: 34px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-size: 1.1rem;
+  cursor: pointer;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #324957;
+  transition: background 0.1s;
+}
+
+.presentation-scale-btn:hover:not(:disabled) {
+  background: rgba(70, 97, 112, 0.08);
+}
+
+.presentation-scale-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.presentation-scale-display {
+  min-width: 38px;
+  text-align: center;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #324957;
+  letter-spacing: 0.01em;
 }
 
 .presentation-display-wrap select {

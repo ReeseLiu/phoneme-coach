@@ -9,6 +9,7 @@ const STORAGE_KEYS = {
   sentenceAudioOffsets: "psl.ui.sentenceAudioOffsets",
   presentationPlaybackRate: "psl.ui.presentationPlaybackRate",
   presentationShowPhonemes: "psl.ui.presentationShowPhonemes",
+  presentationUiScale: "psl.ui.presentationUiScale",
   remoteEditsPrefix: "psl.remote.edits.",
 };
 
@@ -85,6 +86,7 @@ const state = {
   presentationPlayAllGapTimerId: null,
   presentationPlayAllLastEndedAtMs: 0,
   presentationPlaybackRate: 1,
+  presentationUiScale: 1,
   presentationShowPhonemes: true,
   offlineZipDownloading: false,
   appScreen: "entry",
@@ -215,7 +217,9 @@ const el = {
   entryLocalDirInput: document.getElementById("entryLocalDirInput"),
   entryLocalStatus: document.getElementById("entryLocalStatus"),
   entryOrDivider: document.getElementById("entryOrDivider"),
-  presentationLessonMeta: document.getElementById("presentationLessonMeta"),
+  presentationScaleDownBtn: document.getElementById("presentationScaleDownBtn"),
+  presentationScaleUpBtn: document.getElementById("presentationScaleUpBtn"),
+  presentationScaleDisplay: document.getElementById("presentationScaleDisplay"),
   wordHeader: document.getElementById("wordHeader"),
   canonicalHeader: document.getElementById("canonicalHeader"),
   candidatesHeader: document.getElementById("candidatesHeader"),

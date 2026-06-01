@@ -72,6 +72,14 @@ function loadPreferences() {
     state.presentationShowPhonemes = true;
   }
 
+  const savedUiScale = safeLocalStorageGetItem(STORAGE_KEYS.presentationUiScale);
+  if (savedUiScale !== null) {
+    const parsed = parseFloat(savedUiScale);
+    if (Number.isFinite(parsed) && parsed >= 0.5 && parsed <= 1.0) {
+      state.presentationUiScale = Math.round(parsed * 10) / 10;
+    }
+  }
+
   state.sentenceAudioOffsets = parseSentenceAudioOffsets(safeLocalStorageGetItem(STORAGE_KEYS.sentenceAudioOffsets));
 }
 
