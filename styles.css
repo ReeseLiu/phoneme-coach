@@ -304,15 +304,8 @@ button.secondary {
   padding: 18px;
 }
 
-body.presentation-mode {
-  overflow: hidden;
-}
-
 body.presentation-mode .presentation-section {
-  height: 100vh;
-  height: 100svh;
-  min-height: unset;
-  overflow: hidden;
+  min-height: 100svh;
   border-radius: 0;
   border-left: none;
   border-right: none;
