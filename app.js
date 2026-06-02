@@ -10,6 +10,7 @@ const STORAGE_KEYS = {
   presentationPlaybackRate: "psl.ui.presentationPlaybackRate",
   presentationShowPhonemes: "psl.ui.presentationShowPhonemes",
   presentationUiScale: "psl.ui.presentationUiScale",
+  presentationShowTones: "psl.ui.presentationShowTones",
   remoteEditsPrefix: "psl.remote.edits.",
 };
 
@@ -88,6 +89,8 @@ const state = {
   presentationPlaybackRate: 1,
   presentationUiScale: 1,
   presentationShowPhonemes: true,
+  presentationShowTones: false,
+  prePresentationViewMode: "compact",
   offlineZipDownloading: false,
   appScreen: "entry",
   remoteCatalog: null,
@@ -195,6 +198,7 @@ const el = {
   presentationDisplaySystemSelect: document.getElementById("presentationDisplaySystemSelect"),
   presentationSpeedSelect: document.getElementById("presentationSpeedSelect"),
   presentationPhonemeToggleBtn: document.getElementById("presentationPhonemeToggleBtn"),
+  presentationToneToggleBtn: document.getElementById("presentationToneToggleBtn"),
   presentationReturnBtn: document.getElementById("presentationReturnBtn"),
   presentationStartMinusBtn: document.getElementById("presentationStartMinusBtn"),
   presentationStartPlusBtn: document.getElementById("presentationStartPlusBtn"),
@@ -226,6 +230,7 @@ const el = {
   phoneticHeader: document.getElementById("phoneticHeader"),
   observedHeader: document.getElementById("observedHeader"),
   goldHeader: document.getElementById("goldHeader"),
+  toneHeader: document.getElementById("toneHeader"),
   notesHeader: document.getElementById("notesHeader"),
   wordTableBody: document.getElementById("wordTableBody"),
   wordRowTemplate: document.getElementById("wordRowTemplate"),
@@ -569,6 +574,7 @@ function applyLanguageToStaticText() {
   el.sentenceTitle.textContent = t("sentenceTitle");
   el.wordHeader.textContent = t("wordHeader");
   el.goldHeader.textContent = t("goldHeader");
+  if (el.toneHeader) el.toneHeader.textContent = t("toneHeader");
   el.notesHeader.textContent = t("notesHeader");
 
   document.querySelectorAll(".gold-quick-fill-label").forEach((label) => {
@@ -597,6 +603,7 @@ function applyLanguageToStaticText() {
   updatePresentationPlayAllButton();
   updatePresentationSpeedLabel();
   updatePresentationPhonemeToggleButton();
+  updatePresentationToneToggleButton();
 
   updateAudioEffectiveRangeText();
   renderLocalLessonStatus();
@@ -688,6 +695,7 @@ function applyLanguage() {
   updatePresentationPlayPauseButton();
   updatePresentationLoopToggleButton();
   updatePresentationPhonemeToggleButton();
+  updatePresentationToneToggleButton();
   updatePresentationSpeedLabel();
 
   renderSentence();

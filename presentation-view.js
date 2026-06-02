@@ -518,7 +518,8 @@ function buildPresentationWordLayout(word) {
       const tokenCount = columns.reduce((count, column) => {
         return count + PRESENTATION_SLOT_ORDER.reduce((inner, slot) => inner + (column.slots[slot] || []).length, 0);
       }, 0);
-      return { wordText, columns, tokenCount };
+      const syllableTones = Array.isArray(word?.syllable_tones) ? word.syllable_tones : [];
+      return { wordText, columns, tokenCount, syllableTones };
     }
   }
 
@@ -533,6 +534,7 @@ function buildPresentationWordLayout(word) {
       wordText,
       columns: [],
       tokenCount: 0,
+      syllableTones: [],
     };
   }
 
@@ -545,6 +547,7 @@ function buildPresentationWordLayout(word) {
     wordText,
     columns,
     tokenCount,
+    syllableTones: Array.isArray(word?.syllable_tones) ? word.syllable_tones : [],
   };
 }
 
@@ -871,6 +874,7 @@ function buildPresentationLineMatrix(wordLayouts, lineIndex = 0, scale = 1, layo
     groups.push({
       wordText: String(layout?.wordText || "").trim() || "...",
       columns: cols,
+      syllableTones: Array.isArray(layout?.syllableTones) ? layout.syllableTones : [],
     });
     columnCount += cols.length;
   });
@@ -907,6 +911,30 @@ function buildPresentationLineMatrix(wordLayouts, lineIndex = 0, scale = 1, layo
     wordCell.className = "presentation-word-cell presentation-word-span";
     wordCell.textContent = group.wordText;
     wordGroup.appendChild(wordCell);
+
+    const toneRow = document.createElement("div");
+    toneRow.className = "presentation-word-slot-row presentation-word-slot-row-tone";
+    const toneCells = document.createElement("div");
+    toneCells.className = "presentation-word-slot-cells presentation-word-slot-cells-tone";
+    group.columns.forEach((column, colIdx) => {
+      const isEmpty = column.slots.C1.length === 0
+        && column.slots.V.length === 0
+        && column.slots.C2.length === 0;
+      const cell = document.createElement("span");
+      cell.className = "presentation-slot-cell presentation-slot-cell-tone";
+      if (isEmpty) {
+        cell.style.visibility = "hidden";
+      } else {
+        const toneVal = String(group.syllableTones[colIdx] || "").trim();
+        cell.textContent = toneVal || "-";
+        if (!toneVal) {
+          cell.classList.add("empty");
+        }
+      }
+      toneCells.appendChild(cell);
+    });
+    toneRow.appendChild(toneCells);
+    wordGroup.appendChild(toneRow);
 
     PRESENTATION_SLOT_ORDER.forEach((slot) => {
       const slotRow = document.createElement("div");

@@ -248,7 +248,7 @@ function bindEvents() {
 
   if (el.presentationReturnBtn) {
     el.presentationReturnBtn.addEventListener("click", () => {
-      setViewMode("compact");
+      setViewMode(state.prePresentationViewMode || "compact");
     });
   }
 
@@ -344,6 +344,12 @@ function bindEvents() {
   if (el.presentationPhonemeToggleBtn) {
     el.presentationPhonemeToggleBtn.addEventListener("click", () => {
       applyPresentationPhonemeVisibility(!state.presentationShowPhonemes, true);
+    });
+  }
+
+  if (el.presentationToneToggleBtn) {
+    el.presentationToneToggleBtn.addEventListener("click", () => {
+      applyPresentationToneToggle(!state.presentationShowTones, true);
     });
   }
 

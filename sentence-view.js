@@ -72,6 +72,9 @@ function setViewMode(mode) {
   if (state.viewMode === "presentation" && next !== "presentation") {
     stopPresentationPlayAll();
   }
+  if (next === "presentation" && state.viewMode !== "presentation") {
+    state.prePresentationViewMode = state.viewMode;
+  }
   state.viewMode = next;
   state.activeGoldInput = null;
   applyViewMode();
@@ -134,6 +137,7 @@ function applyShowDetailsMode() {
 function applyPresentationDisplayOptions() {
   applyPresentationPlaybackRate(state.presentationPlaybackRate, false);
   applyPresentationPhonemeVisibility(state.presentationShowPhonemes, false);
+  applyPresentationToneToggle(state.presentationShowTones, false);
 }
 
 function ensureSentenceIndexInBounds() {

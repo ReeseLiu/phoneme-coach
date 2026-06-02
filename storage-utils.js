@@ -72,6 +72,13 @@ function loadPreferences() {
     state.presentationShowPhonemes = true;
   }
 
+  const savedShowTones = safeLocalStorageGetItem(STORAGE_KEYS.presentationShowTones);
+  if (savedShowTones === "1") {
+    state.presentationShowTones = true;
+  } else if (savedShowTones === "0") {
+    state.presentationShowTones = false;
+  }
+
   const savedUiScale = safeLocalStorageGetItem(STORAGE_KEYS.presentationUiScale);
   if (savedUiScale !== null) {
     const parsed = parseFloat(savedUiScale);

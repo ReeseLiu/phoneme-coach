@@ -266,6 +266,51 @@ function renderWordRows(sentence) {
       markDirty(true);
     });
 
+    const tonesCell = node.querySelector(".syllable-tones-cell");
+    if (tonesCell) {
+      const initialTones = Array.isArray(word.syllable_tones) ? [...word.syllable_tones] : [];
+
+      const syncToneInputs = () => {
+        const layout = buildPresentationWordLayout(word);
+        const colCount = Math.max(1, layout.columns.length || Number(word.teaching_phonetic_candidate?.syllable_count) || 1);
+        const current = Array.from(tonesCell.querySelectorAll(".tone-input"));
+        if (current.length === colCount) {
+          return;
+        }
+        tonesCell.innerHTML = "";
+        for (let i = 0; i < colCount; i += 1) {
+          const toneInput = document.createElement("input");
+          toneInput.type = "text";
+          toneInput.maxLength = 1;
+          toneInput.className = "tone-input";
+          toneInput.dataset.syllableIndex = String(i);
+          toneInput.value = String(word.syllable_tones?.[i] || "");
+          const initial = String(initialTones[i] || "");
+          if (toneInput.value !== initial) {
+            toneInput.classList.add("changed");
+          }
+          toneInput.addEventListener("input", () => {
+            if (!Array.isArray(word.syllable_tones)) {
+              word.syllable_tones = [];
+            }
+            word.syllable_tones[i] = toneInput.value;
+            if (toneInput.value !== String(initialTones[i] || "")) {
+              toneInput.classList.add("changed");
+            } else {
+              toneInput.classList.remove("changed");
+            }
+            markServerDirty(true);
+            markDirty(true);
+          });
+          tonesCell.appendChild(toneInput);
+        }
+      };
+
+      syncToneInputs();
+
+      goldInput.addEventListener("input", syncToneInputs);
+    }
+
     el.wordTableBody.appendChild(node);
   });
 }

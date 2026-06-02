@@ -566,6 +566,23 @@ body.presentation-mode .presentation-section {
   color: #c0392b;
 }
 
+.presentation-slot-cell-tone {
+  color: #2ec97a;
+  font-size: clamp(0.7rem, calc(1.45rem * var(--presentation-scale) * var(--presentation-ui-scale)), 2rem);
+}
+
+.presentation-word-slot-row-tone {
+  display: none;
+}
+
+.presentation-show-tones .presentation-word-slot-row-tone {
+  display: block;
+}
+
+.presentation-show-tones .presentation-word-group {
+  grid-template-rows: repeat(5, minmax(0, auto));
+}
+
 .presentation-main-controls {
   display: inline-flex;
   align-items: center;
@@ -724,7 +741,8 @@ body.presentation-mode .presentation-section {
   text-align: center;
 }
 
-.presentation-phoneme-toggle-btn {
+.presentation-phoneme-toggle-btn,
+.presentation-tone-toggle-btn {
   min-width: 72px;
   height: 42px;
   padding: 0 14px;
@@ -736,6 +754,12 @@ body.presentation-mode .presentation-section {
   background: linear-gradient(135deg, #5d8690, #7393ac);
   color: #fff;
   border-color: #4d7480;
+}
+
+.presentation-tone-toggle-btn.active {
+  background: linear-gradient(135deg, #2a9a5e, #3db872);
+  color: #fff;
+  border-color: #228a4e;
 }
 
 .presentation-hide-phonemes .presentation-phoneme-label {
@@ -1145,6 +1169,31 @@ th {
   margin-top: 6px;
   font-size: 0.82rem;
   color: var(--text-muted);
+}
+
+.syllable-tones-cell {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+
+.tone-input {
+  width: 2.2em;
+  height: 2.2em;
+  text-align: center;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2a8a54;
+  background: #fff;
+}
+
+.tone-input.changed {
+  border-color: var(--warning);
+  box-shadow: 0 0 0 2px rgba(154, 77, 22, 0.12);
 }
 
 .gold-quick-fill-row {

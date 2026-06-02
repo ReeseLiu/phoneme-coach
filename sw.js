@@ -1,4 +1,4 @@
-const CACHE_NAME = 'phoneme-coach-v37';
+const CACHE_NAME = 'phoneme-coach-v38';
 
 const SHELL_ASSETS = [
   './index.html',

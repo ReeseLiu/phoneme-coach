@@ -181,6 +181,7 @@
               </select>
             </div>
             <button id="presentationPhonemeToggleBtn" type="button" class="presentation-utility-btn presentation-phoneme-toggle-btn" aria-label="顯示音標">音標</button>
+            <button id="presentationToneToggleBtn" type="button" class="presentation-utility-btn presentation-tone-toggle-btn" aria-label="顯示語調">語調</button>
             <button id="presentationLoopToggleBtn" type="button" class="presentation-utility-btn presentation-loop-btn" aria-label="循環播放">⟲</button>
             <div class="presentation-scale-wrap" aria-label="顯示比例">
               <button id="presentationScaleDownBtn" type="button" class="presentation-scale-btn" aria-label="縮小顯示比例">−</button>
@@ -262,6 +263,7 @@
                 <th id="phoneticHeader" class="phonetic-col">Phonetic Detail (IPA)</th>
                 <th id="observedHeader">Observed (IPA)</th>
                 <th id="goldHeader">Gold IPA（可編輯）</th>
+                <th id="toneHeader">語調</th>
                 <th id="notesHeader">註記</th>
               </tr>
             </thead>
@@ -296,6 +298,9 @@
             <select class="gold-quick-fill-select"></select>
           </div>
           <div class="gold-display"></div>
+        </td>
+        <td>
+          <div class="syllable-tones-cell"></div>
         </td>
         <td>
           <textarea class="notes-input" rows="2"></textarea>

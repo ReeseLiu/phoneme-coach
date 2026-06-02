@@ -113,6 +113,34 @@ function updatePresentationPhonemeToggleButton() {
   el.presentationPhonemeToggleBtn.title = hint;
 }
 
+function applyPresentationToneToggle(show, persist = true) {
+  state.presentationShowTones = !!show;
+  if (el.presentationSection) {
+    el.presentationSection.classList.toggle("presentation-show-tones", state.presentationShowTones);
+  }
+  if (persist) {
+    persistPreference(STORAGE_KEYS.presentationShowTones, state.presentationShowTones ? "1" : "0");
+  }
+  updatePresentationToneToggleButton();
+}
+
+function updatePresentationToneToggleButton() {
+  if (!el.presentationToneToggleBtn) {
+    return;
+  }
+  const active = !!state.presentationShowTones;
+  el.presentationToneToggleBtn.classList.toggle("active", active);
+  el.presentationToneToggleBtn.setAttribute("aria-pressed", active ? "true" : "false");
+  el.presentationToneToggleBtn.textContent = active
+    ? t("presentationToneToggleOn")
+    : t("presentationToneToggleOff");
+  const hint = active
+    ? t("presentationToneToggleOnHint")
+    : t("presentationToneToggleOffHint");
+  el.presentationToneToggleBtn.setAttribute("aria-label", hint);
+  el.presentationToneToggleBtn.title = hint;
+}
+
 function adjustPresentationPlaybackRate(direction) {
   if (!Number.isFinite(direction) || direction === 0) {
     return;
