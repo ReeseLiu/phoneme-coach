@@ -265268,18 +265268,18 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "5"
+            "1"
           ],
           "syllable_tone_analysis": [
             {
               "syllable_index": 0,
-              "mandarin_tone_guess": "5",
+              "mandarin_tone_guess": "1",
               "confidence": 0.75,
               "source": "text_prosody_rule_v1",
-              "reason": "sentence_middle_single_function_word",
+              "reason": "sentence_middle_single_content_word",
               "sentence_final": false,
               "question_sentence": false,
-              "content_word": false,
+              "content_word": true,
               "stressed_syllable": true
             }
           ]
@@ -334754,18 +334754,18 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "5"
+            "1"
           ],
           "syllable_tone_analysis": [
             {
               "syllable_index": 0,
-              "mandarin_tone_guess": "5",
+              "mandarin_tone_guess": "1",
               "confidence": 0.75,
               "source": "text_prosody_rule_v1",
-              "reason": "sentence_middle_single_function_word",
+              "reason": "sentence_middle_single_content_word",
               "sentence_final": false,
               "question_sentence": false,
-              "content_word": false,
+              "content_word": true,
               "stressed_syllable": true
             }
           ]
@@ -377998,18 +377998,18 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "5"
+            "1"
           ],
           "syllable_tone_analysis": [
             {
               "syllable_index": 0,
-              "mandarin_tone_guess": "5",
+              "mandarin_tone_guess": "1",
               "confidence": 0.75,
               "source": "text_prosody_rule_v1",
-              "reason": "sentence_middle_single_function_word",
+              "reason": "sentence_middle_single_content_word",
               "sentence_final": false,
               "question_sentence": false,
-              "content_word": false,
+              "content_word": true,
               "stressed_syllable": true
             }
           ]
