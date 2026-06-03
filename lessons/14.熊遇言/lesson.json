@@ -354,7 +354,23 @@
           "start_sec": 0.63,
           "end_sec": 1.09,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_function_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": false,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "bear",
@@ -882,7 +898,23 @@
           "start_sec": 1.09,
           "end_sec": 1.45,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "4"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "4",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_final_statement_single_syllable",
+              "sentence_final": true,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            }
+          ]
         }
       ],
       "matched_word_count": 2,
@@ -1369,7 +1401,23 @@
             "zhuyin_plus": [
               "ㄣ"
             ]
-          }
+          },
+          "syllable_tones": [
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_function_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": false,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "island",
@@ -2824,7 +2872,35 @@
               "ㄞ",
               "ㄌ(黏)ㄣㄉ\""
             ]
-          }
+          },
+          "syllable_tones": [
+            "1",
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_final_statement_multisyllable_stress_position",
+              "sentence_final": true,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            },
+            {
+              "syllable_index": 1,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_final_statement_multisyllable_stress_position",
+              "sentence_final": true,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": false
+            }
+          ]
         }
       ],
       "matched_word_count": 2,
@@ -3179,7 +3255,23 @@
           "start_sec": 3.88,
           "end_sec": 4.32,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_function_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": false,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "bear",
@@ -3730,7 +3822,23 @@
           "start_sec": 4.32,
           "end_sec": 4.6,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "1"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "and",
@@ -4753,7 +4861,23 @@
               "ㄝㄚ",
               "ㄋ~"
             ]
-          }
+          },
+          "syllable_tones": [
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_function_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": false,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "an",
@@ -5207,7 +5331,23 @@
             "zhuyin_plus": [
               "|ㄉ(摩)ㄣ"
             ]
-          }
+          },
+          "syllable_tones": [
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_function_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": false,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "island",
@@ -6664,7 +6804,35 @@
               "ㄣ",
               "ㄉ\""
             ]
-          }
+          },
+          "syllable_tones": [
+            "1",
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_final_statement_multisyllable_stress_position",
+              "sentence_final": true,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            },
+            {
+              "syllable_index": 1,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_final_statement_multisyllable_stress_position",
+              "sentence_final": true,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": false
+            }
+          ]
         }
       ],
       "matched_word_count": 5,
@@ -7134,7 +7302,23 @@
             "zhuyin_plus": [
               "ㄣ"
             ]
-          }
+          },
+          "syllable_tones": [
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_function_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": false,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "island",
@@ -8590,7 +8774,35 @@
               "ㄌ(黏)",
               "ㄣㄉ\""
             ]
-          }
+          },
+          "syllable_tones": [
+            "1",
+            "1"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_multisyllable_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            },
+            {
+              "syllable_index": 1,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_multisyllable_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": false
+            }
+          ]
         },
         {
           "word": "and",
@@ -9613,7 +9825,23 @@
               "ㄝㄚ",
               "ㄋ~"
             ]
-          }
+          },
+          "syllable_tones": [
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_function_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": false,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "a",
@@ -9941,7 +10169,23 @@
               "|ㄉ(摩)",
               "ㄜ"
             ]
-          }
+          },
+          "syllable_tones": [
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_function_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": false,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "bear",
@@ -10469,7 +10713,23 @@
           "start_sec": 7.9,
           "end_sec": 8.24,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "4"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "4",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_final_statement_single_syllable",
+              "sentence_final": true,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            }
+          ]
         }
       ],
       "matched_word_count": 5,
@@ -11094,7 +11354,23 @@
           "start_sec": 8.96,
           "end_sec": 9.56,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_function_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": false,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "bear",
@@ -11645,7 +11921,23 @@
           "start_sec": 9.56,
           "end_sec": 9.84,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "1"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "was",
@@ -12254,7 +12546,23 @@
               "ㄜ",
               "z"
             ]
-          }
+          },
+          "syllable_tones": [
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_function_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": false,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "careful",
@@ -13198,7 +13506,35 @@
           "start_sec": 10.3,
           "end_sec": 10.96,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "1",
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_final_statement_multisyllable_stress_position",
+              "sentence_final": true,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            },
+            {
+              "syllable_index": 1,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_final_statement_multisyllable_stress_position",
+              "sentence_final": true,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": false
+            }
+          ]
         }
       ],
       "matched_word_count": 4,
@@ -13801,7 +14137,23 @@
               "|ㄈ",
               "ㄧㄨ"
             ]
-          }
+          },
+          "syllable_tones": [
+            "1"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "things",
@@ -14768,7 +15120,23 @@
               "ㄧㄥ",
               "ㄙ"
             ]
-          }
+          },
+          "syllable_tones": [
+            "1"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "were",
@@ -15230,7 +15598,23 @@
           "start_sec": 12.67,
           "end_sec": 13.01,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_function_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": false,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "said",
@@ -16211,7 +16595,23 @@
           "start_sec": 13.01,
           "end_sec": 13.47,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "4"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "4",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_final_statement_single_syllable",
+              "sentence_final": true,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            }
+          ]
         }
       ],
       "matched_word_count": 4,
@@ -16842,7 +17242,23 @@
               "Z(θ)",
               "ㄧ"
             ]
-          }
+          },
+          "syllable_tones": [
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_function_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": false,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "island",
@@ -18291,7 +18707,35 @@
           "start_sec": 15.86,
           "end_sec": 16.22,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "1",
+            "1"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_multisyllable_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            },
+            {
+              "syllable_index": 1,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_multisyllable_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": false
+            }
+          ]
         },
         {
           "word": "was",
@@ -18893,7 +19337,23 @@
           "start_sec": 16.22,
           "end_sec": 16.62,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_function_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": false,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "grateful",
@@ -19994,7 +20454,35 @@
           "start_sec": 16.62,
           "end_sec": 17.24,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "1",
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_final_statement_multisyllable_stress_position",
+              "sentence_final": true,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            },
+            {
+              "syllable_index": 1,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_final_statement_multisyllable_stress_position",
+              "sentence_final": true,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": false
+            }
+          ]
         }
       ],
       "matched_word_count": 4,
@@ -21234,7 +21722,23 @@
           "start_sec": 17.99,
           "end_sec": 18.65,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "1"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "things",
@@ -22201,7 +22705,23 @@
               "ㄧㄥ",
               "ㄙ"
             ]
-          }
+          },
+          "syllable_tones": [
+            "1"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "were",
@@ -22663,7 +23183,23 @@
           "start_sec": 19.55,
           "end_sec": 20.19,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_function_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": false,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "read",
@@ -23651,7 +24187,23 @@
               "ㄝ",
               "ㄉ\""
             ]
-          }
+          },
+          "syllable_tones": [
+            "4"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "4",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_final_statement_single_syllable",
+              "sentence_final": true,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            }
+          ]
         }
       ],
       "matched_word_count": 3,
@@ -24293,7 +24845,23 @@
           "start_sec": 21.76,
           "end_sec": 22.26,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_function_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": false,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "bear",
@@ -24821,7 +25389,23 @@
           "start_sec": 22.26,
           "end_sec": 22.5,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "1"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "saw",
@@ -25266,7 +25850,23 @@
           "start_sec": 22.5,
           "end_sec": 22.8,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "1"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "the",
@@ -25881,7 +26481,23 @@
               "Z(θ)",
               "ㄧ"
             ]
-          }
+          },
+          "syllable_tones": [
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_function_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": false,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "island",
@@ -27330,7 +27946,35 @@
           "start_sec": 23.1,
           "end_sec": 23.56,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "1",
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_final_statement_multisyllable_stress_position",
+              "sentence_final": true,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            },
+            {
+              "syllable_index": 1,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_final_statement_multisyllable_stress_position",
+              "sentence_final": true,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": false
+            }
+          ]
         }
       ],
       "matched_word_count": 5,
@@ -27961,7 +28605,23 @@
               "Z(θ)",
               "ㄧ"
             ]
-          }
+          },
+          "syllable_tones": [
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_function_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": false,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "island",
@@ -29410,7 +30070,35 @@
           "start_sec": 24.55,
           "end_sec": 24.85,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "1",
+            "1"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_multisyllable_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            },
+            {
+              "syllable_index": 1,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_multisyllable_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": false
+            }
+          ]
         },
         {
           "word": "saw",
@@ -29855,7 +30543,23 @@
           "start_sec": 24.85,
           "end_sec": 25.17,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "1"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "the",
@@ -30481,7 +31185,23 @@
           "start_sec": 25.17,
           "end_sec": 25.45,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_function_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": false,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "bear",
@@ -31009,7 +31729,23 @@
           "start_sec": 25.45,
           "end_sec": 25.79,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "4"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "4",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_final_statement_single_syllable",
+              "sentence_final": true,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            }
+          ]
         }
       ],
       "matched_word_count": 5,
@@ -31617,7 +32353,23 @@
           "start_sec": 26.35,
           "end_sec": 26.91,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_function_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": false,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "saw",
@@ -32045,7 +32797,23 @@
           "start_sec": 26.91,
           "end_sec": 27.19,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "1"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "each",
@@ -32495,7 +33263,23 @@
             "zhuyin_plus": [
               "ㄧ(微)"
             ]
-          }
+          },
+          "syllable_tones": [
+            "1"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "other",
@@ -33273,7 +34057,35 @@
               "Z(θ)",
               "ㄦ"
             ]
-          }
+          },
+          "syllable_tones": [
+            "1",
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_final_statement_multisyllable_stress_position",
+              "sentence_final": true,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            },
+            {
+              "syllable_index": 1,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_final_statement_multisyllable_stress_position",
+              "sentence_final": true,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": false
+            }
+          ]
         }
       ],
       "matched_word_count": 4,
@@ -33878,7 +34690,23 @@
           "start_sec": 28.36,
           "end_sec": 29.1,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "1"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "loved",
@@ -35106,7 +35934,23 @@
           "start_sec": 29.1,
           "end_sec": 29.68,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "1"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "the",
@@ -35721,7 +36565,23 @@
               "Z(θ)",
               "ㄧ"
             ]
-          }
+          },
+          "syllable_tones": [
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_function_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": false,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "other",
@@ -36474,7 +37334,35 @@
           "start_sec": 30.14,
           "end_sec": 30.76,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "1",
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_final_statement_multisyllable_stress_position",
+              "sentence_final": true,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            },
+            {
+              "syllable_index": 1,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_final_statement_multisyllable_stress_position",
+              "sentence_final": true,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": false
+            }
+          ]
         }
       ],
       "matched_word_count": 4,
@@ -37481,7 +38369,47 @@
           "start_sec": 31.54,
           "end_sec": 32.08,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "1",
+            "1",
+            "1"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_multisyllable_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            },
+            {
+              "syllable_index": 1,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_multisyllable_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": false
+            },
+            {
+              "syllable_index": 2,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_multisyllable_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": false
+            }
+          ]
         },
         {
           "word": "ever",
@@ -38079,7 +39007,35 @@
           "start_sec": 32.08,
           "end_sec": 32.54,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "1",
+            "1"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_multisyllable_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            },
+            {
+              "syllable_index": 1,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_multisyllable_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": false
+            }
+          ]
         },
         {
           "word": "after",
@@ -38806,7 +39762,35 @@
               "ㄉ(摩)",
               "ㄦ"
             ]
-          }
+          },
+          "syllable_tones": [
+            "1",
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_final_statement_multisyllable_stress_position",
+              "sentence_final": true,
+              "question_sentence": false,
+              "content_word": false,
+              "stressed_syllable": true
+            },
+            {
+              "syllable_index": 1,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_final_statement_multisyllable_stress_position",
+              "sentence_final": true,
+              "question_sentence": false,
+              "content_word": false,
+              "stressed_syllable": false
+            }
+          ]
         }
       ],
       "matched_word_count": 3,
@@ -39813,7 +40797,47 @@
           "start_sec": 33.55,
           "end_sec": 34.21,
           "aligned_to_whisper": true,
-          "timing_source": "whisper_match"
+          "timing_source": "whisper_match",
+          "syllable_tones": [
+            "1",
+            "1",
+            "1"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_multisyllable_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            },
+            {
+              "syllable_index": 1,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_multisyllable_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": false
+            },
+            {
+              "syllable_index": 2,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_multisyllable_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": false
+            }
+          ]
         },
         {
           "word": "loving",
@@ -40684,7 +41708,35 @@
               "ㄈ(v)",
               "ㄧㄥ"
             ]
-          }
+          },
+          "syllable_tones": [
+            "1",
+            "1"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_multisyllable_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            },
+            {
+              "syllable_index": 1,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_multisyllable_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": false
+            }
+          ]
         },
         {
           "word": "each",
@@ -41151,7 +42203,23 @@
             "zhuyin_plus": [
               "ㄧ(微)"
             ]
-          }
+          },
+          "syllable_tones": [
+            "1"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_middle_single_content_word",
+              "sentence_final": false,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            }
+          ]
         },
         {
           "word": "other",
@@ -41912,7 +42980,35 @@
               "Z(θ)",
               "ㄦ"
             ]
-          }
+          },
+          "syllable_tones": [
+            "1",
+            "5"
+          ],
+          "syllable_tone_analysis": [
+            {
+              "syllable_index": 0,
+              "mandarin_tone_guess": "1",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_final_statement_multisyllable_stress_position",
+              "sentence_final": true,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": true
+            },
+            {
+              "syllable_index": 1,
+              "mandarin_tone_guess": "5",
+              "confidence": 0.75,
+              "source": "text_prosody_rule_v1",
+              "reason": "sentence_final_statement_multisyllable_stress_position",
+              "sentence_final": true,
+              "question_sentence": false,
+              "content_word": true,
+              "stressed_syllable": false
+            }
+          ]
         }
       ],
       "matched_word_count": 4,
