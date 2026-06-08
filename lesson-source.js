@@ -402,6 +402,7 @@ async function importLocalLessonDirectory(fileList) {
     resetLessonStateForImport();
 
     renderLessonOptions();
+    loadCompletedSentences();
     rebuildSentenceSelect();
     applyLanguage();
 
@@ -585,6 +586,7 @@ async function loadRemoteLesson(slug) {
     resetLessonStateForImport();
     if (hadSavedEdits) state.dirty = true;
     renderLessonOptions();
+    loadCompletedSentences();
     rebuildSentenceSelect();
     applyLanguage();
     updateClearRemoteEditsBtn();
@@ -690,6 +692,7 @@ async function loadCurrentLesson() {
   }
 
   resetLessonStateForImport();
+  loadCompletedSentences();
   rebuildSentenceSelect();
   applyLanguage();
 }

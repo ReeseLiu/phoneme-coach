@@ -164,3 +164,14 @@ function clearRemoteLessonEditsFromStorage(slug) {
   safeLocalStorageRemoveItem(STORAGE_KEYS.remoteEditsPrefix + slug);
   state.remoteSavedToLocalStorage = false;
 }
+
+function loadCompletedSentences() {
+  const key = STORAGE_KEYS.completionPrefix + (state.currentLessonKey || "");
+  const raw = safeLocalStorageGetItem(key);
+  state.completedSentences = new Set(raw ? JSON.parse(raw) : []);
+}
+
+function saveCompletedSentences() {
+  const key = STORAGE_KEYS.completionPrefix + (state.currentLessonKey || "");
+  safeLocalStorageSetItem(key, JSON.stringify([...state.completedSentences]));
+}

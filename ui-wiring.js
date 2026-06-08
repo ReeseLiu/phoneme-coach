@@ -369,6 +369,23 @@ function bindEvents() {
     });
   }
 
+  if (el.presentationMarkDoneBtn) {
+    el.presentationMarkDoneBtn.addEventListener("click", () => {
+      const sentence = getCurrentSentence();
+      if (!sentence) return;
+      if (state.completedSentences.has(sentence.sentence_id)) {
+        state.completedSentences.delete(sentence.sentence_id);
+      } else {
+        state.completedSentences.add(sentence.sentence_id);
+      }
+      saveCompletedSentences();
+      updatePresentationMarkDoneBtn();
+      renderPresentationTranscript();
+      renderPresentationLessonMeta();
+      rebuildSentenceSelect();
+    });
+  }
+
   el.downloadLessonBtn.addEventListener("click", () => {
     downloadEditedLessonJson();
   });

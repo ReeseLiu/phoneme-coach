@@ -1417,6 +1417,10 @@ audio::-webkit-media-controls-mute-button {
   font-weight: 600;
 }
 
+.presentation-transcript-row.completed {
+  opacity: 0.5;
+}
+
 .presentation-offset-controls {
   display: flex;
   gap: 6px;
@@ -1507,17 +1511,29 @@ body.entry-screen .content {
 
 /* Presentation lesson meta */
 .presentation-lesson-meta {
-  position: absolute;
-  top: 0.9rem;
-  left: 1.2rem;
   font-size: 0.82rem;
   color: rgba(39, 58, 69, 0.5);
-  pointer-events: none;
+  text-align: center;
+  padding: 4px 12px 2px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 60%;
-  z-index: 1;
+}
+
+.presentation-mark-done-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 6px 0 4px;
+}
+
+.presentation-mark-done-btn {
+  min-width: 80px;
+}
+
+.presentation-mark-done-btn.done {
+  background-color: #4caf50;
+  color: #fff;
+  border-color: #4caf50;
 }
 
 /* SW update toast */

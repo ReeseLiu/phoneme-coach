@@ -1153,6 +1153,8 @@ function renderPresentationSentence(sentence) {
   updatePresentationScrollState();
   updatePresentationPlayPauseButton();
   renderPresentationTranscript();
+  renderPresentationLessonMeta();
+  updatePresentationMarkDoneBtn();
 }
 
 function renderPresentationTranscript() {
@@ -1165,9 +1167,10 @@ function renderPresentationTranscript() {
   el.presentationTranscript.hidden = false;
   el.presentationTranscript.innerHTML = "";
   sentences.forEach((sentence, idx) => {
+    const isDone = state.completedSentences.has(sentence.sentence_id);
     const row = document.createElement("div");
-    row.className = "presentation-transcript-row" + (idx === state.sentenceIndex ? " active" : "");
-    row.textContent = sentence.text || "";
+    row.className = "presentation-transcript-row" + (idx === state.sentenceIndex ? " active" : "") + (isDone ? " completed" : "");
+    row.textContent = (isDone ? "✓ " : "") + (sentence.text || "");
     row.addEventListener("click", () => {
       stopPresentationPlayAll();
       state.sentenceIndex = idx;
@@ -1190,10 +1193,20 @@ function renderPresentationTranscript() {
 function renderPresentationLessonMeta() {
   if (!el.presentationLessonMeta || !state.lesson) return;
   const name = state.lesson.display_name || state.currentLessonKey || "";
-  const count = Array.isArray(state.lesson.sentences) ? state.lesson.sentences.length : 0;
+  const sentences = Array.isArray(state.lesson.sentences) ? state.lesson.sentences : [];
+  const count = sentences.length;
+  const doneCount = sentences.filter((s) => state.completedSentences.has(s.sentence_id)).length;
   el.presentationLessonMeta.textContent = state.uiLanguage === "zh-TW"
-    ? `${name}　${count} 句`
-    : `${name} · ${count} sentences`;
+    ? `${name}　已完成 ${doneCount}/${count} 句`
+    : `${name} · ${doneCount}/${count} done`;
+}
+
+function updatePresentationMarkDoneBtn() {
+  if (!el.presentationMarkDoneBtn) return;
+  const sentence = getCurrentSentence();
+  const isDone = !!(sentence && state.completedSentences.has(sentence.sentence_id));
+  el.presentationMarkDoneBtn.textContent = isDone ? "✓ 已完成" : "完成";
+  el.presentationMarkDoneBtn.classList.toggle("done", isDone);
 }
 function rerenderPresentationIfActive() {
   if (state.viewMode !== "presentation") {

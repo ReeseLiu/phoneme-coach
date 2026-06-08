@@ -185,7 +185,8 @@ function rebuildSentenceSelect() {
     const sentenceId = sentence?.sentence_id ? String(sentence.sentence_id) : "";
     const sentenceText = stripReviewMarkerForUi(sentence?.text);
     const labelId = formatSentenceLabel(sentenceId);
-    option.textContent = sentenceText ? `${labelId} - ${sentenceText}` : labelId;
+    const doneMarker = state.completedSentences.has(sentence.sentence_id) ? " ✓" : "";
+    option.textContent = sentenceText ? `${labelId} - ${sentenceText}${doneMarker}` : labelId;
     el.sentenceSelect.appendChild(option);
   });
 

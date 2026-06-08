@@ -12,6 +12,7 @@ const STORAGE_KEYS = {
   presentationUiScale: "psl.ui.presentationUiScale",
   presentationShowTones: "psl.ui.presentationShowTones",
   remoteEditsPrefix: "psl.remote.edits.",
+  completionPrefix: "psl.completion.",
 };
 
 const AUDIO_OFFSET_LIMIT_SEC = 5;
@@ -98,6 +99,7 @@ const state = {
   remoteLessonStatusKind: "idle",
   remoteLessonStatusText: "",
   remoteSavedToLocalStorage: false,
+  completedSentences: new Set(),
 };
 
 const el = {
@@ -205,6 +207,8 @@ const el = {
   presentationEndMinusBtn: document.getElementById("presentationEndMinusBtn"),
   presentationEndPlusBtn: document.getElementById("presentationEndPlusBtn"),
   presentationTranscript: document.getElementById("presentationTranscript"),
+  presentationMarkDoneBtn: document.getElementById("presentationMarkDoneBtn"),
+  presentationLessonMeta: document.getElementById("presentationLessonMeta"),
   wordTableSection: document.getElementById("wordTableSection"),
   wordCompactSection: document.getElementById("wordCompactSection"),
   compactWordGrid: document.getElementById("compactWordGrid"),
