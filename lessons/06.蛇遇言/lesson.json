@@ -1248,7 +1248,7 @@
     {
       "sentence_id": "s0002",
       "text": "A flute.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 1.7,
       "alignment_score": 1,
       "audio_path": "sentences/s0002.wav",
@@ -2797,7 +2797,7 @@
     {
       "sentence_id": "s0003",
       "text": "A snake and a flute.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.84,
       "alignment_score": 1,
       "audio_path": "sentences/s0003.wav",
@@ -6588,7 +6588,7 @@
     {
       "sentence_id": "s0004",
       "text": "A flute and a snake.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.46,
       "alignment_score": 1,
       "audio_path": "sentences/s0004.wav",
@@ -10635,7 +10635,7 @@
     {
       "sentence_id": "s0005",
       "text": "The snake was bored.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.88,
       "alignment_score": 1,
       "audio_path": "sentences/s0005.wav",
@@ -13960,7 +13960,7 @@
     {
       "sentence_id": "s0006",
       "text": "No one to play with.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.22,
       "alignment_score": 1,
       "audio_path": "sentences/s0006.wav",
@@ -17271,7 +17271,7 @@
             ]
           },
           "syllable_tones": [
-            "4"
+            "5"
           ],
           "syllable_tone_analysis": [
             {
@@ -17297,7 +17297,7 @@
     {
       "sentence_id": "s0007",
       "text": "The flute was there.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.92,
       "alignment_score": 1,
       "audio_path": "sentences/s0007.wav",
@@ -20516,7 +20516,7 @@
     {
       "sentence_id": "s0008",
       "text": "No one to play it.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.24,
       "alignment_score": 1,
       "audio_path": "sentences/s0008.wav",
@@ -23538,7 +23538,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "4"
+            "5"
           ],
           "syllable_tone_analysis": [
             {
@@ -23564,7 +23564,7 @@
     {
       "sentence_id": "s0009",
       "text": "The snake saw the flute.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.88,
       "alignment_score": 1,
       "audio_path": "sentences/s0009.wav",
@@ -27386,7 +27386,7 @@
     {
       "sentence_id": "s0010",
       "text": "The flute saw the snake.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 3.04,
       "alignment_score": 1,
       "audio_path": "sentences/s0010.wav",
@@ -31208,7 +31208,7 @@
     {
       "sentence_id": "s0011",
       "text": "They saw each other.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.56,
       "alignment_score": 1,
       "audio_path": "sentences/s0011.wav",
@@ -33560,12 +33560,12 @@
       "estimated_word_count": 0,
       "timing_source": "whisper_match",
       "original_start_sec": 19.44,
-      "original_end_sec": 21.0
+      "original_end_sec": 21
     },
     {
       "sentence_id": "s0012",
       "text": "One played the other.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.74,
       "alignment_score": 1,
       "audio_path": "sentences/s0012.wav",
@@ -36823,7 +36823,7 @@
     {
       "sentence_id": "s0013",
       "text": "Happily ever after.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.76,
       "alignment_score": 1,
       "audio_path": "sentences/s0013.wav",
@@ -39217,7 +39217,7 @@
     {
       "sentence_id": "s0014",
       "text": "Happily playing each other.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 3.9,
       "alignment_score": 1,
       "audio_path": "sentences/s0014.wav",

@@ -1222,7 +1222,7 @@
     {
       "sentence_id": "s0002",
       "text": "A stick.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.02,
       "alignment_score": 0.5,
       "audio_path": "sentences/s0002.wav",
@@ -2838,7 +2838,7 @@
     {
       "sentence_id": "s0003",
       "text": "A chicken and a stick.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.8,
       "alignment_score": 1,
       "audio_path": "sentences/s0003.wav",
@@ -6682,7 +6682,7 @@
     {
       "sentence_id": "s0004",
       "text": "A stick and a chicken.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.78,
       "alignment_score": 1,
       "audio_path": "sentences/s0004.wav",
@@ -10526,7 +10526,7 @@
     {
       "sentence_id": "s0005",
       "text": "The chicken was pretty.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 3.02,
       "alignment_score": 1,
       "audio_path": "sentences/s0005.wav",
@@ -13812,7 +13812,7 @@
     {
       "sentence_id": "s0006",
       "text": "No need to clean.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.56,
       "alignment_score": 1,
       "audio_path": "sentences/s0006.wav",
@@ -16664,7 +16664,7 @@
     {
       "sentence_id": "s0007",
       "text": "The stick was dirty.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.8,
       "alignment_score": 1,
       "audio_path": "sentences/s0007.wav",
@@ -20166,7 +20166,7 @@
     {
       "sentence_id": "s0008",
       "text": "He needs to clean.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.42,
       "alignment_score": 1,
       "audio_path": "sentences/s0008.wav",
@@ -22854,7 +22854,7 @@
     {
       "sentence_id": "s0009",
       "text": "The chicken saw the stick.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.78,
       "alignment_score": 1,
       "audio_path": "sentences/s0009.wav",
@@ -26723,7 +26723,7 @@
     {
       "sentence_id": "s0010",
       "text": "The stick saw the chicken.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.94,
       "alignment_score": 1,
       "audio_path": "sentences/s0010.wav",
@@ -30592,7 +30592,7 @@
     {
       "sentence_id": "s0011",
       "text": "They saw each other.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.48,
       "alignment_score": 1,
       "audio_path": "sentences/s0011.wav",
@@ -32949,7 +32949,7 @@
     {
       "sentence_id": "s0012",
       "text": "One completed the other.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 3.24,
       "alignment_score": 1,
       "audio_path": "sentences/s0012.wav",
@@ -36956,7 +36956,7 @@
             ]
           },
           "syllable_tones": [
-            "1",
+            "5",
             "1",
             "1"
           ],
@@ -38435,7 +38435,7 @@
     {
       "sentence_id": "s0013",
       "text": "Happily ever after.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.88,
       "alignment_score": 1,
       "audio_path": "sentences/s0013.wav",
@@ -40829,7 +40829,7 @@
     {
       "sentence_id": "s0014",
       "text": "Happily cleaning all others.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 3.88,
       "alignment_score": 1,
       "audio_path": "sentences/s0014.wav",
@@ -44363,7 +44363,7 @@
       "estimated_word_count": 0,
       "timing_source": "whisper_match",
       "original_start_sec": 27.12,
-      "original_end_sec": 30.0
+      "original_end_sec": 30
     }
   ],
   "alignment_summary": {

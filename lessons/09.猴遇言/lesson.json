@@ -1220,7 +1220,7 @@
     {
       "sentence_id": "s0002",
       "text": "A banana.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.49,
       "alignment_score": 0.5,
       "audio_path": "sentences/s0002.wav",
@@ -2549,8 +2549,8 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "1",
             "5",
+            "1",
             "5"
           ],
           "syllable_tone_analysis": [
@@ -2599,7 +2599,7 @@
     {
       "sentence_id": "s0003",
       "text": "A monkey and a banana.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 3.31,
       "alignment_score": 0.6,
       "audio_path": "sentences/s0003.wav",
@@ -6148,8 +6148,8 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "1",
             "5",
+            "1",
             "5"
           ],
           "syllable_tone_analysis": [
@@ -6198,7 +6198,7 @@
     {
       "sentence_id": "s0004",
       "text": "A banana and a monkey.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 3.06,
       "alignment_score": 0.6,
       "audio_path": "sentences/s0004.wav",
@@ -7516,7 +7516,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "1",
+            "5",
             "1",
             "1"
           ],
@@ -9820,7 +9820,7 @@
     {
       "sentence_id": "s0005",
       "text": "The monkey was hungry.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 3.26,
       "alignment_score": 1,
       "audio_path": "sentences/s0005.wav",
@@ -12949,7 +12949,7 @@
     {
       "sentence_id": "s0006",
       "text": "Nothing to eat.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.38,
       "alignment_score": 1,
       "audio_path": "sentences/s0006.wav",
@@ -15534,7 +15534,7 @@
     {
       "sentence_id": "s0007",
       "text": "The banana was bored.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 3.48,
       "alignment_score": 1,
       "audio_path": "sentences/s0007.wav",
@@ -17105,7 +17105,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "1",
+            "5",
             "1",
             "1"
           ],
@@ -18990,7 +18990,7 @@
     {
       "sentence_id": "s0008",
       "text": "No one to trip.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.54,
       "alignment_score": 1,
       "audio_path": "sentences/s0008.wav",
@@ -21569,7 +21569,7 @@
     {
       "sentence_id": "s0009",
       "text": "The monkey saw the banana.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 3.22,
       "alignment_score": 1,
       "audio_path": "sentences/s0009.wav",
@@ -25115,8 +25115,8 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "1",
             "5",
+            "1",
             "5"
           ],
           "syllable_tone_analysis": [
@@ -25165,7 +25165,7 @@
     {
       "sentence_id": "s0010",
       "text": "The banana saw the monkey.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 3.34,
       "alignment_score": 1,
       "audio_path": "sentences/s0010.wav",
@@ -26753,7 +26753,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "1",
+            "5",
             "1",
             "1"
           ],
@@ -28761,7 +28761,7 @@
     {
       "sentence_id": "s0011",
       "text": "They saw each other.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 2.4,
       "alignment_score": 1,
       "audio_path": "sentences/s0011.wav",
@@ -31101,7 +31101,7 @@
     {
       "sentence_id": "s0012",
       "text": "None touched the other.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 3.1,
       "alignment_score": 1,
       "audio_path": "sentences/s0012.wav",
@@ -34382,7 +34382,7 @@
     {
       "sentence_id": "s0013",
       "text": "Happily ever after.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 3.2,
       "alignment_score": 1,
       "audio_path": "sentences/s0013.wav",
@@ -36810,7 +36810,7 @@
     {
       "sentence_id": "s0014",
       "text": "Happily tempting each other.",
-      "start_sec": 1.0,
+      "start_sec": 1,
       "end_sec": 4.16,
       "alignment_score": 1,
       "audio_path": "sentences/s0014.wav",
