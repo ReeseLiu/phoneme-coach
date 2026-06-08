@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>使用說明 — 跟讀小助手</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&family=Noto+Serif+TC:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./help.css" />
+  </head>
+  <body>
+    <div class="help-shell">
+
+      <header class="help-header">
+        <a href="./index.html" class="help-back-link">← 返回 跟讀小助手</a>
+        <h1>使用說明</h1>
+        <p class="help-subtitle">跟讀小助手（Phoneme Coach）操作指南</p>
+      </header>
+
+      <nav class="help-toc" aria-label="目錄">
+        <a href="#presentation-mode">展示模式操作</a>
+        <a href="#zhuyin-plus">專利注音編輯</a>
+        <a href="#persistence">如何保留修改</a>
+      </nav>
+
+      <main class="help-content">
+
+        <!-- ===== Section 1: 展示模式 ===== -->
+        <section id="presentation-mode" class="help-section">
+          <h2>展示模式操作</h2>
+
+          <h3>如何進入展示模式</h3>
+          <p>
+            在主畫面上方的「<strong>句子顯示模式</strong>」列，點擊
+            <kbd>展示</kbd> 按鈕即可進入全螢幕沉浸式跟讀練習介面。
+            點擊左上角的 <kbd>↩</kbd> 按鈕可返回精簡模式。
+          </p>
+
+          <h3>工具列控制項</h3>
+          <table class="help-table">
+            <thead>
+              <tr><th>控制項</th><th>說明</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><kbd>↩</kbd></td><td>返回精簡模式</td></tr>
+              <tr>
+                <td>IPA / KK / 專利注音</td>
+                <td>切換音標顯示系統。「專利注音」會將每個音節分解成 C1／V／C2 三列顯示。</td>
+              </tr>
+              <tr>
+                <td>0.5x … 1.5x</td>
+                <td>調整播放速度。建議練習時先用 0.75x，熟練後逐漸提升至 1x。</td>
+              </tr>
+              <tr>
+                <td><kbd>音標</kbd></td>
+                <td>切換音標行顯示／隱藏。隱藏後可測試自己能否不看提示跟讀。</td>
+              </tr>
+              <tr>
+                <td><kbd>語調</kbd></td>
+                <td>切換語調行（輕重音標記）顯示／隱藏。</td>
+              </tr>
+              <tr>
+                <td><kbd>⟲</kbd></td>
+                <td>開啟／關閉單句循環播放。開啟時會在同一句反覆播放直到手動切換。</td>
+              </tr>
+              <tr>
+                <td><kbd>−</kbd> 100% <kbd>＋</kbd></td>
+                <td>縮小／放大整體音標顯示比例，可依螢幕大小調整。</td>
+              </tr>
+              <tr>
+                <td>s 欄位</td>
+                <td>循環間隔秒數（每次播放結束後停頓多久再重播）。</td>
+              </tr>
+              <tr>
+                <td># 欄位</td>
+                <td>循環總次數。留空表示無限循環。</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>主要播放控制</h3>
+          <p>
+            舞台中央有三個大按鈕：
+          </p>
+          <ul>
+            <li><kbd>◀</kbd> — 跳到上一句</li>
+            <li><kbd>▶</kbd> — 播放／暫停目前句子</li>
+            <li><kbd>▶︎</kbd> — 跳到下一句</li>
+          </ul>
+
+          <h3>播放全部</h3>
+          <p>
+            點擊「<strong>播放全部</strong>」按鈕，將從目前句子依序連續播放到最後一句，
+            每句之間使用「s 欄位」設定的間隔。再次點擊可停止。
+            適合整段課文連續跟讀練習。
+          </p>
+
+          <h3>起訖偏移微調</h3>
+          <p>
+            每句可單獨調整播放起點與終點，每次移動 0.1 秒（範圍 ±5 秒）：
+          </p>
+          <ul>
+            <li><kbd>起 −</kbd> / <kbd>起 ＋</kbd> — 往前／往後移動播放起點</li>
+            <li><kbd>訖 −</kbd> / <kbd>訖 ＋</kbd> — 往前／往後移動播放終點</li>
+          </ul>
+          <p>
+            偏移值會自動儲存，下次載入相同課程時保留。
+            若想微調切去不需要的靜音片段，或讓句子邊界更清晰，可使用此功能。
+          </p>
+        </section>
+
+        <!-- ===== Section 2: 專利注音 ===== -->
+        <section id="zhuyin-plus" class="help-section">
+          <h2>專利注音編輯</h2>
+
+          <h3>什麼是 C1 / V / C2？</h3>
+          <p>
+            選擇「<strong>專利注音</strong>」顯示系統時，每個音節會被拆解成三層垂直排列：
+          </p>
+          <ul>
+            <li><strong>C1</strong>（聲母 Onset）— 音節起始的子音，例如 b、t、ʃ</li>
+            <li><strong>V</strong>（韻核 Vowel Nucleus）— 音節的母音核心，以<span class="slot-v-sample">紅色</span>顯示</li>
+            <li><strong>C2</strong>（韻尾 Coda）— 音節末尾的子音，例如 n、d、k</li>
+          </ul>
+          <p>每個單字在展示模式下以直欄呈現，三列依序對應 C1、V、C2。</p>
+
+          <h3>如何切換到專利注音</h3>
+          <p>
+            在展示模式的工具列下拉選單，或側邊欄「顯示系統」選單中，選擇
+            <strong>「專利注音」</strong>即可切換。切換後音標行會立即更新為三列格式。
+          </p>
+
+          <h3>管道符號 <code>|</code> 的作用</h3>
+          <p>
+            在精簡或詳細模式的編輯欄位中輸入 <code>|</code>（管道符號），
+            可手動指定音節分界，讓一個單字在展示模式顯示為多個獨立欄位。
+          </p>
+          <p>以下示範同一個單字「should」在有無 <code>|</code> 時的顯示差異：</p>
+
+          <div class="pipe-demo" role="img" aria-label="管道符號效果示範：左側不含 | 顯示為單一欄位，右側含 | 分成兩欄">
+            <!-- 左：不含 | -->
+            <div class="pipe-demo-case">
+              <p class="pipe-demo-label">不含 <code>|</code>（單一欄位）</p>
+              <div class="pipe-demo-word-group">
+                <div class="pipe-demo-head">should</div>
+                <div class="pipe-demo-grid pipe-demo-single">
+                  <div class="pipe-demo-col">
+                    <div class="pipe-demo-row pipe-demo-C1">ʃ</div>
+                    <div class="pipe-demo-row pipe-demo-V">ʊ</div>
+                    <div class="pipe-demo-row pipe-demo-C2">d</div>
+                  </div>
+                </div>
+              </div>
+              <p class="pipe-demo-caption">
+                編輯欄輸入：<code>ʃ ʊ d</code><br>
+                → 系統自動歸入單一欄：C1＝ʃ，V＝ʊ，C2＝d
+              </p>
+            </div>
+
+            <div class="pipe-demo-arrow" aria-hidden="true">→</div>
+
+            <!-- 右：含 | -->
+            <div class="pipe-demo-case">
+              <p class="pipe-demo-label">含 <code>|</code>（手動分成兩欄）</p>
+              <div class="pipe-demo-word-group">
+                <div class="pipe-demo-head">should</div>
+                <div class="pipe-demo-grid pipe-demo-multi">
+                  <div class="pipe-demo-col">
+                    <div class="pipe-demo-row pipe-demo-C1">ʃ</div>
+                    <div class="pipe-demo-row pipe-demo-V">ʊ</div>
+                    <div class="pipe-demo-row pipe-demo-C2 pipe-demo-empty">&nbsp;</div>
+                  </div>
+                  <div class="pipe-demo-divider" aria-hidden="true"></div>
+                  <div class="pipe-demo-col">
+                    <div class="pipe-demo-row pipe-demo-C1 pipe-demo-empty">&nbsp;</div>
+                    <div class="pipe-demo-row pipe-demo-V pipe-demo-empty">&nbsp;</div>
+                    <div class="pipe-demo-row pipe-demo-C2">d</div>
+                  </div>
+                </div>
+              </div>
+              <p class="pipe-demo-caption">
+                編輯欄輸入：<code>ʃ ʊ | d</code><br>
+                → 分割成兩欄：欄 1（C1＝ʃ，V＝ʊ）｜欄 2（C2＝d）
+              </p>
+            </div>
+          </div>
+
+          <h3>使用注意</h3>
+          <ul>
+            <li><code>|</code> 可放在 token 之間的任何位置，也可使用多個分隔符號來建立三欄以上。</li>
+            <li>修改後儲存，展示模式會立即反映新的欄位版面。</li>
+            <li><code>|</code> 僅在「專利注音」顯示系統下有效；切換到 IPA 或 KK 時不影響顯示。</li>
+            <li>手動設定的欄位分界儲存在每個單字的顯示編輯資料中，下次開啟可自動還原。</li>
+          </ul>
+        </section>
+
+        <!-- ===== Section 3: 如何保留修改 ===== -->
+        <section id="persistence" class="help-section">
+          <h2>如何保留修改</h2>
+
+          <h3>自動儲存機制</h3>
+          <p>
+            對線上課程（Remote Lesson）的所有修改，包含：
+          </p>
+          <ul>
+            <li>Gold IPA 內容</li>
+            <li>各顯示系統（IPA / KK / 專利注音）的顯示編輯</li>
+            <li>起訖偏移微調</li>
+            <li>單字備註</li>
+          </ul>
+          <p>
+            都會在每次修改後<strong>自動儲存</strong>到瀏覽器的 localStorage。
+            下次在<strong>同一瀏覽器</strong>載入相同課程時，修改會自動還原，
+            不需要手動按儲存。
+          </p>
+
+          <h3>瀏覽器限制</h3>
+          <div class="help-notice">
+            <p>以下情況會導致修改<strong>遺失</strong>，請注意：</p>
+            <ul>
+              <li>換不同的瀏覽器或裝置（修改只存在目前的瀏覽器中）</li>
+              <li>清除瀏覽器快取或 localStorage</li>
+              <li>使用<strong>無痕模式</strong>（隱私視窗）——關閉視窗後即遺失</li>
+              <li>localStorage 空間不足時（較少見，但容量有限）</li>
+            </ul>
+          </div>
+
+          <h3>匯出備份</h3>
+          <p>
+            建議定期點擊「<strong>下載 lesson JSON</strong>」按鈕，匯出包含所有修改的完整課程資料，
+            儲存到電腦中作為備份。這是保護修改資料最可靠的方式。
+          </p>
+
+          <h3>匯入還原</h3>
+          <p>
+            若需要在其他瀏覽器或裝置上還原修改，可使用側邊欄的
+            「<strong>本機課程（覆蓋）</strong>」功能：
+          </p>
+          <ol>
+            <li>選取先前下載的 lesson JSON 所在資料夾（需包含 <code>lesson.json</code> 與 <code>audio/</code>）</li>
+            <li>系統會載入本機資料並覆蓋線上課程的顯示</li>
+            <li>所有修改將從 JSON 檔案中完整還原</li>
+          </ol>
+
+          <h3>清除本機編輯</h3>
+          <p>
+            若想把課程還原到原始狀態，可點擊側邊欄線上課程區塊中的
+            「<strong>清除本機編輯</strong>」按鈕，清除 localStorage 中目前課程的所有暫存修改。
+          </p>
+        </section>
+
+      </main>
+
+      <footer class="help-footer">
+        <a href="./index.html" class="help-back-link">← 返回 跟讀小助手</a>
+      </footer>
+
+    </div>
+  </body>
+</html>

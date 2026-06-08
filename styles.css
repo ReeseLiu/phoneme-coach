@@ -1557,3 +1557,24 @@ body.entry-screen .content {
   font-size: 0.8rem;
 }
 .sw-update-toast .sw-dismiss-btn:hover { color: #fff; }
+
+/* 使用說明連結 */
+.brand-help-link,
+.panel-help-link {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+}
+.brand-help-link { margin-top: 6px; }
+.brand-help-link:hover,
+.panel-help-link:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+.presentation-help-link {
+  text-decoration: none;
+  line-height: 1;
+}

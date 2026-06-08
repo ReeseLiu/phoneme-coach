@@ -1,0 +1,388 @@
+/* help.css — 使用說明頁獨立樣式 */
+
+:root {
+  --bg-main: #eff4f8;
+  --bg-panel: #fdfefe;
+  --bg-card: #ffffff;
+  --bg-highlight: #f0f6fa;
+  --bg-accent: #e5eef4;
+  --text-main: #2c404a;
+  --text-muted: #637783;
+  --border: #d3dfe7;
+  --accent: #5d8690;
+  --accent-strong: #476b74;
+  --warning: #99664f;
+  --shadow: 0 18px 42px rgba(67, 89, 104, 0.12);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-main);
+  color: var(--text-main);
+  font-family: "IBM Plex Sans", "Noto Serif TC", sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* ── Shell ── */
+.help-shell {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+}
+
+/* ── Header ── */
+.help-header {
+  margin-bottom: 1.5rem;
+}
+
+.help-header h1 {
+  font-family: Lora, "Noto Serif TC", serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #2f434d;
+  margin: 0.5rem 0 0.25rem;
+}
+
+.help-subtitle {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.help-back-link {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+
+.help-back-link:hover {
+  text-decoration: underline;
+}
+
+/* ── TOC nav ── */
+.help-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.help-toc a {
+  display: inline-block;
+  padding: 0.35em 0.85em;
+  border-radius: 20px;
+  background: var(--bg-accent);
+  color: var(--accent-strong);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  border: 1px solid var(--border);
+  transition: background 0.15s, color 0.15s;
+}
+
+.help-toc a:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+/* ── Sections ── */
+.help-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.help-section h2 {
+  font-family: Lora, "Noto Serif TC", serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #2f434d;
+  margin: 0 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.help-section h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent-strong);
+  margin: 1.4rem 0 0.5rem;
+  letter-spacing: 0.03em;
+}
+
+.help-section p,
+.help-section ul,
+.help-section ol {
+  margin: 0.4rem 0 0.8rem;
+}
+
+.help-section ul,
+.help-section ol {
+  padding-left: 1.4em;
+}
+
+.help-section li {
+  margin-bottom: 0.25em;
+}
+
+/* ── Table ── */
+.help-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.help-table th {
+  background: var(--bg-highlight);
+  color: var(--accent-strong);
+  font-weight: 700;
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 2px solid var(--border);
+  letter-spacing: 0.04em;
+  font-size: 0.8rem;
+}
+
+.help-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.help-table tr:last-child td {
+  border-bottom: none;
+}
+
+.help-table tr:hover td {
+  background: var(--bg-highlight);
+}
+
+/* ── kbd ── */
+kbd {
+  display: inline-block;
+  padding: 0.1em 0.45em;
+  background: var(--bg-highlight);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-family: "IBM Plex Sans", monospace;
+  font-size: 0.82em;
+  color: var(--text-main);
+  box-shadow: 0 1px 2px rgba(67, 89, 104, 0.12);
+}
+
+/* ── code ── */
+code {
+  background: rgba(93, 134, 144, 0.1);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+  font-size: 0.875em;
+  color: #2f5261;
+  font-family: "IBM Plex Mono", "Menlo", monospace;
+}
+
+/* ── Notice box ── */
+.help-notice {
+  background: #fff8f4;
+  border: 1px solid rgba(153, 102, 79, 0.25);
+  border-left: 3px solid var(--warning);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.help-notice p {
+  margin: 0 0 0.4rem;
+  color: #7a4b38;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.help-notice ul {
+  margin: 0;
+  color: #7a4b38;
+  font-size: 0.875rem;
+}
+
+/* ── V slot colour sample ── */
+.slot-v-sample {
+  color: #c0392b;
+  font-weight: 700;
+}
+
+/* ── Pipe demo ── */
+.pipe-demo {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 1.2rem 0 1rem;
+}
+
+.pipe-demo-case {
+  flex: 1 1 180px;
+  background: var(--bg-highlight);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem 1.2rem;
+}
+
+.pipe-demo-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 0.8rem;
+}
+
+.pipe-demo-arrow {
+  font-size: 1.8rem;
+  color: var(--text-muted);
+  align-self: center;
+  flex: 0 0 auto;
+  line-height: 1;
+}
+
+.pipe-demo-word-group {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid rgba(198, 141, 92, 0.25);
+  border-radius: 10px;
+  background: rgba(216, 160, 110, 0.04);
+  padding: 8px 16px 10px;
+  margin-bottom: 0.75rem;
+}
+
+.pipe-demo-head {
+  font-family: Lora, "Noto Serif TC", serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #324957;
+  margin-bottom: 6px;
+  padding-bottom: 5px;
+  border-bottom: 1px dashed var(--border);
+  width: 100%;
+  text-align: center;
+}
+
+/* Grid layouts */
+.pipe-demo-grid {
+  display: flex;
+  gap: 0;
+}
+
+.pipe-demo-single {
+  justify-content: center;
+}
+
+.pipe-demo-multi {
+  gap: 0;
+  align-items: stretch;
+}
+
+.pipe-demo-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  min-width: 36px;
+  padding: 0 6px;
+}
+
+.pipe-demo-divider {
+  width: 1px;
+  background: rgba(93, 134, 144, 0.3);
+  margin: 0 4px;
+  border-radius: 1px;
+}
+
+.pipe-demo-row {
+  min-height: 1.6em;
+  min-width: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "注音芫荽", "Noto Serif TC", serif;
+  font-size: 1.05rem;
+  border-radius: 6px;
+  padding: 0.05em 0.3em;
+  background: rgba(220, 166, 115, 0.06);
+}
+
+.pipe-demo-C1,
+.pipe-demo-C2 {
+  color: #324957;
+}
+
+.pipe-demo-V {
+  color: #c0392b;
+}
+
+.pipe-demo-empty {
+  color: #9aaab4;
+  background: rgba(220, 166, 115, 0.025);
+}
+
+.pipe-demo-caption {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ── Footer ── */
+.help-footer {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+/* ── RWD ── */
+@media (max-width: 600px) {
+  .help-shell {
+    padding: 1.25rem 1rem 2rem;
+  }
+
+  .help-section {
+    padding: 1.2rem 1.2rem;
+    border-radius: 12px;
+  }
+
+  .help-section h2 {
+    font-size: 1.15rem;
+  }
+
+  .help-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .pipe-demo {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .pipe-demo-case {
+    width: 100%;
+  }
+
+  .pipe-demo-arrow {
+    transform: rotate(90deg);
+  }
+}
