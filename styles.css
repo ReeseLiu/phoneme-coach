@@ -1456,24 +1456,30 @@ audio::-webkit-media-controls-mute-button {
   justify-content: center;
   gap: 10px;
   margin-top: 8px;
-  padding: 5px 12px;
+  padding: 4px 12px;
   border-radius: 999px;
   background: rgba(93, 134, 144, 0.12);
   color: #273a45;
   font-size: 0.85rem;
   font-weight: 600;
+  position: relative;
 }
 
 .presentation-range-status-clear {
   border: none;
   background: rgba(70, 97, 112, 0.18);
   color: #273a45;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
   line-height: 1;
-  font-size: 0.9rem;
 }
 
 .presentation-range-status-clear:hover {
