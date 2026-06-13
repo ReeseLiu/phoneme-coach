@@ -87,6 +87,11 @@ const state = {
   presentationPlayAllPauseGuardTimerId: null,
   presentationPlayAllGapTimerId: null,
   presentationPlayAllLastEndedAtMs: 0,
+  presentationPlayAllRoundCount: 0,
+  presentationLoopRangeStart: null,
+  presentationLoopRangeEnd: null,
+  presentationRangeSelectMode: false,
+  presentationRangePendingStart: null,
   presentationPlaybackRate: 1,
   presentationUiScale: 1,
   presentationShowPhonemes: true,
@@ -207,6 +212,8 @@ const el = {
   presentationEndMinusBtn: document.getElementById("presentationEndMinusBtn"),
   presentationEndPlusBtn: document.getElementById("presentationEndPlusBtn"),
   presentationTranscript: document.getElementById("presentationTranscript"),
+  presentationRangeSelectBtn: document.getElementById("presentationRangeSelectBtn"),
+  presentationRangeStatus: document.getElementById("presentationRangeStatus"),
   presentationMarkDoneBtn: document.getElementById("presentationMarkDoneBtn"),
   presentationLessonMeta: document.getElementById("presentationLessonMeta"),
   wordTableSection: document.getElementById("wordTableSection"),
@@ -605,6 +612,8 @@ function applyLanguageToStaticText() {
   updatePresentationPlayPauseButton();
   updatePresentationLoopToggleButton();
   updatePresentationPlayAllButton();
+  updatePresentationRangeSelectButton();
+  renderPresentationRangeStatus();
   updatePresentationSpeedLabel();
   updatePresentationPhonemeToggleButton();
   updatePresentationToneToggleButton();
@@ -708,6 +717,7 @@ function applyLanguage() {
 function resetLessonStateForImport() {
   state.sentenceIndex = 0;
   clearAudioRange();
+  resetPresentationLoopRange();
 state.compactDirty = false;
   state.compactNoticeKind = "idle";
   state.compactNoticeErrorMessage = "";

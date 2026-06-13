@@ -287,10 +287,15 @@ function updatePresentationLoopToggleButton() {
   if (!el.presentationLoopToggleBtn) {
     return;
   }
+  // 範圍循環進行中：單句循環鈕 disable（不改動 state.loopSentence 偏好值）
+  const rangeLoopActive = !!state.presentationPlayAllActive && hasPresentationLoopRange();
   const enabled = !!state.loopSentence;
-  el.presentationLoopToggleBtn.classList.toggle("active", enabled);
+  el.presentationLoopToggleBtn.disabled = rangeLoopActive;
+  el.presentationLoopToggleBtn.classList.toggle("active", enabled && !rangeLoopActive);
   el.presentationLoopToggleBtn.setAttribute("aria-pressed", enabled ? "true" : "false");
-  const label = enabled ? t("presentationLoopHintOn") : t("presentationLoopHintOff");
+  const label = rangeLoopActive
+    ? t("presentationLoopDisabledByRange")
+    : (enabled ? t("presentationLoopHintOn") : t("presentationLoopHintOff"));
   el.presentationLoopToggleBtn.setAttribute("aria-label", label);
   el.presentationLoopToggleBtn.title = label;
 }
@@ -301,8 +306,16 @@ function updatePresentationPlayAllButton() {
   }
   const active = !!state.presentationPlayAllActive;
   const hasSentences = getVisibleSentences().length > 0;
-  const text = active ? t("presentationStopAll") : t("presentationPlayAll");
-  const hint = active ? t("presentationStopAllHint") : t("presentationPlayAllHint");
+  const rangeSet = hasPresentationLoopRange();
+  let text;
+  let hint;
+  if (active) {
+    text = rangeSet ? t("presentationStopRange") : t("presentationStopAll");
+    hint = rangeSet ? t("presentationStopRangeHint") : t("presentationStopAllHint");
+  } else {
+    text = rangeSet ? t("presentationPlayRange") : t("presentationPlayAll");
+    hint = rangeSet ? t("presentationPlayRangeHint") : t("presentationPlayAllHint");
+  }
   el.presentationPlayAllBtn.disabled = !hasSentences;
   el.presentationPlayAllBtn.classList.toggle("active", active);
   el.presentationPlayAllBtn.setAttribute("aria-pressed", active ? "true" : "false");
@@ -331,6 +344,10 @@ function toggleSentencePlayback() {
 
 function ignoreNextPauseForPlayAllOnce() {
   state.presentationPlayAllIgnoreNextPause = true;
+  // 若 markPresentationPlayAllExpectEndingPause() 已設 500ms guard，不再啟動競爭的短計時器
+  if (state.presentationPlayAllPauseGuardTimerId !== null) {
+    return;
+  }
   window.setTimeout(() => {
     state.presentationPlayAllIgnoreNextPause = false;
   }, 250);
@@ -350,7 +367,10 @@ function stopPresentationPlayAll() {
   state.presentationPlayAllIgnoreNextPause = false;
   state.presentationPlayAllAdvancing = false;
   state.presentationPlayAllLastEndedAtMs = 0;
+  state.presentationPlayAllRoundCount = 0;
+  updatePresentationLoopToggleButton();
   updatePresentationPlayAllButton();
+  renderPresentationRangeStatus();
 }
 
 function markPresentationPlayAllExpectEndingPause() {
@@ -476,7 +496,19 @@ function startPresentationPlayAll() {
   state.presentationPlayAllIgnoreNextPause = false;
   state.presentationPlayAllAdvancing = false;
   state.presentationPlayAllLastEndedAtMs = 0;
+  state.presentationPlayAllRoundCount = 0;
+
+  // 有設定範圍：從起句開始播放範圍循環
+  if (hasPresentationLoopRange() && state.sentenceIndex !== state.presentationLoopRangeStart) {
+    // renderSentence() 換句時會呼叫 audio.pause() 觸發 pause 事件；需先設旗標避免 handleAudioPauseDuringPresentationPlayAll 取消 play-all
+    ignoreNextPauseForPlayAllOnce();
+    state.sentenceIndex = state.presentationLoopRangeStart;
+    renderSentence();
+  }
+
+  updatePresentationLoopToggleButton();
   updatePresentationPlayAllButton();
+  renderPresentationRangeStatus();
   if (!el.sentenceAudio || !el.sentenceAudio.getAttribute("src")) {
     stopPresentationPlayAll();
     return;
@@ -518,12 +550,51 @@ function advancePresentationPlayAll() {
 function _executeAdvancePresentationPlayAll() {
   state.presentationPlayAllAdvancing = true;
   markPresentationPlayAllExpectEndingPause();
+
+  if (hasPresentationLoopRange()) {
+    _executeAdvancePresentationRangeLoop();
+    state.presentationPlayAllAdvancing = false;
+    return;
+  }
+
   const moved = jumpToSentence(1, { preservePlayAll: true, autoplayAfterJump: true });
   state.presentationPlayAllAdvancing = false;
   if (!moved) {
     stopPresentationPlayAll();
     pauseAudioAtRangeStart();
   }
+}
+
+function _executeAdvancePresentationRangeLoop() {
+  const start = state.presentationLoopRangeStart;
+  const end = state.presentationLoopRangeEnd;
+  const pos = state.sentenceIndex;
+
+  // pos < start：箭頭跳脫至範圍之前 → wrap 回 START，不計輪
+  if (pos < start) {
+    jumpToSentenceIndex(start, { preservePlayAll: true, autoplayAfterJump: true });
+    renderPresentationRangeStatus();
+    return;
+  }
+
+  // pos 仍在區塊中段（未到訖句）→ 跳下一句
+  if (pos < end) {
+    jumpToSentenceIndex(pos + 1, { preservePlayAll: true, autoplayAfterJump: true });
+    renderPresentationRangeStatus();
+    return;
+  }
+
+  // pos >= end：一輪結束（含跳脫至訖句之後）→ 計輪後 wrap 回 START 或停止
+  state.presentationPlayAllRoundCount += 1;
+  const target = state.loopCountTotal; // null = 無限
+  if (target === null || state.presentationPlayAllRoundCount < target) {
+    jumpToSentenceIndex(start, { preservePlayAll: true, autoplayAfterJump: true });
+    renderPresentationRangeStatus();
+    return;
+  }
+
+  stopPresentationPlayAll();
+  pauseAudioAtRangeStart();
 }
 function getAudioDurationSec() {
   const duration = Number(el.sentenceAudio?.duration);

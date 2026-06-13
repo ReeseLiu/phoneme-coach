@@ -71,6 +71,9 @@ function setViewMode(mode) {
   }
   if (state.viewMode === "presentation" && next !== "presentation") {
     stopPresentationPlayAll();
+    // 離開展示模式：退出圈選模式，但保留範圍 state（回到展示模式仍可用）
+    state.presentationRangeSelectMode = false;
+    state.presentationRangePendingStart = null;
   }
   if (next === "presentation" && state.viewMode !== "presentation") {
     state.prePresentationViewMode = state.viewMode;
@@ -158,6 +161,49 @@ function getVisibleSentences() {
     return [];
   }
   return state.lesson.sentences;
+}
+
+function getSentenceCount() {
+  if (!state.lesson || !Array.isArray(state.lesson.sentences)) {
+    return 0;
+  }
+  return state.lesson.sentences.length;
+}
+
+// 寬容正規化：起句>訖句對調、超界 clamp 至 [0, 句數-1]。回傳 {start,end} 或 null。
+function normalizeSentenceRange(rawStart, rawEnd) {
+  const count = getSentenceCount();
+  if (count === 0) {
+    return null;
+  }
+  let start = Number(rawStart);
+  let end = Number(rawEnd);
+  if (!Number.isFinite(start) || !Number.isFinite(end)) {
+    return null;
+  }
+  start = Math.trunc(start);
+  end = Math.trunc(end);
+  if (start > end) {
+    const tmp = start;
+    start = end;
+    end = tmp;
+  }
+  start = Math.max(0, Math.min(count - 1, start));
+  end = Math.max(0, Math.min(count - 1, end));
+  return { start, end };
+}
+
+function hasPresentationLoopRange() {
+  return Number.isFinite(state.presentationLoopRangeStart)
+    && Number.isFinite(state.presentationLoopRangeEnd);
+}
+
+// 重置範圍循環的所有 state（範圍、輪數、圈選中間態）。
+function resetPresentationLoopRange() {
+  state.presentationLoopRangeStart = null;
+  state.presentationLoopRangeEnd = null;
+  state.presentationRangePendingStart = null;
+  state.presentationPlayAllRoundCount = 0;
 }
 
 function stripReviewMarkerForUi(rawText) {
@@ -354,6 +400,37 @@ function jumpToSentence(delta, options = {}) {
   state.sentenceIndex = nextIndex;
   renderSentence();
   if (preservePlayAll && autoplayAfterJump) {
+    requestPresentationPlayAllAutoplay();
+  }
+  return true;
+}
+
+// 跳至絕對句索引（範圍循環 wrap 回起句用）。preservePlayAll 時不停止 Play-All。
+function jumpToSentenceIndex(targetIndex, options = {}) {
+  const preservePlayAll = !!options.preservePlayAll;
+  const autoplayAfterJump = !!options.autoplayAfterJump;
+  if (!preservePlayAll) {
+    stopPresentationPlayAll();
+  }
+  const count = getSentenceCount();
+  if (count === 0) {
+    return false;
+  }
+  const nextIndex = Math.max(0, Math.min(count - 1, Math.trunc(Number(targetIndex))));
+  if (!Number.isFinite(nextIndex)) {
+    return false;
+  }
+  const sameSentence = state.sentenceIndex === nextIndex;
+  if (preservePlayAll && autoplayAfterJump) {
+    ignoreNextPauseForPlayAllOnce();
+  }
+  state.sentenceIndex = nextIndex;
+  renderSentence();
+  if (preservePlayAll && autoplayAfterJump) {
+    if (sameSentence) {
+      // 單句範圍（起＝訖）：renderSentence 不會重新觸發播放，需主動 seek 回起點重播
+      syncAudioToSentenceStart(true);
+    }
     requestPresentationPlayAllAutoplay();
   }
   return true;

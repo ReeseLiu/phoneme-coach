@@ -1083,6 +1083,7 @@ function renderPresentationSentence(sentence) {
     el.presentationPhonemeLine.textContent = "";
     el.presentationSection.style.setProperty("--presentation-scale", "1");
     if (el.presentationTranscript) el.presentationTranscript.hidden = true;
+    if (el.presentationRangeStatus) el.presentationRangeStatus.hidden = true;
     return;
   }
 
@@ -1153,8 +1154,60 @@ function renderPresentationSentence(sentence) {
   updatePresentationScrollState();
   updatePresentationPlayPauseButton();
   renderPresentationTranscript();
+  updatePresentationRangeSelectButton();
+  renderPresentationRangeStatus();
   renderPresentationLessonMeta();
   updatePresentationMarkDoneBtn();
+}
+
+function presentationTranscriptRangeClasses(idx) {
+  let cls = "";
+  if (state.presentationRangeSelectMode && state.presentationRangePendingStart === idx) {
+    cls += " range-pending";
+  }
+  if (hasPresentationLoopRange()) {
+    const start = state.presentationLoopRangeStart;
+    const end = state.presentationLoopRangeEnd;
+    if (idx >= start && idx <= end) {
+      cls += " in-range";
+      if (idx === start) cls += " range-start";
+      if (idx === end) cls += " range-end";
+    }
+  }
+  return cls;
+}
+
+function handlePresentationTranscriptRowClick(idx) {
+  if (state.presentationRangeSelectMode) {
+    if (state.presentationRangePendingStart === null) {
+      // 第一點：設起句，進入中間態（不寫入範圍 state）
+      state.presentationRangePendingStart = idx;
+      renderPresentationTranscript();
+      return;
+    }
+    // 第二點：設訖句，正規化、鎖定範圍、自動退出圈選模式
+    const range = normalizeSentenceRange(state.presentationRangePendingStart, idx);
+    state.presentationRangePendingStart = null;
+    state.presentationRangeSelectMode = false;
+    state.presentationPlayAllRoundCount = 0; // 重新圈選輪數歸零
+    if (range) {
+      state.presentationLoopRangeStart = range.start;
+      state.presentationLoopRangeEnd = range.end;
+    }
+    updatePresentationRangeSelectButton();
+    updatePresentationPlayAllButton();
+    renderPresentationTranscript();
+    renderPresentationRangeStatus();
+    // 播放中重新圈選：跳到新範圍起句繼續循環
+    if (state.presentationPlayAllActive && range) {
+      jumpToSentenceIndex(range.start, { preservePlayAll: true, autoplayAfterJump: true });
+    }
+    return;
+  }
+  // 非圈選模式：維持既有跳句
+  stopPresentationPlayAll();
+  state.sentenceIndex = idx;
+  renderSentence();
 }
 
 function renderPresentationTranscript() {
@@ -1165,16 +1218,18 @@ function renderPresentationTranscript() {
     return;
   }
   el.presentationTranscript.hidden = false;
+  el.presentationTranscript.classList.toggle("range-select-mode", !!state.presentationRangeSelectMode);
   el.presentationTranscript.innerHTML = "";
   sentences.forEach((sentence, idx) => {
     const isDone = state.completedSentences.has(sentence.sentence_id);
     const row = document.createElement("div");
-    row.className = "presentation-transcript-row" + (idx === state.sentenceIndex ? " active" : "") + (isDone ? " completed" : "");
+    row.className = "presentation-transcript-row"
+      + (idx === state.sentenceIndex ? " active" : "")
+      + (isDone ? " completed" : "")
+      + presentationTranscriptRangeClasses(idx);
     row.textContent = (isDone ? "✓ " : "") + (sentence.text || "");
     row.addEventListener("click", () => {
-      stopPresentationPlayAll();
-      state.sentenceIndex = idx;
-      renderSentence();
+      handlePresentationTranscriptRowClick(idx);
     });
     el.presentationTranscript.appendChild(row);
   });
@@ -1190,6 +1245,94 @@ function renderPresentationTranscript() {
     }
   });
 }
+function formatPresentationRangePosition(idx) {
+  // 以 1-based 句序顯示（圈選對應「第 N 句」）
+  return String(Math.trunc(Number(idx) || 0) + 1);
+}
+
+function buildPresentationRangeRoundText() {
+  const total = state.loopCountTotal;
+  const totalText = total === null ? "∞" : String(total);
+  if (!state.presentationPlayAllActive) {
+    return state.uiLanguage === "zh-TW" ? `共 ${totalText} 輪` : `${totalText} round(s)`;
+  }
+  const cap = total === null ? state.presentationPlayAllRoundCount + 1 : total;
+  const current = Math.min(state.presentationPlayAllRoundCount + 1, cap);
+  return state.uiLanguage === "zh-TW"
+    ? `第 ${current}/${totalText} 輪`
+    : `round ${current}/${totalText}`;
+}
+
+function renderPresentationRangeStatus() {
+  if (!el.presentationRangeStatus) return;
+  if (!hasPresentationLoopRange()) {
+    el.presentationRangeStatus.hidden = true;
+    el.presentationRangeStatus.innerHTML = "";
+    return;
+  }
+
+  const startText = formatPresentationRangePosition(state.presentationLoopRangeStart);
+  const endText = formatPresentationRangePosition(state.presentationLoopRangeEnd);
+  const rangeLabel = state.uiLanguage === "zh-TW"
+    ? `範圍 ${startText}–${endText}`
+    : `range ${startText}–${endText}`;
+
+  el.presentationRangeStatus.hidden = false;
+  el.presentationRangeStatus.innerHTML = "";
+
+  const text = document.createElement("span");
+  text.className = "presentation-range-status-text";
+  text.textContent = `🔁 ${rangeLabel} · ${buildPresentationRangeRoundText()}`;
+  el.presentationRangeStatus.appendChild(text);
+
+  const clearBtn = document.createElement("button");
+  clearBtn.type = "button";
+  clearBtn.className = "presentation-range-status-clear";
+  clearBtn.textContent = "×";
+  clearBtn.setAttribute("aria-label", t("presentationRangeClear"));
+  clearBtn.title = t("presentationRangeClear");
+  clearBtn.addEventListener("click", () => {
+    clearPresentationLoopRange();
+  });
+  el.presentationRangeStatus.appendChild(clearBtn);
+}
+
+function updatePresentationRangeSelectButton() {
+  if (!el.presentationRangeSelectBtn) return;
+  const sentences = state.lesson && Array.isArray(state.lesson.sentences) ? state.lesson.sentences : [];
+  const active = !!state.presentationRangeSelectMode;
+  el.presentationRangeSelectBtn.disabled = sentences.length === 0;
+  el.presentationRangeSelectBtn.classList.toggle("active", active);
+  el.presentationRangeSelectBtn.setAttribute("aria-pressed", active ? "true" : "false");
+  const label = active ? t("presentationRangeSelectOn") : t("presentationRangeSelectOff");
+  el.presentationRangeSelectBtn.textContent = t("presentationRangeSelect");
+  el.presentationRangeSelectBtn.setAttribute("aria-label", label);
+  el.presentationRangeSelectBtn.title = label;
+}
+
+function togglePresentationRangeSelectMode() {
+  state.presentationRangeSelectMode = !state.presentationRangeSelectMode;
+  state.presentationRangePendingStart = null;
+  updatePresentationRangeSelectButton();
+  renderPresentationTranscript();
+}
+
+function clearPresentationLoopRange() {
+  const wasActive = state.presentationPlayAllActive;
+  // 播放中清除：停止範圍循環、暫停於當前句起點（不往尾句推進）
+  if (wasActive) {
+    stopPresentationPlayAll();
+    pauseAudioAtRangeStart();
+  }
+  resetPresentationLoopRange();
+  state.presentationRangeSelectMode = false;
+  updatePresentationRangeSelectButton();
+  updatePresentationLoopToggleButton();
+  updatePresentationPlayAllButton();
+  renderPresentationTranscript();
+  renderPresentationRangeStatus();
+}
+
 function renderPresentationLessonMeta() {
   if (!el.presentationLessonMeta || !state.lesson) return;
   const name = state.lesson.display_name || state.currentLessonKey || "";

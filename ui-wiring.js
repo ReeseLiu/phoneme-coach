@@ -278,6 +278,12 @@ function bindEvents() {
     });
   }
 
+  if (el.presentationRangeSelectBtn) {
+    el.presentationRangeSelectBtn.addEventListener("click", () => {
+      togglePresentationRangeSelectMode();
+    });
+  }
+
   if (el.presentationLoopToggleBtn) {
     el.presentationLoopToggleBtn.addEventListener("click", () => {
       state.loopSentence = !state.loopSentence;
@@ -292,6 +298,10 @@ function bindEvents() {
 
   if (el.presentationLoopToggleBtn) {
     el.presentationLoopToggleBtn.addEventListener("mouseenter", () => {
+      if (state.presentationPlayAllActive && hasPresentationLoopRange()) {
+        el.presentationLoopToggleBtn.title = t("presentationLoopDisabledByRange");
+        return;
+      }
       el.presentationLoopToggleBtn.title = state.loopSentence
         ? t("presentationLoopHintOn")
         : t("presentationLoopHintOff");
