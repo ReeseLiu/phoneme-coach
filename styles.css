@@ -611,6 +611,7 @@ body.presentation-mode .presentation-section {
   background: linear-gradient(135deg, #5d8690, #7393ac);
   color: #fff;
   cursor: pointer;
+  margin-right: 8px;
 }
 
 .presentation-play-all-btn.active {
@@ -1486,6 +1487,10 @@ audio::-webkit-media-controls-mute-button {
   background: rgba(70, 97, 112, 0.32);
 }
 
+.presentation-range-select-btn {
+  margin-right: 8px;
+}
+
 .presentation-range-select-btn.active {
   background: rgba(214, 158, 46, 0.2);
   box-shadow: inset 0 0 0 1px rgba(214, 158, 46, 0.7);
@@ -1590,14 +1595,9 @@ body.entry-screen .content {
   text-overflow: ellipsis;
 }
 
-.presentation-mark-done-wrap {
-  display: flex;
-  justify-content: center;
-  margin: 6px 0 4px;
-}
-
 .presentation-mark-done-btn {
   min-width: 80px;
+  margin-left: 18px;
 }
 
 .presentation-mark-done-btn.done {

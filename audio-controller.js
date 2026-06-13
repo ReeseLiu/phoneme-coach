@@ -536,6 +536,10 @@ function advancePresentationPlayAll() {
   const gapMs = Math.round(clampLoopGapSec(state.loopGapSec) * 1000);
   if (gapMs > 0) {
     state.presentationPlayAllAdvancing = true;
+    // gap 期間暫停音檔，避免越過區間終點繼續播放
+    if (!el.sentenceAudio.paused) {
+      el.sentenceAudio.pause();
+    }
     state.presentationPlayAllGapTimerId = window.setTimeout(() => {
       state.presentationPlayAllGapTimerId = null;
       state.presentationPlayAllAdvancing = false;
@@ -790,7 +794,19 @@ function setAudioRangeForSentence(sentence) {
   state.audioUseClipRangeHint = useClipRangeHint;
   state.audioStartOffsetSec = offsets.start;
   state.audioEndOffsetSec = offsets.end;
-  refreshAudioRangeFromState();
+
+  // 在句切換期間 el.sentenceAudio 仍載著舊音檔，getAudioDurationSec()
+  // 讀到的是錯誤的 duration。跳過 resolveAudioBaseRange 的 duration
+  // 啟發式，直接用 base + offsets 計算暫定範圍。
+  // loadedmetadata handler 會以正確 duration 重新 refreshAudioRangeFromState()。
+  const tentativeRange = computeEffectiveRange(
+    safeStart, safeEnd,
+    offsets.start, offsets.end,
+    null,
+  );
+  state.audioRangeStartSec = tentativeRange.start;
+  state.audioRangeEndSec = tentativeRange.end;
+  updateAudioEffectiveRangeText();
   renderAudioOffsetControls();
 
   if (prevSentenceId !== state.audioSentenceId) {
