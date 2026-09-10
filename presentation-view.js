@@ -15,8 +15,29 @@ function appendPresentationTokenAtIndex(tokens, idx, text) {
 const ZHUYIN_IPA_VOWELS = new Set([
   "i", "ɪ", "eɪ", "ɛ", "æ", "ə", "ʌ", "ɑ", "ɔ", "ʊ", "u",
   "aɪ", "aʊ", "oʊ", "ɔɪ", "iː", "uː", "ɑː", "ɔː", "ɜː",
-  "ɐ", "ɚ", "ɝ", "ɔːɹ", "ɑːɹ", "ɪɹ", "əl",
+  "ɐ", "ɚ", "ɝ", "ɔːɹ", "ɑːɹ", "ɪɹ", "əl", "a", "ᵻ", "ʉ",
 ]);
+
+// Onset glides render as vowel zhuyin (w -> ㄨ, j -> ㄧ) but only ever fill C1.
+// Without this they inherit the V-only hint from u / ᵻ and steal the nucleus.
+const ZHUYIN_IPA_ONSET_GLIDES = new Set(["w", "j"]);
+
+// Merged forms produced by contextualZhuyinOverride(). They never appear in the
+// display table, so the lexicon has to learn them explicitly or the splitter
+// tears them back apart and slots the halves separately.
+const ZHUYIN_CONTEXTUAL_SLOTS = [
+  ["ㄓㄨ", "C1"],
+  ["ㄔㄨ", "C1"],
+  ["ㄖㄨ", "C1", "C2"],
+  ["ㄗ", "C2"],
+  ["ㄘ", "C2"],
+  ["ㄊ\"", "C2"],
+  ["ㄛㄦ", "V"],
+  ["ㄝㄦ", "V"],
+  ["ㄧㄦ", "V"],
+  ["ㄚ(喉)ㄦ", "V"],
+  ["ㄛ", "C2"],
+];
 
 function buildPresentationZhuyinSlotLexicon() {
   const table = getDisplayTable();
@@ -25,7 +46,7 @@ function buildPresentationZhuyinSlotLexicon() {
   }
 
   const slotMap = new Map();
-  const addToken = (raw, slot = "") => {
+  const addToken = (raw, ...slots) => {
     const token = String(raw || "").trim();
     if (!token) {
       return;
@@ -33,9 +54,7 @@ function buildPresentationZhuyinSlotLexicon() {
     if (!slotMap.has(token)) {
       slotMap.set(token, new Set());
     }
-    if (slot) {
-      slotMap.get(token).add(slot);
-    }
+    slots.filter((slot) => slot).forEach((slot) => slotMap.get(token).add(slot));
   };
 
   Object.values(table).forEach((rawRow) => {
@@ -61,20 +80,21 @@ function buildPresentationZhuyinSlotLexicon() {
       if (base === c2) {
         inferred.push("C2");
       }
-      if (inferred.length === 0) {
-        addToken(base, ZHUYIN_IPA_VOWELS.has(ipa) ? "V" : "");
+      if (inferred.length > 0) {
+        addToken(base, ...inferred);
+      } else if (ZHUYIN_IPA_VOWELS.has(ipa)) {
+        addToken(base, "V");
+      } else if (ZHUYIN_IPA_ONSET_GLIDES.has(ipa)) {
+        addToken(base, "C1");
       } else {
-        inferred.forEach((slot) => addToken(base, slot));
+        // A plain consonant can sit in either margin; leaving it unhinted makes
+        // the assignment guess, and the guess is what mis-slots ㄨ-initial words.
+        addToken(base, "C1", "C2");
       }
     }
   });
 
-  addToken("ㄓㄨ", "C1");
-  addToken("ㄔㄨ", "C1");
-  addToken("ㄖㄨ", "C1");
-  addToken("ㄗ", "C2");
-  addToken("ㄘ", "C2");
-  addToken("ㄊ\"", "C2");
+  ZHUYIN_CONTEXTUAL_SLOTS.forEach(([text, ...slots]) => addToken(text, ...slots));
 
   return Array.from(slotMap.entries())
     .map(([text, slots]) => ({ text, slots: Array.from(slots) }))
@@ -241,14 +261,11 @@ function assignPresentationZhuyinPiecesToDetails(editedTokens, tokenDetails, exp
   const used = new Set();
   let lastIdx = -1;
 
+  // Strictly forward-only: the fallback that used to scan from the start could
+  // wrap a trailing coda back onto index 0 and shuffle the whole word.
   const pickIndex = (candidates = []) => {
     for (const idx of candidates) {
       if (!used.has(idx) && idx >= lastIdx) {
-        return idx;
-      }
-    }
-    for (const idx of candidates) {
-      if (!used.has(idx)) {
         return idx;
       }
     }
@@ -257,10 +274,12 @@ function assignPresentationZhuyinPiecesToDetails(editedTokens, tokenDetails, exp
 
   const allIndices = Array.from({ length: details.length }, (_, idx) => idx);
   normalizedPieces.forEach((piece) => {
-    const preferredSlots = piece.slots.filter((slot) => PRESENTATION_SLOT_ORDER.includes(slot));
     let targetIdx = null;
 
-    if (preferredSlots.length === 0 && expected.length > 0) {
+    // An exact hit against the auto-generated token for a position is the
+    // strongest evidence available, so it outranks the slot hints — which stay
+    // ambiguous for any symbol shared by a glide and a vowel (ㄨ, ㄧ, ㄛ).
+    if (expected.length > 0) {
       const exactMatches = [];
       expected.forEach((token, idx) => {
         if (token && token === piece.text) {
@@ -272,17 +291,22 @@ function assignPresentationZhuyinPiecesToDetails(editedTokens, tokenDetails, exp
       }
     }
 
-    for (const slot of preferredSlots) {
-      targetIdx = pickIndex(slotIndices[slot]);
-      if (targetIdx !== null) {
-        break;
+    if (targetIdx === null) {
+      const preferredSlots = piece.slots.filter((slot) => PRESENTATION_SLOT_ORDER.includes(slot));
+      for (const slot of preferredSlots) {
+        targetIdx = pickIndex(slotIndices[slot]);
+        if (targetIdx !== null) {
+          break;
+        }
       }
     }
     if (targetIdx === null) {
       targetIdx = pickIndex(allIndices);
     }
     if (targetIdx === null) {
-      targetIdx = details.length - 1;
+      // Out of room ahead: append to the last position used rather than
+      // jumping backwards to the start of the word.
+      targetIdx = Math.max(0, lastIdx);
     }
     appendPresentationTokenAtIndex(adjusted, targetIdx, piece.text);
     used.add(targetIdx);
@@ -470,30 +494,131 @@ function hasUserSyllableBoundary(editedTokens) {
   return Array.isArray(editedTokens) && editedTokens.some((t) => String(t || "").includes("|"));
 }
 
-function buildPresentationUserDefinedColumns(editedTokens, lexicon) {
+function presentationPieceCanFillSlot(piece, slot) {
+  const slots = Array.isArray(piece?.slots) ? piece.slots : [];
+  if (slots.length === 0) {
+    // An unrecognised symbol is treated as consonant-ish, matching the previous
+    // "anything without a V hint is a margin" behaviour.
+    return slot !== "V";
+  }
+  return slots.includes(slot);
+}
+
+function resolvePresentationNucleusIndex(pieces) {
+  const list = Array.isArray(pieces) ? pieces : [];
+
+  // A syllable is onset* nucleus coda*, so a legal nucleus is a V-capable piece
+  // that leaves every earlier piece a legal C1 and every later piece a legal
+  // C2. That alone already rules out an onset glide: in ㄨ ㄨ (/wu/) the first
+  // ㄨ cannot be the nucleus because the second one has no C2 reading.
+  const legal = [];
+  for (let idx = 0; idx < list.length; idx += 1) {
+    if (!presentationPieceCanFillSlot(list[idx], "V")) {
+      continue;
+    }
+    const onsetOk = list.slice(0, idx).every((piece) => presentationPieceCanFillSlot(piece, "C1"));
+    const codaOk = list.slice(idx + 1).every((piece) => presentationPieceCanFillSlot(piece, "C2"));
+    if (onsetOk && codaOk) {
+      legal.push(idx);
+    }
+  }
+
+  // An unambiguous vowel outranks a symbol that merely *can* be one, so ㄨ ㄝ ㄛ
+  // resolves to ㄝ. With no such anchor the leftmost legal nucleus wins, which
+  // keeps ㄨ ㄛ (/uːl/) as V + coda rather than onset + V.
+  const exclusive = legal.find((idx) => {
+    const slots = Array.isArray(list[idx]?.slots) ? list[idx].slots : [];
+    return slots.length === 1 && slots[0] === "V";
+  });
+  if (exclusive !== undefined) {
+    return exclusive;
+  }
+  if (legal.length > 0) {
+    return legal[0];
+  }
+
+  for (let idx = 0; idx < list.length; idx += 1) {
+    if (presentationPieceCanFillSlot(list[idx], "V")) {
+      return idx;
+    }
+  }
+  return -1;
+}
+
+function buildPresentationAutoSlotHints(word) {
+  const ipaTokens = getFallbackGoldIpaTokens(word);
+  if (ipaTokens.length === 0) {
+    return [];
+  }
+  const details = pickTokenDetailsForWordTokens(word, ipaTokens);
+  if (details.length !== ipaTokens.length) {
+    return [];
+  }
+  const auto = displayTokensWithDetails(
+    word?.gold_display,
+    ipaTokens,
+    details,
+    "zhuyin_plus",
+    word?.word,
+  );
+
+  const hints = [];
+  auto.forEach((token, idx) => {
+    const text = String(token || "").trim();
+    const slot = String(details[idx]?.syllable_slot || "");
+    if (text && PRESENTATION_SLOT_ORDER.includes(slot)) {
+      hints.push({ text, slot });
+    }
+  });
+  return hints;
+}
+
+// ㄨ ㄛ is /u/ + dark-l in "fool" but /w/ + /ɔl/ in "walls" — identical symbols,
+// opposite structure. The text can never settle that, so consume the word's own
+// auto-generated (symbol, slot) stream in order and let a piece that matches the
+// next unconsumed entry inherit its real slot.
+function applyPresentationAutoSlotHints(pieces, hints, cursorRef) {
+  if (!Array.isArray(hints) || hints.length === 0) {
+    return pieces;
+  }
+  return pieces.map((piece) => {
+    const text = String(piece?.text || "").trim();
+    for (let idx = cursorRef.value; idx < hints.length; idx += 1) {
+      if (hints[idx].text === text) {
+        cursorRef.value = idx + 1;
+        return { ...piece, slots: [hints[idx].slot] };
+      }
+    }
+    return piece;
+  });
+}
+
+function buildPresentationUserDefinedColumns(editedTokens, lexicon, word = null) {
   const joined = editedTokens.map((t) => String(t || "")).join(" ");
   const segments = joined.split("|").map((seg) => seg.trim()).filter((seg) => seg);
   if (segments.length === 0) return [];
 
+  const hints = word ? buildPresentationAutoSlotHints(word) : [];
+  const cursorRef = { value: 0 };
+
   return segments.map((seg) => {
     const segTokens = normalizeTokenSequence(seg);
-    const pieces = [];
+    const rawPieces = [];
     segTokens.forEach((token) => {
       splitPresentationZhuyinTokenByLexicon(token, lexicon).forEach((piece) => {
-        if (String(piece?.text || "").trim()) pieces.push(piece);
+        if (String(piece?.text || "").trim()) rawPieces.push(piece);
       });
     });
+    const pieces = applyPresentationAutoSlotHints(rawPieces, hints, cursorRef);
 
     const slots = { C1: [], V: [], C2: [] };
-    let foundVowel = false;
-    pieces.forEach((piece) => {
+    const nucleusIdx = resolvePresentationNucleusIndex(pieces);
+    pieces.forEach((piece, idx) => {
       const text = String(piece?.text || "").trim();
       if (!text) return;
-      const isV = Array.isArray(piece?.slots) && piece.slots.includes("V");
-      if (isV) {
-        foundVowel = true;
+      if (idx === nucleusIdx) {
         slots.V.push(text);
-      } else if (!foundVowel) {
+      } else if (nucleusIdx < 0 || idx < nucleusIdx) {
         slots.C1.push(text);
       } else {
         slots.C2.push(text);
@@ -512,7 +637,7 @@ function buildPresentationWordLayout(word) {
 
   if (userSyllableBoundary) {
     const lexicon = buildPresentationZhuyinSlotLexicon();
-    const userColumns = buildPresentationUserDefinedColumns(tokens, lexicon);
+    const userColumns = buildPresentationUserDefinedColumns(tokens, lexicon, word);
     if (Array.isArray(userColumns) && userColumns.length > 0) {
       const columns = userColumns.map((col) => normalizePresentationColumnSlots(col));
       const tokenCount = columns.reduce((count, column) => {
