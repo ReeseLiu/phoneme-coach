@@ -371810,7 +371810,8 @@
           "gold_display_edits": {
             "zhuyin_plus": [
               "ㄏ",
-              "ㄜ"
+              "ㄜ",
+              "ㄍ"
             ]
           }
         },
@@ -386340,7 +386341,7 @@
           },
           "syllable_tones": [
             "1",
-            "1"
+            "5"
           ],
           "syllable_tone_analysis": [
             {
@@ -387218,7 +387219,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "1"
+            "5"
           ],
           "syllable_tone_analysis": [
             {
@@ -388167,7 +388168,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "1"
+            "5"
           ],
           "syllable_tone_analysis": [
             {
@@ -389070,7 +389071,7 @@
             ]
           },
           "syllable_tones": [
-            "1",
+            "5",
             "5"
           ],
           "syllable_tone_analysis": [
@@ -392354,7 +392355,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "1"
+            "5"
           ],
           "syllable_tone_analysis": [
             {
@@ -393932,7 +393933,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "4"
+            "5"
           ],
           "syllable_tone_analysis": [
             {
@@ -396166,7 +396167,7 @@
           },
           "syllable_tones": [
             "1",
-            "1"
+            "5"
           ],
           "syllable_tone_analysis": [
             {
@@ -396782,7 +396783,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "1"
+            "5"
           ],
           "syllable_tone_analysis": [
             {
@@ -398360,7 +398361,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "4"
+            "5"
           ],
           "syllable_tone_analysis": [
             {
@@ -403212,7 +403213,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "5"
+            "1"
           ],
           "syllable_tone_analysis": [
             {
@@ -409068,7 +409069,7 @@
             ]
           },
           "syllable_tones": [
-            "1"
+            "4"
           ],
           "syllable_tone_analysis": [
             {
@@ -417264,7 +417265,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "1"
+            "4"
           ],
           "syllable_tone_analysis": [
             {
@@ -420055,7 +420056,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "5"
+            "4"
           ],
           "syllable_tone_analysis": [
             {
@@ -424000,7 +424001,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "1"
+            "5"
           ],
           "syllable_tone_analysis": [
             {
@@ -425065,7 +425066,7 @@
           },
           "syllable_tones": [
             "1",
-            "1"
+            "5"
           ],
           "syllable_tone_analysis": [
             {
@@ -425962,8 +425963,8 @@
             ]
           },
           "syllable_tones": [
-            "1",
-            "1"
+            "5",
+            "5"
           ],
           "syllable_tone_analysis": [
             {
@@ -426988,7 +426989,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "4"
+            "5"
           ],
           "syllable_tone_analysis": [
             {
@@ -427605,7 +427606,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "1"
+            "5"
           ],
           "syllable_tone_analysis": [
             {
@@ -440627,7 +440628,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "4"
+            "5"
           ],
           "syllable_tone_analysis": [
             {
@@ -447742,7 +447743,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "1"
+            "5"
           ],
           "syllable_tone_analysis": [
             {
@@ -449324,8 +449325,8 @@
           },
           "syllable_tones": [
             "1",
-            "1",
-            "1"
+            "5",
+            "5"
           ],
           "syllable_tone_analysis": [
             {
@@ -463340,7 +463341,7 @@
             ]
           },
           "syllable_tones": [
-            "1"
+            "4"
           ],
           "syllable_tone_analysis": [
             {
@@ -466896,7 +466897,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "1"
+            "5"
           ],
           "syllable_tone_analysis": [
             {
@@ -468664,7 +468665,7 @@
             ]
           },
           "syllable_tones": [
-            "1"
+            "5"
           ],
           "syllable_tone_analysis": [
             {
@@ -470834,7 +470835,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "1"
+            "4"
           ],
           "syllable_tone_analysis": [
             {
@@ -471720,8 +471721,8 @@
             ]
           },
           "syllable_tones": [
-            "1",
-            "1"
+            "5",
+            "5"
           ],
           "syllable_tone_analysis": [
             {
@@ -472746,7 +472747,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "4"
+            "5"
           ],
           "syllable_tone_analysis": [
             {
@@ -479630,7 +479631,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "4"
+            "5"
           ],
           "syllable_tone_analysis": [
             {
