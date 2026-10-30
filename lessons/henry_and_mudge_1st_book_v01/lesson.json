@@ -379683,7 +379683,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "1"
+            "4"
           ],
           "syllable_tone_analysis": [
             {
@@ -385719,7 +385719,7 @@
           "aligned_to_whisper": true,
           "timing_source": "whisper_match",
           "syllable_tones": [
-            "1"
+            "2"
           ],
           "syllable_tone_analysis": [
             {
@@ -389072,7 +389072,7 @@
           },
           "syllable_tones": [
             "5",
-            "5"
+            "2"
           ],
           "syllable_tone_analysis": [
             {
