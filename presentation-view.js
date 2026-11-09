@@ -680,7 +680,7 @@ function getPresentationLayoutMetrics(scale = 1) {
   const safeScale = Number.isFinite(scale) ? Math.max(0.62, Math.min(1, scale)) : 1;
   return {
     safeScale,
-    syllableMinWidth: Math.max(48, Math.round(84 * safeScale)),
+    syllableMinWidth: Math.max(40, Math.round(56 * safeScale)),
     syllableGap: Math.max(8, Math.round(16 * safeScale)),
     groupPaddingX: Math.max(8, Math.round(13 * safeScale)),
     groupGap: Math.max(10, Math.round(22 * safeScale)),
@@ -746,19 +746,18 @@ function estimatePresentationWordTextWidth(wordText, scale = 1) {
 function estimatePresentationColumnWidth(column, scale = 1, metrics = null) {
   const cfg = metrics || getPresentationLayoutMetrics(scale);
   const safeColumn = column && typeof column === "object" ? column : {};
-  const slotTexts = PRESENTATION_SLOT_ORDER.map((slot) => {
+  // Cards stack vertically, so a column is as wide as its widest single card (or glyph, for a
+  // stacked two-glyph symbol), not as wide as a slot's tokens laid side by side.
+  const widest = PRESENTATION_SLOT_ORDER.reduce((maxWidth, slot) => {
     const tokens = Array.isArray(safeColumn?.slots?.[slot]) ? safeColumn.slots[slot] : [];
-    if (tokens.length === 0) {
-      return "-";
-    }
-    return tokens.map((token) => String(token || "")).join(" ");
-  });
+    return tokens.reduce((inner, token) => {
+      return splitPresentationGlyphs(token).reduce((glyphMax, glyph) => {
+        return Math.max(glyphMax, estimatePresentationTokenTextWidth(glyph, cfg.safeScale));
+      }, inner);
+    }, maxWidth);
+  }, estimatePresentationTokenTextWidth("", cfg.safeScale));
 
-  const widest = slotTexts.reduce((maxWidth, text) => {
-    return Math.max(maxWidth, estimatePresentationTokenTextWidth(text, cfg.safeScale));
-  }, 0);
-
-  const slotPad = Math.max(10, Math.round(16 * cfg.safeScale));
+  const slotPad = Math.max(14, Math.round(22 * cfg.safeScale));
   return Math.max(cfg.syllableMinWidth, widest + slotPad);
 }
 
@@ -774,16 +773,12 @@ function estimatePresentationWordGroupMetrics(layout, scale = 1, metrics = null)
   const textWidth = estimatePresentationWordTextWidth(layout?.wordText, cfg.safeScale);
   const contentWidth = Math.max(textWidth, syllableWidth);
   const fullWidth = contentWidth + (cfg.groupPaddingX * 2);
-  const columnTemplate = columnMinWidths
-    .map((width) => `minmax(${Math.max(24, Math.round(width))}px, 1fr)`)
-    .join(" ");
 
   return {
     syllableCount,
     contentWidth,
     fullWidth,
     columnMinWidths,
-    columnTemplate,
   };
 }
 
@@ -905,10 +900,7 @@ function splitPresentationWordLayouts(wordLayouts, scale = 1) {
 
   const prepared = [];
   wordLayouts.forEach((layout) => {
-    const cols = Array.isArray(layout?.columns) ? layout.columns : [];
-    if (cols.length <= 0) {
-      return;
-    }
+    // A word with no phonemes still takes one column, where its placeholder card goes.
     const groupMetrics = estimatePresentationWordGroupMetrics(layout, metrics.safeScale, metrics);
     prepared.push({
       ...layout,
@@ -987,21 +979,102 @@ function splitPresentationWordLayouts(wordLayouts, scale = 1) {
   };
 }
 
+// Two-glyph Zhuyin symbols such as ㄧㄜ or ㄖㄨ are one phoneme, drawn as one card with the
+// glyphs stacked. Modifiers like (喉) or " stay attached to their glyph.
+const PRESENTATION_ZHUYIN_GLYPH_RE = /[\u3105-\u312f](?:\([^)]*\)|[~"*])*/gu;
+
+function splitPresentationGlyphs(token) {
+  const text = String(token || "");
+  const glyphs = text.match(PRESENTATION_ZHUYIN_GLYPH_RE) || [];
+  return glyphs.length > 1 && glyphs.join("") === text.replace(/\*/g, "") ? glyphs : [text];
+}
+
+function buildPresentationSlotCard(token, slot) {
+  const card = document.createElement("span");
+  card.className = `presentation-slot-cell presentation-slot-cell-${slot}`;
+  card.dataset.slot = slot;
+  const glyphs = splitPresentationGlyphs(token);
+  if (glyphs.length > 1) {
+    card.classList.add("stacked-glyphs");
+    glyphs.forEach((glyph) => {
+      const part = document.createElement("span");
+      part.className = "display-token";
+      part.textContent = glyph;
+      card.appendChild(part);
+    });
+  } else {
+    card.appendChild(buildTokenFragment([token], []));
+  }
+  return card;
+}
+
+// One syllable is one vertical stack: onset (C1), vowel (V) and coda (C2) blocks from top to
+// bottom. Several symbols in one slot stay touching, so a cluster reads as one composite block.
+function buildPresentationSyllableStack(column, toneValue) {
+  const stack = document.createElement("div");
+  stack.className = "presentation-syllable-stack";
+
+  const isEmpty = PRESENTATION_SLOT_ORDER.every((slot) => {
+    return !Array.isArray(column?.slots?.[slot]) || column.slots[slot].length === 0;
+  });
+  const toneCell = document.createElement("span");
+  toneCell.className = "presentation-slot-cell presentation-slot-cell-tone";
+  if (isEmpty) {
+    toneCell.style.visibility = "hidden";
+  } else {
+    const toneVal = String(toneValue || "").trim();
+    toneCell.textContent = toneVal || "-";
+    if (!toneVal) {
+      toneCell.classList.add("empty");
+    }
+  }
+  stack.appendChild(toneCell);
+
+  PRESENTATION_SLOT_ORDER.forEach((slot) => {
+    const slotTokens = Array.isArray(column?.slots?.[slot]) ? column.slots[slot] : [];
+    if (slotTokens.length === 0) {
+      return;
+    }
+    const block = document.createElement("div");
+    block.className = `presentation-slot-block presentation-slot-block-${slot}`;
+    block.dataset.slot = slot;
+    if (slotTokens.length > 1) {
+      block.classList.add("composite");
+    }
+    slotTokens.forEach((token) => {
+      block.appendChild(buildPresentationSlotCard(token, slot));
+    });
+    stack.appendChild(block);
+  });
+
+  return stack;
+}
+
+// A word with no phonemes at all is not skipped: it keeps its place with a dashed "？" card,
+// so it is obvious on screen that the word still needs to be filled in.
+function buildPresentationMissingStack() {
+  const stack = document.createElement("div");
+  stack.className = "presentation-syllable-stack";
+  const card = document.createElement("span");
+  card.className = "presentation-slot-cell missing-card";
+  card.textContent = "？";
+  card.title = t("presentationMissingPhonemes");
+  stack.appendChild(card);
+  return stack;
+}
+
 function buildPresentationLineMatrix(wordLayouts, lineIndex = 0, scale = 1, layoutMetrics = null) {
   const metrics = layoutMetrics || getPresentationLayoutMetrics(scale);
   const groups = [];
   let columnCount = 0;
   wordLayouts.forEach((layout) => {
     const cols = Array.isArray(layout?.columns) ? layout.columns : [];
-    if (cols.length <= 0) {
-      return;
-    }
     groups.push({
       wordText: String(layout?.wordText || "").trim() || "...",
       columns: cols,
       syllableTones: Array.isArray(layout?.syllableTones) ? layout.syllableTones : [],
     });
-    columnCount += cols.length;
+    columnCount += Math.max(1, cols.length);
   });
 
   if (groups.length === 0 || columnCount === 0) {
@@ -1028,64 +1101,24 @@ function buildPresentationLineMatrix(wordLayouts, lineIndex = 0, scale = 1, layo
     wordGroup.style.setProperty("--presentation-word-syllables", String(syllableCount));
     wordGroup.style.setProperty("--presentation-word-gap", `${metrics.syllableGap}px`);
     wordGroup.style.setProperty("--presentation-word-min-width", `${wordMinWidth}px`);
-    if (groupMetrics.columnTemplate) {
-      wordGroup.style.setProperty("--presentation-word-columns-template", groupMetrics.columnTemplate);
-    }
 
     const wordCell = document.createElement("span");
     wordCell.className = "presentation-word-cell presentation-word-span";
     wordCell.textContent = group.wordText;
     wordGroup.appendChild(wordCell);
 
-    const toneRow = document.createElement("div");
-    toneRow.className = "presentation-word-slot-row presentation-word-slot-row-tone";
-    const toneCells = document.createElement("div");
-    toneCells.className = "presentation-word-slot-cells presentation-word-slot-cells-tone";
+    const stacks = document.createElement("div");
+    stacks.className = "presentation-syllable-stacks";
+    if (group.columns.length === 0) {
+      wordGroup.classList.add("missing");
+      stacks.appendChild(buildPresentationMissingStack());
+    }
     group.columns.forEach((column, colIdx) => {
-      const isEmpty = column.slots.C1.length === 0
-        && column.slots.V.length === 0
-        && column.slots.C2.length === 0;
-      const cell = document.createElement("span");
-      cell.className = "presentation-slot-cell presentation-slot-cell-tone";
-      if (isEmpty) {
-        cell.style.visibility = "hidden";
-      } else {
-        const toneVal = String(group.syllableTones[colIdx] || "").trim();
-        cell.textContent = toneVal || "-";
-        if (!toneVal) {
-          cell.classList.add("empty");
-        }
-      }
-      toneCells.appendChild(cell);
+      const stack = buildPresentationSyllableStack(column, group.syllableTones[colIdx]);
+      stack.style.minWidth = `${Math.max(24, Math.round(groupMetrics.columnMinWidths[colIdx] || 0))}px`;
+      stacks.appendChild(stack);
     });
-    toneRow.appendChild(toneCells);
-    wordGroup.appendChild(toneRow);
-
-    PRESENTATION_SLOT_ORDER.forEach((slot) => {
-      const slotRow = document.createElement("div");
-      slotRow.className = `presentation-word-slot-row presentation-word-slot-row-${slot}`;
-      slotRow.dataset.slot = slot;
-
-      const slotCells = document.createElement("div");
-      slotCells.className = `presentation-word-slot-cells presentation-word-slot-cells-${slot}`;
-
-      group.columns.forEach((column) => {
-        const cell = document.createElement("span");
-        cell.className = `presentation-slot-cell presentation-slot-cell-${slot}`;
-        cell.dataset.slot = slot;
-        const slotTokens = Array.isArray(column?.slots?.[slot]) ? column.slots[slot] : [];
-        if (slotTokens.length === 0) {
-          cell.classList.add("empty");
-          cell.textContent = "-";
-        } else {
-          cell.appendChild(buildTokenFragment(slotTokens, []));
-        }
-        slotCells.appendChild(cell);
-      });
-
-      slotRow.appendChild(slotCells);
-      wordGroup.appendChild(slotRow);
-    });
+    wordGroup.appendChild(stacks);
 
     groupsWrap.appendChild(wordGroup);
   });
@@ -1229,7 +1262,8 @@ function renderPresentationSentence(sentence) {
   let totalTokenCount = 0;
   words.forEach((word) => {
     const layout = buildPresentationWordLayout(word);
-    if (!Array.isArray(layout.columns) || layout.columns.length === 0) {
+    // Words without phonemes stay in: they are drawn as a placeholder that asks for a fix.
+    if (!layout.wordText) {
       return;
     }
     wordLayouts.push(layout);
@@ -1237,8 +1271,7 @@ function renderPresentationSentence(sentence) {
   });
 
   const totalColumnCount = wordLayouts.reduce((sum, layout) => {
-    const cols = Array.isArray(layout?.columns) ? layout.columns.length : 0;
-    return sum + cols;
+    return sum + Math.max(1, Array.isArray(layout?.columns) ? layout.columns.length : 0);
   }, 0);
 
   let preferredScale = computePresentationScale(sentence.text || "", words.length, totalTokenCount, totalColumnCount);

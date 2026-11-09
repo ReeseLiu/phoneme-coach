@@ -500,9 +500,9 @@ body.presentation-mode .presentation-section {
   --presentation-word-syllables: 1;
   --presentation-word-gap: 14px;
   --presentation-word-min-width: 72px;
-  --presentation-word-columns-template: minmax(var(--presentation-word-min-width), 1fr);
-  display: grid;
-  grid-template-rows: repeat(4, minmax(0, auto));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   row-gap: var(--presentation-row-gap);
   width: max-content;
   min-width: var(--presentation-word-min-width);
@@ -512,15 +512,6 @@ body.presentation-mode .presentation-section {
   border: 1px solid rgba(198, 141, 92, 0.1);
 }
 
-.presentation-word-cell,
-.presentation-word-slot-cells {
-  display: grid;
-  grid-template-columns: var(--presentation-word-columns-template);
-  column-gap: var(--presentation-word-gap);
-  align-items: center;
-  justify-items: center;
-}
-
 .presentation-word-cell {
   display: flex;
   align-items: center;
@@ -528,10 +519,6 @@ body.presentation-mode .presentation-section {
   min-width: var(--presentation-word-min-width);
   text-align: center;
   width: 100%;
-}
-
-.presentation-word-slot-row {
-  display: block;
 }
 
 .presentation-word-span {
@@ -553,34 +540,92 @@ body.presentation-mode .presentation-section {
   color: #324957;
   white-space: nowrap;
   border-radius: 10px;
-  background: rgba(220, 166, 115, 0.045);
-  padding: 0.05em 0.12em;
+  border: 2px solid transparent;
+  background: #ffffff;
+  padding: 0.1em 0.3em;
 }
 
-.presentation-slot-cell.empty {
-  color: #9aaab4;
-  background: rgba(220, 166, 115, 0.03);
+.presentation-syllable-stacks {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--presentation-word-gap);
+}
+
+.presentation-syllable-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.presentation-slot-block {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.presentation-slot-cell.stacked-glyphs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.05;
+}
+
+/* Onset outlined light blue, vowel outlined light red, coda filled blue. */
+.presentation-slot-cell-C1 {
+  border-color: #8fb8e6;
 }
 
 .presentation-slot-cell-V {
   color: #c0392b;
+  border-color: #eea99f;
+}
+
+.presentation-slot-cell-C2 {
+  background: #94bde8;
+  border-color: #94bde8;
+  color: #ffffff;
+}
+
+/* Cards of one cluster touch each other and read as a single tall block. */
+.presentation-slot-block.composite .presentation-slot-cell:not(:first-child) {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  margin-top: -2px;
+}
+
+.presentation-slot-block.composite .presentation-slot-cell:not(:last-child) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.presentation-word-group.missing {
+  border: 1px dashed #d9a441;
+  background: rgba(217, 164, 65, 0.08);
+}
+
+.presentation-slot-cell.missing-card {
+  border: 2px dashed #d9a441;
+  color: #b8862b;
+  background: transparent;
+  min-width: 2.2em;
 }
 
 .presentation-slot-cell-tone {
+  display: none;
   color: #2ec97a;
+  background: transparent;
   font-size: clamp(0.7rem, calc(1.45rem * var(--presentation-scale) * var(--presentation-ui-scale)), 2rem);
 }
 
-.presentation-word-slot-row-tone {
-  display: none;
+.presentation-slot-cell-tone.empty {
+  color: #9aaab4;
 }
 
-.presentation-show-tones .presentation-word-slot-row-tone {
+.presentation-show-tones .presentation-slot-cell-tone {
   display: block;
-}
-
-.presentation-show-tones .presentation-word-group {
-  grid-template-rows: repeat(5, minmax(0, auto));
 }
 
 .presentation-main-controls {
@@ -767,7 +812,7 @@ body.presentation-mode .presentation-section {
   display: none;
 }
 
-.presentation-hide-phonemes .presentation-word-slot-row {
+.presentation-hide-phonemes .presentation-syllable-stacks {
   display: none;
 }
 
@@ -1382,8 +1427,8 @@ audio::-webkit-media-controls-mute-button {
     padding: 7px 8px;
   }
 
-  .presentation-word-slot-cells {
-    column-gap: 10px;
+  .presentation-syllable-stacks {
+    gap: 10px;
   }
 }
 
