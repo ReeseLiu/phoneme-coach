@@ -12,17 +12,15 @@ function appendPresentationTokenAtIndex(tokens, idx, text) {
   tokens[safeIdx] = `${String(tokens[safeIdx] || "")}${piece}`;
 }
 
-const ZHUYIN_IPA_VOWELS = new Set([
-  "i", "ɪ", "eɪ", "ɛ", "æ", "ə", "ʌ", "ɑ", "ɔ", "ʊ", "u",
-  "aɪ", "aʊ", "oʊ", "ɔɪ", "iː", "uː", "ɑː", "ɔː", "ɜː",
-  "ɐ", "ɚ", "ɝ", "ɔːɹ", "ɑːɹ", "ɪɹ", "əl", "a", "ᵻ", "ʉ",
-]);
+// The shared syllable vowels plus display-table rows that only ever spell a
+// nucleus, for classifying table symbols by slot.
+const ZHUYIN_IPA_VOWELS = new Set([...ZhuyinCore.VOWELS, "əl", "a", "ᵻ", "ʉ"]);
 
 // Onset glides render as vowel zhuyin (w -> ㄨ, j -> ㄧ) but only ever fill C1.
 // Without this they inherit the V-only hint from u / ᵻ and steal the nucleus.
 const ZHUYIN_IPA_ONSET_GLIDES = new Set(["w", "j"]);
 
-// Merged forms produced by contextualZhuyinOverride(). They never appear in the
+// Merged forms produced by ZhuyinCore.contextualZhuyinOverride(). They never appear in the
 // display table, so the lexicon has to learn them explicitly or the splitter
 // tears them back apart and slots the halves separately.
 const ZHUYIN_CONTEXTUAL_SLOTS = [

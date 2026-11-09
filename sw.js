@@ -1,4 +1,4 @@
-const CACHE_NAME = 'phoneme-coach-v43';
+const CACHE_NAME = 'phoneme-coach-v44';
 
 const SHELL_ASSETS = [
   './index.html',
@@ -7,6 +7,7 @@ const SHELL_ASSETS = [
   './app-data.js',
   './storage-utils.js',
   './zip-utils.js',
+  './zhuyin_core.js',
   './display-mapping-utils.js',
   './display-ui.js',
   './audio-controller.js',

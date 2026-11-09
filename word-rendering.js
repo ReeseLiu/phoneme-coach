@@ -96,7 +96,7 @@ function renderWordRows(sentence) {
       ipaDiv.textContent = tokensToText(displayTokensWithDetails(
         candidate.display,
         candidate.ipa,
-        candidate.token_details,
+        fillStressFromCanonical(word, candidate.ipa, candidate.token_details),
         state.displaySystem,
         word.word,
       ));
@@ -143,7 +143,7 @@ function renderWordRows(sentence) {
       ipaDiv.textContent = tokensToText(displayTokensWithDetails(
         candidate.display,
         candidate.ipa,
-        candidate.token_details,
+        fillStressFromCanonical(word, candidate.ipa, candidate.token_details),
         state.displaySystem,
         word.word,
       ));

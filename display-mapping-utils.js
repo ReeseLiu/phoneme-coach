@@ -143,120 +143,29 @@ function applyDisplayMappingFromLesson(lessonPayload) {
   state.displayExceptions = mergeDisplayExceptionsMaps(state.displayExceptions, lessonExceptions);
 }
 
-function normalizeExceptionWord(raw) {
-  if (typeof raw !== "string") {
-    return "";
-  }
-  return raw
-    .toLowerCase()
-    .replace(/’/g, "'")
-    .replace(/[^a-z0-9']+/g, "")
-    .trim();
-}
-
-function ipaKey(tokens) {
-  if (!Array.isArray(tokens)) {
-    return "";
-  }
-  return tokens
-    .map((token) => String(token || "").trim())
-    .filter((token) => token)
-    .join(" ");
-}
-
-function normalizeOverrideTokens(tokens, targetLen) {
-  const normalized = Array.isArray(tokens)
-    ? tokens.map((token) => String(token || ""))
-    : [];
-  const safeLen = Math.max(0, Number(targetLen) || 0);
-  if (normalized.length < safeLen) {
-    normalized.push(...new Array(safeLen - normalized.length).fill(""));
-  }
-  if (normalized.length > safeLen) {
-    return normalized.slice(0, safeLen);
-  }
-  return normalized;
-}
-
+// Lesson payloads carry exceptions either in the config file shape
+// ({word_ipa_overrides: [...]}) or as the parsed map that remap_display.py embeds
+// ({word_norm: {"ipa tokens": [zhuyin...]}}); both parse with ZhuyinCore.
 function parseDisplayExceptions(payload) {
-  const output = {};
   if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
-    return output;
+    return {};
   }
-
-  const addRule = (wordNormRaw, ipaTokensRaw, zhuyinRaw) => {
-    const wordNorm = normalizeExceptionWord(String(wordNormRaw || ""));
-    if (!wordNorm || !Array.isArray(ipaTokensRaw) || !Array.isArray(zhuyinRaw)) {
-      return;
-    }
-    const ipaTokens = ipaTokensRaw
-      .map((token) => String(token || "").trim())
-      .filter((token) => token);
-    if (ipaTokens.length === 0) {
-      return;
-    }
-    const key = ipaKey(ipaTokens);
-    const zhuyin = normalizeOverrideTokens(zhuyinRaw, ipaTokens.length);
-    if (!output[wordNorm]) {
-      output[wordNorm] = {};
-    }
-    output[wordNorm][key] = zhuyin;
-  };
-
   if (Array.isArray(payload.word_ipa_overrides)) {
-    payload.word_ipa_overrides.forEach((item) => {
-      if (!item || typeof item !== "object") {
-        return;
-      }
-      addRule(item.word_norm, item.ipa, item.zhuyin_plus);
-    });
-    return output;
+    return ZhuyinCore.loadDisplayExceptionsJson(payload);
   }
 
+  const entries = [];
   Object.entries(payload).forEach(([wordRaw, mapping]) => {
-    const wordNorm = normalizeExceptionWord(wordRaw);
-    if (!wordNorm || !mapping || typeof mapping !== "object" || Array.isArray(mapping)) {
+    if (!mapping || typeof mapping !== "object" || Array.isArray(mapping)) {
       return;
     }
-    Object.entries(mapping).forEach(([ipaTextRaw, zhuyinRaw]) => {
-      if (!Array.isArray(zhuyinRaw)) {
-        return;
+    Object.entries(mapping).forEach(([ipaText, zhuyin]) => {
+      if (Array.isArray(zhuyin)) {
+        entries.push({ word_norm: wordRaw, ipa: String(ipaText || "").split(/\s+/), zhuyin_plus: zhuyin });
       }
-      const ipaTokens = String(ipaTextRaw || "")
-        .split(/\s+/)
-        .map((token) => token.trim())
-        .filter((token) => token);
-      const key = ipaKey(ipaTokens);
-      if (!key) {
-        return;
-      }
-      if (!output[wordNorm]) {
-        output[wordNorm] = {};
-      }
-      output[wordNorm][key] = normalizeOverrideTokens(zhuyinRaw, ipaTokens.length);
     });
   });
-  return output;
-}
-
-function resolveDisplayExceptionZhuyin(wordText, ipaTokens) {
-  if (!state.displayExceptions || typeof state.displayExceptions !== "object") {
-    return null;
-  }
-  const wordNorm = normalizeExceptionWord(String(wordText || ""));
-  if (!wordNorm) {
-    return null;
-  }
-  const byWord = state.displayExceptions[wordNorm];
-  if (!byWord || typeof byWord !== "object") {
-    return null;
-  }
-  const key = ipaKey(ipaTokens);
-  const candidate = byWord[key];
-  if (!Array.isArray(candidate)) {
-    return null;
-  }
-  return normalizeOverrideTokens(candidate, Array.isArray(ipaTokens) ? ipaTokens.length : 0);
+  return ZhuyinCore.loadDisplayExceptionsJson({ word_ipa_overrides: entries });
 }
 
 function displayTokens(displayValue, ipaTokens, system) {
@@ -294,165 +203,47 @@ function displayTokens(displayValue, ipaTokens, system) {
   return ipaList;
 }
 
-function detailAt(tokenDetails, idx) {
-  if (!Array.isArray(tokenDetails)) {
-    return {};
+// Candidate token_details (teaching/phonetic/surface) carry no stress, but the
+// stress rules (final /i/, ə+l, intervocalic p) need it. Candidates keep the
+// canonical vowels in order, so when the vowel counts agree each vowel takes the
+// canonical vowel's stress; otherwise the details are returned unchanged.
+function fillStressFromCanonical(word, ipaTokens, tokenDetails) {
+  const details = Array.isArray(tokenDetails) ? tokenDetails : [];
+  const ipaList = Array.isArray(ipaTokens) ? ipaTokens : [];
+  if (details.length !== ipaList.length || details.every((detail) => detail?.stress_level != null)) {
+    return details;
   }
-  const detail = tokenDetails[idx];
-  return detail && typeof detail === "object" ? detail : {};
+  const canonical = Array.isArray(word?.canonical_ipa) ? word.canonical_ipa : [];
+  const canonicalDetails = Array.isArray(word?.canonical_token_details) ? word.canonical_token_details : [];
+  const canonicalStress = Array.isArray(word?.canonical_stress_levels) ? word.canonical_stress_levels : [];
+  const isVowelToken = (token) => ZhuyinCore.isVowel(ZhuyinCore.stripDiacritics(token));
+  const vowelStress = [];
+  canonical.forEach((token, idx) => {
+    if (isVowelToken(token)) {
+      const raw = canonicalStress[idx] ?? canonicalDetails[idx]?.stress_level;
+      vowelStress.push(ZhuyinCore.normalizeStressLevel(raw));
+    }
+  });
+  const vowelIndices = [];
+  ipaList.forEach((token, idx) => {
+    if (isVowelToken(token)) {
+      vowelIndices.push(idx);
+    }
+  });
+  if (vowelIndices.length === 0 || vowelIndices.length !== vowelStress.length) {
+    return details;
+  }
+  const filled = details.map((detail) => ({ ...detail }));
+  vowelIndices.forEach((idx, pos) => {
+    if (filled[idx].stress_level == null) {
+      filled[idx].stress_level = vowelStress[pos];
+    }
+  });
+  return filled;
 }
 
-function detailSlot(tokenDetails, idx) {
-  return String(detailAt(tokenDetails, idx).syllable_slot || "");
-}
-
-function detailPosition(tokenDetails, idx) {
-  return String(detailAt(tokenDetails, idx).position || "");
-}
-
-function detailSyllableIndex(tokenDetails, idx) {
-  const raw = detailAt(tokenDetails, idx).syllable_index;
-  const parsed = Number(raw);
-  return Number.isFinite(parsed) ? Math.trunc(parsed) : null;
-}
-
-function detailSlotIndex(tokenDetails, idx) {
-  const raw = detailAt(tokenDetails, idx).slot_index;
-  const parsed = Number(raw);
-  return Number.isFinite(parsed) ? Math.trunc(parsed) : null;
-}
-
-function sameSyllable(tokenDetails, leftIdx, rightIdx) {
-  const left = detailSyllableIndex(tokenDetails, leftIdx);
-  const right = detailSyllableIndex(tokenDetails, rightIdx);
-  if (left === null || right === null) {
-    return true;
-  }
-  return left === right;
-}
-
-function adjacentOnsetSlots(tokenDetails, leftIdx, rightIdx) {
-  if (detailSlot(tokenDetails, leftIdx) !== "C1") {
-    return false;
-  }
-  if (detailSlot(tokenDetails, rightIdx) !== "C1") {
-    return false;
-  }
-  if (!sameSyllable(tokenDetails, leftIdx, rightIdx)) {
-    return false;
-  }
-  const leftSlot = detailSlotIndex(tokenDetails, leftIdx);
-  const rightSlot = detailSlotIndex(tokenDetails, rightIdx);
-  if (leftSlot === null || rightSlot === null) {
-    return false;
-  }
-  return rightSlot === leftSlot + 1;
-}
-
-function slotAwareZhuyin(row, token, slot) {
-  if (slot === "C1") {
-    return row.zhuyin_plus_C1 || row.zhuyin_plus || token;
-  }
-  if (slot === "V") {
-    return row.zhuyin_plus_V || row.zhuyin_plus || token;
-  }
-  if (slot === "C2") {
-    return row.zhuyin_plus_C2 || row.zhuyin_plus || token;
-  }
-  return row.zhuyin_plus || token;
-}
-
-function contextualZhuyinOverride(ipaList, details, idx, reducedSchwaL) {
-  const token = ipaList[idx] || "";
-  const slot = detailSlot(details, idx);
-  const hasNext = idx + 1 < ipaList.length;
-  const nextToken = hasNext ? (ipaList[idx + 1] || "") : "";
-  const nextSlot = detailSlot(details, idx + 1);
-  const sameSyl = hasNext ? sameSyllable(details, idx, idx + 1) : false;
-
-  const stressLevel = normalizeStressLevel(detailAt(details, idx).stress_level);
-  if (
-    token === "ə"
-    && nextToken === "l"
-    && idx + 1 === ipaList.length - 1
-    && stressLevel === 0
-    && nextSlot === "C2"
-    && sameSyl
-  ) {
-    return { text: reducedSchwaL, mergeNext: true };
-  }
-
-  if (hasNext) {
-    if (token === "ɔ" && nextToken === "ɹ" && nextSlot === "C2" && sameSyl) {
-      return { text: "ㄛㄦ", mergeNext: true };
-    }
-    if (token === "ɛ" && nextToken === "ɹ" && nextSlot === "C2" && sameSyl) {
-      return { text: "ㄝㄦ", mergeNext: true };
-    }
-    if ((token === "ɪ" || token === "i") && nextToken === "ɹ" && nextSlot === "C2" && sameSyl) {
-      return { text: "ㄧㄦ", mergeNext: true };
-    }
-    if ((token === "ɑ" || token === "ɑː" || token === "a") && nextToken === "ɹ" && nextSlot === "C2" && sameSyl) {
-      return { text: "ㄚ(喉)ㄦ", mergeNext: true };
-    }
-    if (token === "ɔ" && nextToken === "l" && nextSlot === "C2" && sameSyl) {
-      return { text: "ㄛ", mergeNext: true };
-    }
-
-    if (
-      token === "d"
-      && nextToken === "z"
-      && slot === "C2"
-      && nextSlot === "C2"
-      && idx + 1 === ipaList.length - 1
-      && sameSyl
-    ) {
-      return { text: "ㄗ", mergeNext: true };
-    }
-
-    if (
-      token === "t"
-      && nextToken === "s"
-      && slot === "C2"
-      && nextSlot === "C2"
-      && idx + 1 === ipaList.length - 1
-      && sameSyl
-    ) {
-      return { text: "ㄘ", mergeNext: true };
-    }
-
-    if (token === "t" && nextToken === "ɹ" && adjacentOnsetSlots(details, idx, idx + 1)) {
-      return { text: "ㄔㄨ", mergeNext: true };
-    }
-    if (token === "d" && nextToken === "ɹ" && adjacentOnsetSlots(details, idx, idx + 1)) {
-      return { text: "ㄓㄨ", mergeNext: true };
-    }
-  }
-
-  if (token === "k" && idx > 0 && ipaList[idx - 1] === "s" && adjacentOnsetSlots(details, idx - 1, idx)) {
-    return { text: "ㄍ", mergeNext: false };
-  }
-
-  if (token === "p" && slot === "C1" && detailPosition(details, idx) === "intervocalic") {
-    return { text: "ㄅ", mergeNext: false };
-  }
-
-  if (token === "l" && slot === "C2") {
-    return { text: "ㄛ", mergeNext: false };
-  }
-
-  if (
-    token === "i"
-    && idx === ipaList.length - 1
-    && ipaList.length > 2
-    && normalizeStressLevel(detailAt(details, idx).stress_level) === 0
-  ) {
-    return { text: "ㄧ", mergeNext: false };
-  }
-
-  return null;
-}
-
+// Zhuyin is recomputed from the IPA and the stored C1/V/C2 details with the
+// presenter's rules (zhuyin_core.js); other systems are a plain table lookup.
 function displayTokensWithDetails(displayValue, ipaTokens, tokenDetails, system, wordText = "") {
   const baseTokens = displayTokens(displayValue, ipaTokens, system);
   if (system !== "zhuyin_plus") {
@@ -470,30 +261,25 @@ function displayTokensWithDetails(displayValue, ipaTokens, tokenDetails, system,
     return baseTokens;
   }
 
-  const lexicalOverride = resolveDisplayExceptionZhuyin(wordText, ipaList);
-  if (lexicalOverride) {
-    return lexicalOverride;
-  }
-
-  const mergedNextIndices = new Set();
-  const reducedSchwaL = (table["əl"] && table["əl"].zhuyin_plus) || "ㄛ";
-
-  return ipaList.map((token, idx) => {
-    if (mergedNextIndices.has(idx)) {
-      return "";
+  // buildDisplayBundle drops empty IPA tokens; keep their positions as empty zhuyin.
+  const kept = [];
+  ipaList.forEach((token, idx) => {
+    if (token) {
+      kept.push(idx);
     }
-
-    const row = table[token] || {};
-    const override = contextualZhuyinOverride(ipaList, details, idx, reducedSchwaL);
-    if (override) {
-      if (override.mergeNext && idx + 1 < ipaList.length) {
-        mergedNextIndices.add(idx + 1);
-      }
-      return override.text;
-    }
-
-    return slotAwareZhuyin(row, token, detailSlot(details, idx));
   });
+  const bundle = ZhuyinCore.buildDisplayBundle(
+    kept.map((idx) => ipaList[idx]),
+    table,
+    kept.map((idx) => details[idx]),
+    wordText,
+    state.displayExceptions,
+  );
+  const output = new Array(ipaList.length).fill("");
+  kept.forEach((idx, pos) => {
+    output[idx] = bundle.zhuyin_plus[pos];
+  });
+  return output;
 }
 
 function cloneTokenDetails(details) {

@@ -270,7 +270,7 @@ function pickTokenDetailsForWordTokens(word, ipaTokens) {
     }
     const details = cloneTokenDetails(source?.token_details);
     if (details.length > 0) {
-      return details;
+      return fillStressFromCanonical(word, ipa, details);
     }
   }
 
